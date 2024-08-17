@@ -33,12 +33,12 @@ export default function ClaimPage() {
                     wait <br />
                     to share it with you! Stay tuned and keep an eye on the{" "}
                     <br />
-                    countdown - the future of BlastUP is just around the corner!
+                    countdown - the future of LNBG is just around the corner!
                   </span>
                   <span className="px-5 text-lg font-medium text-gray2/80">
                     The TGE marks the moment when our tokens will be minted and
                     distributed to our community, <br /> allowing you to finally
-                    claim and trade your $BLASTUP tokens.
+                    claim and trade your $LNBG tokens.
                   </span>
                 </div>
               </div>
