@@ -42,8 +42,8 @@ const Binance = {
 
 // 3. Create modal
 const metadata = {
-  name: 'Lnbg Presale',
-  description: 'This is Lnbg Presale',
+  name: 'Lnbg London Coin',
+  description: 'This is Lnbg London Coin',
   url: 'https://Lnbg.com/', // origin must match your domain & subdomain
   icons: ['https://Lnbg.com']
 }

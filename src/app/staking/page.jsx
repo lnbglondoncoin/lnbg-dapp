@@ -1,8 +1,13 @@
+"use client";
 import StakingCard from "./_components/StakingCard";
 import ScoresCard from "./_components/ScoresCard";
 import StakingInfo from "./_components/StakingInfo";
+import { useContext } from "react";
+import { Store } from "@/context/Store";
 
 export default function StakingPage() {
+  const { contractData }=useContext(Store);
+
   return (
     <div className="flex w-full justify-center p-10">
       <div className="flex w-full flex-col gap-5">
