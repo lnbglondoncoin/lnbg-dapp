@@ -1,11 +1,12 @@
 "use client";
-
 import Button from "@/components/buttons/Button";
 import ConnectWalletButton from "@/components/buttons/ConnectWalletButton";
+import { Store } from "@/context/Store";
 import { cn } from "@/lib/utils";
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import { Activity } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function StakingCard() {
   // --------------For hydration error-------------------
@@ -20,6 +21,38 @@ export default function StakingCard() {
   const [tab, setTab] = useState("Stake");
   const [selectedOffer, setSelectedOffer] = useState("12 months");
   const [stake, setStake] = useState(null);
+
+  const {StakeTokensSend, unstakeTokensRequest, getStakedInfoByUser}=useContext(Store)
+
+  const stakeTokens = async ()=>{
+    try {
+      const months = parseInt(selectedOffer);
+      const days = months * 30;
+      console.log(days,months,"months");
+      if (days < 90) {
+        return toast.error("Please Add More then 90 Days");
+      }
+      await StakeTokensSend(stake?.toString(), days);
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  const unstakingToken = async () => {
+    try {
+      await unstakeTokensRequest();
+    } catch (error) {
+      console.error("Error while staking tokens:", error);
+    }
+  };
+
+  useEffect(() => {
+    getStakedInfoByUser();
+  }, []);
+
+
+
   return (
     <div className="relative col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
       <div
@@ -140,8 +173,8 @@ export default function StakingCard() {
       </div>
       {isClient &&
         (isConnected ? (
-          <Button
-            title="Stake"
+          <Button onClick={tab === "Stake" ? ()=>stakeTokens() : ()=> unstakingToken()}
+            title={tab === "Stake" ? "Stake" : "UnStake"}
             className="hover:bg-primary2 bg-primary text-xl font-semibold uppercase text-black"
           />
         ) : (
