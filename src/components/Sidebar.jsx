@@ -43,7 +43,7 @@ export default function Sidebar() {
                   <h1
                     className={cn(
                       "text-center text-2xl font-semibold text-white",
-                      font.className,
+                      font.className
                     )}
                   >
                     LNBG Dapp
@@ -56,7 +56,7 @@ export default function Sidebar() {
                     className={cn(
                       "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
                       pathname == "/" && "bg-white/5",
-                      font.className,
+                      font.className
                     )}
                     href="/"
                   >
@@ -83,7 +83,7 @@ export default function Sidebar() {
                     className={cn(
                       "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
                       pathname == "/staking" && "bg-white/5",
-                      font.className,
+                      font.className
                     )}
                     href="/staking"
                   >
@@ -110,7 +110,7 @@ export default function Sidebar() {
                     className={cn(
                       "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
                       pathname == "/bridge" && "bg-white/5",
-                      font.className,
+                      font.className
                     )}
                     href="/bridge"
                   >
@@ -137,7 +137,7 @@ export default function Sidebar() {
                     className={cn(
                       "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
                       pathname == "/claim" && "bg-white/5",
-                      font.className,
+                      font.className
                     )}
                     href="/claim"
                   >
@@ -165,7 +165,7 @@ export default function Sidebar() {
                   <span
                     className={cn(
                       "px-10 font-medium text-gray2",
-                      font.className,
+                      font.className
                     )}
                   >
                     Support
@@ -173,7 +173,7 @@ export default function Sidebar() {
                   <span
                     className={cn(
                       "px-10 font-medium text-gray2",
-                      font.className,
+                      font.className
                     )}
                   >
                     Docs
@@ -212,7 +212,7 @@ export default function Sidebar() {
           <Link
             className={cn(
               "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
-              pathname == "/" && "bg-white/5",
+              pathname == "/" && "bg-white/5"
             )}
             href="/"
           >
@@ -238,7 +238,7 @@ export default function Sidebar() {
           <Link
             className={cn(
               "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
-              pathname == "/staking" && "bg-white/5",
+              pathname == "/staking" && "bg-white/5"
             )}
             href="/staking"
           >
@@ -264,7 +264,33 @@ export default function Sidebar() {
           <Link
             className={cn(
               "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
-              pathname == "/bridge" && "bg-white/5",
+              pathname == "/vote" && "bg-white/5"
+            )}
+            href="/vote"
+          >
+            <span
+              className={
+                pathname == "/vote"
+                  ? "text-yellow-300"
+                  : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-yellow-300"
+              }
+            >
+              {voteIcon}
+            </span>
+            <span
+              className={
+                pathname == "/vote"
+                  ? "text-white"
+                  : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
+              }
+            >
+              Vote
+            </span>
+          </Link>
+          <Link
+            className={cn(
+              "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
+              pathname == "/bridge" && "bg-white/5"
             )}
             href="/bridge"
           >
@@ -290,7 +316,7 @@ export default function Sidebar() {
           <Link
             className={cn(
               "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
-              pathname == "/claim" && "bg-white/5",
+              pathname == "/claim" && "bg-white/5"
             )}
             href="/claim"
           >
@@ -380,6 +406,21 @@ const bridgeIcon = (
       strokeLinejoin="round"
       strokeWidth="1.5"
       d="M15 7.5H3l3.13-4M3 11.5h12l-3.13 4"
+    ></path>
+  </svg>
+);
+
+const voteIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18px"
+    height="18px"
+    fill="none"
+    viewBox="0 0 13 17"
+  >
+    <path
+      fill="currentColor"
+      d="M0 10.407c0 3.491 2.608 5.368 3.812 5.715-.454-1.707-.086-3.534.828-4.569.19 2.244 2.535 4.322 3.775 4.947 7.489-3.046 3.807-9.682 2.714-10.48-1.1 1.889-2.667 2.65-3.303 2.686C8.836 6.648 9.536 2.997 5.3.5 5.301 4.809 0 6.044 0 10.407"
     ></path>
   </svg>
 );
