@@ -1,11 +1,15 @@
 import { proposals } from "@/lib/proposals";
 import Link from "next/link";
+import AddProposalModal from "./_components/AddProposalModal";
 
 export default function VotingPage() {
   return (
     <div className="flex w-full justify-center p-10">
       <div className="flex w-full flex-col gap-5">
-        <h1 className="mb-5 text-5xl font-semibold text-white">Proposals</h1>
+        <div className="flex gap-10 items-center justify-between">
+          <h1 className="mb-5 text-5xl font-semibold text-white">Proposals</h1>
+          <AddProposalModal />
+        </div>
         {proposals.map((proposal, index) => (
           <Link
             href={`/vote/${proposal.id}`}
