@@ -1,12 +1,12 @@
 "use client";
 
 import Button from "@/components/buttons/Button";
-import { cn } from "@/lib/utils";
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
-import { Activity } from "lucide-react";
 import { useEffect, useState } from "react";
 import ConnectWalletButton from "@/components/buttons/ConnectWalletButton";
 import { ethSvg, usdtSvg } from "@/components/icons";
+import { useRouter } from "next/navigation";
+import SelectDropdown from "./SelectDropdown";
 
 export default function BridgeCard() {
   // --------------For hydration error-------------------
@@ -19,16 +19,24 @@ export default function BridgeCard() {
 
   const { isConnected } = useWeb3ModalAccount();
   const [fromValue, setFromValue] = useState(null);
+  const router = useRouter();
+
   return (
     <div className="col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
-      <span className="text-3xl font-semibold">Bridge ETH To BSC Mainnet</span>
+      <div className="flex justify-between w-full items-center">
+        <span className="text-3xl font-semibold">
+          Bridge ETH To BSC Mainnet
+        </span>
+        <Button
+          title="All transactions"
+          className="w-fit py-1.5 hover:bg-primary2"
+          onClick={() => router.push("/bridge/transactions")}
+        />
+      </div>
       <div className="flex w-full flex-col gap-5">
         <div className="flex w-full items-center justify-between">
           <div className="flex w-full items-center gap-2">
             <div className="text-xl text-gray2/70">From:</div>
-            {/* <div className="flex items-center gap-1 rounded-full bg-black px-5 py-1 text-xl text-gray2">
-              Switch Network {bridgeIcon}
-            </div> */}
           </div>
           <div className="text-nowrap text-xl text-gray2/70">
             Balance: 0.0015
@@ -45,9 +53,17 @@ export default function BridgeCard() {
             onChange={(e) => setFromValue(e.target.value)}
             className="w-full border-none bg-transparent text-3xl outline-none"
           />
-          <div className="flex items-center gap-1 text-nowrap rounded-full bg-black py-1.5 pl-1.5 pr-3 text-lg text-gray2">
-            {ethSvg} Eth {bridgeIcon}
-          </div>
+          <SelectDropdown
+            button={
+              <>
+                {ethSvg} Eth {bridgeIcon}
+              </>
+            }
+          >
+            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
+            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
+            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
+          </SelectDropdown>
         </div>
       </div>
       <div className="flex w-full flex-col gap-5">
@@ -66,9 +82,17 @@ export default function BridgeCard() {
             onChange={(e) => setFromValue(e.target.value)}
             className="w-full border-none bg-transparent text-3xl outline-none"
           />
-          <div className="flex items-center gap-1 text-nowrap rounded-full bg-black py-1.5 pl-1.5 pr-3 text-lg text-gray2">
-            {usdtSvg} USDT {bridgeIcon}
-          </div>
+          <SelectDropdown
+            button={
+              <>
+                {ethSvg} Eth {bridgeIcon}
+              </>
+            }
+          >
+            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
+            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
+            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
+          </SelectDropdown>
         </div>
       </div>
       {isClient &&
