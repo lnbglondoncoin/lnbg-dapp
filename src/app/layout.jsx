@@ -11,6 +11,24 @@ const font = Rajdhani({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+export const metadata = {
+  title: "LNBG DAPP - Secure & Innovative Cryptocurrency",
+  description:
+    "LNBG London Coin is a secure and innovative cryptocurrency inspired by London's financial heritage. Explore decentralized digital finance with our trusted and efficient platform.",
+  image: "/logo.png",
+  author: "LNBG London Coin Team",
+  keywords: [
+    "LNBG",
+    "London Coin",
+    "Cryptocurrency",
+    "Blockchain",
+    "Digital Currency",
+    "London Crypto",
+    "Decentralized Finance",
+    "Secure Coin",
+  ],
+};
+
 export default function layout({ children }) {
   return (
     <html lang="en">
@@ -21,10 +39,10 @@ export default function layout({ children }) {
         )}
       >
         <Web3Modal>
-        <StoreProvider>
-          <Sidebar />
-          {children}
-        </StoreProvider>
+          <StoreProvider>
+            <Sidebar />
+            {children}
+          </StoreProvider>
         </Web3Modal>
       </body>
     </html>
