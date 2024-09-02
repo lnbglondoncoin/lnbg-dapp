@@ -20,12 +20,12 @@ export default function layout({ children }) {
           font.className
         )}
       >
-        <Web3Modal>
         <StoreProvider>
+        <Web3Modal>
           <Sidebar />
           {children}
-        </StoreProvider>
         </Web3Modal>
+        </StoreProvider>
       </body>
     </html>
   );

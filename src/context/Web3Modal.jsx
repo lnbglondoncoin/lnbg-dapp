@@ -20,7 +20,7 @@ const Binance = {
   explorerUrl: 'https://testnet.bscscan.com',
   rpcUrl: `${process.env.NEXT_PUBLIC_RPC_URL_BNB}`
 }
-
+console.log(process.env.NEXT_PUBLIC_RPC_URL_BNB,"process.env.NEXT_PUBLIC_RPC_URL_BNBprocess.env.NEXT_PUBLIC_RPC_URL_BNB");
 // const BNBSmartChainTestnet = {
 //   chainId: 97,
 //   name: 'Binance',

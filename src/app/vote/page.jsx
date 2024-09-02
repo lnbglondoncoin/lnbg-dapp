@@ -21,6 +21,8 @@ export default function VotingPage() {
     GetAllProposalByArray();
   }, []);
 
+  console.log(masterContractProposalData,"masterContractProposalDatamasterContractProposalDatamasterContractProposalData");
+
   return (
     <div className="flex w-full justify-center p-10">
       <div className="flex w-full flex-col gap-5">

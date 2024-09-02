@@ -6,7 +6,6 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import Countdown from "react-countdown";
 
-
 function detail(summary) {
   if (!summary) {
     return <p>No summary available</p>;
@@ -56,14 +55,7 @@ function detail(summary) {
 const ProposalDetailsPage = ({ params }) => {
   const { addingVote, masterContractProposalData } = useContext(Store);
 
-  // const proposal = proposals.find((p) => p.id == params.id);
-  
-  console.log(
-    params.proposalId,
-    "params.proposalIdparams.proposalIdparams.proposalId"
-  );
-
-  const id = params.proposalId;
+  const id = params.id;
 
   const [showVoteModal, setShowVoteModal] = useState(false);
   const [selectedVote, setSelectedVote] = useState(null);
@@ -101,10 +93,6 @@ const ProposalDetailsPage = ({ params }) => {
   const noVotes = +masterContractProposalData?.[id]?.noVotes || 0;
   const totalVotes = yesVotes + noVotes;
 
-
-
-
-
   return (
     <div className="w-full min-h-screen flex flex-col gap-3 rounded-xl bg-gray22/50 max-w-[87rem] p-6">
       {showVoteModal && (
@@ -113,9 +101,9 @@ const ProposalDetailsPage = ({ params }) => {
             <h1 className="text-3xl">Cast your vote</h1>
             <div className="flex gap-3 justify-center pt-10">
               <button
-       onClick={() => {
-        setSelectedVote("yes"), setCastVote(1);
-      }}
+                onClick={() => {
+                  setSelectedVote("yes"), setCastVote(1);
+                }}
                 className={`${
                   selectedVote === "yes"
                     ? "bg-primary text-black"
@@ -125,9 +113,9 @@ const ProposalDetailsPage = ({ params }) => {
                 Yes
               </button>
               <button
-           onClick={() => {
-            setSelectedVote("no"), setCastVote(0);
-          }}
+                onClick={() => {
+                  setSelectedVote("no"), setCastVote(0);
+                }}
                 className={`${
                   selectedVote === "no"
                     ? "bg-primary text-black"
@@ -143,7 +131,8 @@ const ProposalDetailsPage = ({ params }) => {
                   masterContractProposalData?.[id]?.proposerId,
                   castVote
                 ),
-                setShowVoteModal(false)}}
+                  setShowVoteModal(false);
+              }}
               className="bg-gray2 text-black text-sm hover:bg-gray8 px-10 py-2 rounded-full"
             >
               Vote
@@ -169,13 +158,18 @@ const ProposalDetailsPage = ({ params }) => {
 
       <div className="flex flex-col">
         <div className="flex flex-col gap-3">
-          <h1 className="text-4xl font-semibold">{masterContractProposalData?.[id]?.description?.title}</h1>
+          <h1 className="text-4xl font-semibold">
+            {masterContractProposalData?.[id]?.description?.title}
+          </h1>
           <div className="bg-gray2 text-black px-3 pt-1.5 pb-2 w-fit rounded-full">
-          {masterContractProposalData?.[id]?.executed === "true"
+            {masterContractProposalData?.[id]?.executed === "true"
               ? "Executed"
               : "Pending"}
           </div>
-          <p className="font-light"> {detail(masterContractProposalData[id]?.description?.summry)}</p>
+          <p className="font-light">
+            {" "}
+            {detail(masterContractProposalData[id]?.description?.summry)}
+          </p>
           <div className="grid lg:grid-cols-2 gap-5">
             <div className="bg-gray2/10 rounded-xl flex flex-col gap-2 p-5">
               <h1 className="text-xl">Information</h1>
@@ -185,30 +179,48 @@ const ProposalDetailsPage = ({ params }) => {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray10">Start date:</span>
-                <span className="font-bold">  {formatTimestamp(masterContractProposalData?.[id]?.startTime)}</span>
+                <span className="font-bold">
+                  {" "}
+                  {formatTimestamp(masterContractProposalData?.[id]?.startTime)}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray10">End date:</span>
-                <span className="font-bold"><Countdown
+                <span className="font-bold">
+                  <Countdown
                     date={
                       Date.now() + +masterContractProposalData?.[id]?.endTime
                     }
                     renderer={renderer}
-                  /></span>
+                  />
+                </span>
               </div>
             </div>
             <div className="bg-gray2/10 rounded-xl flex flex-col gap-2 p-5">
               <h1 className="text-xl">Current results</h1>
               <div className="flex justify-between">
                 <span className="text-gray10">Agree:</span>
-                <span className="font-bold">{masterContractProposalData?.[id]?.yesVotes}</span>
+                <span className="font-bold">
+                  {masterContractProposalData?.[id]?.yesVotes}
+                </span>
+              </div>
+              <div className="w-full bg-gray12/75 h-3 rounded-full mt-5">
+                <div className={`w-[${calculatePercentage(
+                    +masterContractProposalData?.[id]?.yesVotes,
+                    totalVotes
+                  )}%] bg-primary rounded-full h-full`}></div>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray10">Disagree:</span>
-                <span className="font-bold">{masterContractProposalData?.[id]?.noVotes}</span>
+                <span className="font-bold">
+                  {masterContractProposalData?.[id]?.noVotes}
+                </span>
               </div>
               <div className="w-full bg-gray12/75 h-3 rounded-full mt-5">
-                <div className={`w-[60%] bg-primary rounded-full h-full`}></div>
+                <div className={`w-[${calculatePercentage(
+                    +masterContractProposalData?.[id]?.noVotes,
+                    totalVotes
+                  )}%] bg-primary rounded-full h-full`}></div>
               </div>
             </div>
           </div>

@@ -26,7 +26,7 @@ import LngbMainBridgeBaseAbi from "./contractsData/LnbgLondonCoinBridgeBase.json
 // import apis from "../Services/apis";
 
 const getProviderMasterContract = () => {
-  const providers = process.env.NEXT_PUBLIC_MAIN_RPC;
+  const providers = process.env.NEXT_PUBLIC_RPC_URL_BNB;
   const provider = new ethers.providers.JsonRpcProvider(providers); //"http://localhost:8545/"
   const masterContract = new ethers.Contract(
     LngbMasterContractAddress.address,
@@ -449,6 +449,7 @@ export const StoreProvider = ({ children }) => {
   const submitProposal = async (data) => {
     setloader(true);
     if (!isConnected) {
+      console.log(data,"datadata");
       return toast.error("Please Connect Your Wallet."), setloader(false);
     }
     try {
@@ -459,7 +460,8 @@ export const StoreProvider = ({ children }) => {
         LngbMasterContract.abi,
         signer
       );
-
+      console.log(provider);
+      console.log(address,"address");
       const response = await masterContract.submitProposal(data);
       await response.wait();
       // setWithdrawRequests([]);
@@ -477,6 +479,7 @@ export const StoreProvider = ({ children }) => {
 
   const GetAllProposalByArray = async () => {
     try {
+      console.log("sdassssssss");
       setloader(true);
       let RewardAmount = [];
 
