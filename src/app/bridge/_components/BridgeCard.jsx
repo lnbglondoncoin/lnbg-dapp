@@ -1,16 +1,21 @@
 "use client";
-
 import Button from "@/components/buttons/Button";
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ConnectWalletButton from "@/components/buttons/ConnectWalletButton";
-import { ethSvg, usdtSvg } from "@/components/icons";
+import { ethSvg, usdtSvg, bnbSvg, polySvg } from "@/components/icons";
 import { useRouter } from "next/navigation";
 import SelectDropdown from "./SelectDropdown";
+import { Store } from "@/context/Store";
 
 export default function BridgeCard() {
   // --------------For hydration error-------------------
   const [isClient, setIsClient] = useState(false);
+  const {LockDeposit, unLockDeposit}=useContext(Store)
+
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Manage dropdown state
+  const [transferFrom, setTransferFrom] = useState("Ethereum"); // Manage selected option
+  const [transferTo, setTransferTo] = useState("Binance"); // Manage selected option
 
   useEffect(() => {
     setIsClient(true);
@@ -20,6 +25,34 @@ export default function BridgeCard() {
   const { isConnected } = useWeb3ModalAccount();
   const [fromValue, setFromValue] = useState(null);
   const router = useRouter();
+
+
+  const handleBridge = () => {
+    if (transferFrom == "Binance" && transferTo == "Ethereum") {
+      LockDeposit(amount, transferFrom, transferTo);
+    } else if (transferFrom == "Ethereum" && transferTo == "Binance") {
+      unLockDeposit(amount, transferFrom, transferTo);
+    } else {
+      toast.info("Coming Soon");
+    }
+    // Add your bridge handling logic here
+    // if (transferFrom == 2 && transferTo == 0) {
+    //   LockDeposit(amount, 56, 1);
+    // } else if (transferFrom == 0 && transferTo == 2) {
+    //   unLockDeposit(amount, 1, 56);
+    // } else if (transferFrom == 2 && transferTo == 1) {
+    //   LockDeposit(amount, 56, 137);
+    // } else if (transferFrom == 1 && transferTo == 2) {
+    //   unLockDeposit(amount, 137, 56);
+    // } else if (transferFrom == 2 && transferTo == 3) {
+    //   LockDeposit(amount, 56, 1000);
+    // } else if (transferFrom == 3 && transferTo == 2) {
+    //   unLockDeposit(amount, 1000, 56);
+    // } else {
+    //   toast.info("Coming Soon");
+    // }
+  };
+
 
   return (
     <div className="col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
@@ -56,14 +89,42 @@ export default function BridgeCard() {
           <SelectDropdown
             button={
               <>
+                {ethSvg} {transferFrom} {bridgeIcon}
+              </>
+            }
+            isOpen={dropdownOpen}
+            toggleDropdown={() => setDropdownOpen(!dropdownOpen)}
+          >
+            <div
+              onClick={() => setTransferFrom("Ethereum")}
+              className="flex items-center gap-2"
+            >
+              {ethSvg} Ethereum
+            </div>
+            <div
+              onClick={() => setTransferFrom("Binance")}
+              className="flex items-center gap-2"
+            >
+              {bnbSvg} Binance
+            </div>
+            <div
+              onClick={() => setTransferFrom("Polygon")}
+              className="flex items-center gap-2"
+            >
+              {polySvg} Polygon
+            </div>
+          </SelectDropdown>
+          {/* <SelectDropdown
+            button={
+              <>
                 {ethSvg} Eth {bridgeIcon}
               </>
             }
           >
             <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
-            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
-            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
-          </SelectDropdown>
+            <div className="flex items-center gap-2">{bnbSvg} Binance</div>
+            <div className="flex items-center gap-2">{polySvg} Polygon</div>
+          </SelectDropdown> */}
         </div>
       </div>
       <div className="flex w-full flex-col gap-5">
@@ -85,19 +146,36 @@ export default function BridgeCard() {
           <SelectDropdown
             button={
               <>
-                {ethSvg} Eth {bridgeIcon}
+                {ethSvg} {transferTo} {bridgeIcon}
               </>
             }
+            isOpen={dropdownOpen}
+            toggleDropdown={() => setDropdownOpen(!dropdownOpen)}
           >
-            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
-            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
-            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
+            <div
+              onClick={() => setTransferTo("Ethereum")}
+              className="flex items-center gap-2"
+            >
+              {ethSvg} Ethereum
+            </div>
+            <div
+              onClick={() => setTransferTo("Binance")}
+              className="flex items-center gap-2"
+            >
+              {bnbSvg} Binance
+            </div>
+            <div
+              onClick={() => setTransferTo("Polygon")}
+              className="flex items-center gap-2"
+            >
+              {polySvg} Polygon
+            </div>
           </SelectDropdown>
         </div>
       </div>
       {isClient &&
         (isConnected ? (
-          <Button
+          <Button onClick={()=>handleBridge()}
             title="Bridge"
             className="hover:bg-primary2 bg-primary text-xl font-semibold uppercase text-black"
           />

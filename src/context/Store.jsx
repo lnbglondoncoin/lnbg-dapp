@@ -578,128 +578,127 @@ export const StoreProvider = ({ children }) => {
 // WrappedTokenLngbAddress
 // WrappedTokenLngbAbi
 
-  // const LockDeposit = async (amount, from, to) => {
-  //   try {
-  //     if (from === 11155111 && to == 80002) {
-  //       if (chainId != from) {
-  //         //BNB
-  //         return toast.error("Please change Network to Sepolia Smart Chain");
-  //       }
-  //       const provider = new ethers.providers.Web3Provider(walletProvider);
-  //       const signer = provider.getSigner();
-  //       //ETH
-  //       const LngbETHMainBridge = new ethers.Contract(
-  //         LngbMainBridgeBaseAddress.address,
-  //         LngbMainBridgeBaseAbi.abi,
-  //         signer
-  //       );
-  //       const LngbToken = new ethers.Contract(
-  //         LngbCoinAddress.address,
-  //         LngbCoin.abi,
-  //         signer
-  //       );
-  //       let burnAmount = ethers.utils.parseEther(amount?.toString());
-  //       let tokensApproved = await LngbToken.allowance(
-  //         address,
-  //         LngbMainBridgeBaseAddress.address
-  //       );
-  //       if (tokensApproved < burnAmount) {
-  //         let tokens = ethers.utils.parseEther("3000000000000000");
-  //         let tx = await LngbToken.approve(
-  //           LngbMainBridgeBaseAddress.address,
-  //           tokens
-  //         );
-  //         await tx.wait();
-  //       }
-  //       let tx = await LngbETHMainBridge.depositTokenFor(address,address,burnAmount,to); //TODO change wanted chain
-  //       await tx.wait();
-  //     } 
-  //     // else if (from === 56 && to == 137) {
-  //     //   if (chainId != from) {
-  //     //     //BNB
-  //     //     return toast.error("Please change Network to BNB Smart Chain");
-  //     //   }
-  //     //   const provider = new ethers.providers.Web3Provider(walletProvider);
-  //     //   const signer = provider.getSigner();
-  //     //   //ETH
-  //     //   const LngbBNBMainBridge = new ethers.Contract(
-  //     //     LngbMainBridgeBaseAddress.address,
-  //     //     LngbBNBBridge.abi,
-  //     //     signer
-  //     //   );
-  //     //   const LngbToken = new ethers.Contract(
-  //     //     LngbCoinAddress.address,
-  //     //     LngbCoin.abi,
-  //     //     signer
-  //     //   );
-  //     //   let burnAmount = ethers.utils.parseEther(amount?.toString());
-  //     //   let tokensApproved = await LngbToken.allowance(
-  //     //     address,
-  //     //     LngbMainBridgeBaseAddress.address
-  //     //   );
-  //     //   if (tokensApproved < burnAmount) {
-  //     //     let tokens = ethers.utils.parseEther("3000000000000000");
-  //     //     let tx = await LngbToken.approve(
-  //     //       LngbMainBridgeBaseAddress.address,
-  //     //       tokens
-  //     //     );
-  //     //     await tx.wait();
-  //     //   }
-  //     //   let tx = await LngbBNBMainBridge.lockDeposit(burnAmount, to); //TODO change wanted chain
-  //     //   await tx.wait();
-  //     // } else if (from === 56 && to == 1000) {
-  //     //   if (chainId != from) {
-  //     //     //Tron
-  //     //     return toast.error("Please change Network to BNB Smart Chain");
-  //     //   } else if (!tronWalletForBridge) {
-  //     //     return toast.error("Please input Tron wallet Address");
-  //     //   }
-  //     //   const provider = new ethers.providers.Web3Provider(walletProvider);
-  //     //   const signer = provider.getSigner();
+  const LockDeposit = async (amount, from, to) => {
+    try {
+      if (from === "Ethereum"  && to == "Binance") { //56
+        if (chainId != 11155111) { //TODO::
+          return toast.error("Please change Network to Sepolia Smart Chain");
+        }
+        const provider = new ethers.providers.Web3Provider(walletProvider);
+        const signer = provider.getSigner();
+        //ETH
+        const LngbETHMainBridge = new ethers.Contract(
+          LngbMainBridgeBaseAddress.address,
+          LngbMainBridgeBaseAbi.abi,
+          signer
+        );
+        const LngbToken = new ethers.Contract(
+          LngbCoinAddress.address,
+          LngbCoin.abi,
+          signer
+        );
+        let burnAmount = ethers.utils.parseEther(amount?.toString());
+        let tokensApproved = await LngbToken.allowance(
+          address,
+          LngbMainBridgeBaseAddress.address
+        );
+        if (tokensApproved < burnAmount) {
+          let tokens = ethers.utils.parseEther("3000000000000000");
+          let tx = await LngbToken.approve(
+            LngbMainBridgeBaseAddress.address,
+            tokens
+          );
+          await tx.wait();
+        }
+        let tx = await LngbETHMainBridge.depositTokenFor(address,address,burnAmount,to); //TODO change wanted chain
+        await tx.wait();
+      } 
+      // else if (from === 56 && to == 137) {
+      //   if (chainId != from) {
+      //     //BNB
+      //     return toast.error("Please change Network to BNB Smart Chain");
+      //   }
+      //   const provider = new ethers.providers.Web3Provider(walletProvider);
+      //   const signer = provider.getSigner();
+      //   //ETH
+      //   const LngbBNBMainBridge = new ethers.Contract(
+      //     LngbMainBridgeBaseAddress.address,
+      //     LngbBNBBridge.abi,
+      //     signer
+      //   );
+      //   const LngbToken = new ethers.Contract(
+      //     LngbCoinAddress.address,
+      //     LngbCoin.abi,
+      //     signer
+      //   );
+      //   let burnAmount = ethers.utils.parseEther(amount?.toString());
+      //   let tokensApproved = await LngbToken.allowance(
+      //     address,
+      //     LngbMainBridgeBaseAddress.address
+      //   );
+      //   if (tokensApproved < burnAmount) {
+      //     let tokens = ethers.utils.parseEther("3000000000000000");
+      //     let tx = await LngbToken.approve(
+      //       LngbMainBridgeBaseAddress.address,
+      //       tokens
+      //     );
+      //     await tx.wait();
+      //   }
+      //   let tx = await LngbBNBMainBridge.lockDeposit(burnAmount, to); //TODO change wanted chain
+      //   await tx.wait();
+      // } else if (from === 56 && to == 1000) {
+      //   if (chainId != from) {
+      //     //Tron
+      //     return toast.error("Please change Network to BNB Smart Chain");
+      //   } else if (!tronWalletForBridge) {
+      //     return toast.error("Please input Tron wallet Address");
+      //   }
+      //   const provider = new ethers.providers.Web3Provider(walletProvider);
+      //   const signer = provider.getSigner();
 
-  //     //   const LngbBNBMainBridge = new ethers.Contract(
-  //     //     LngbMainBridgeBaseAddress.address,
-  //     //     LngbBNBBridge.abi,
-  //     //     signer
-  //     //   );
-  //     //   const LngbToken = new ethers.Contract(
-  //     //     LngbCoinAddress.address,
-  //     //     LngbCoin.abi,
-  //     //     signer
-  //     //   );
+      //   const LngbBNBMainBridge = new ethers.Contract(
+      //     LngbMainBridgeBaseAddress.address,
+      //     LngbBNBBridge.abi,
+      //     signer
+      //   );
+      //   const LngbToken = new ethers.Contract(
+      //     LngbCoinAddress.address,
+      //     LngbCoin.abi,
+      //     signer
+      //   );
         
-  //     //   let burnAmount = ethers.utils.parseEther(amount?.toString());
+      //   let burnAmount = ethers.utils.parseEther(amount?.toString());
 
-  //     //   let tokensApproved = await LngbToken.allowance(
-  //     //     address,
-  //     //     LngbMainBridgeBaseAddress.address
-  //     //   );
-  //     //   if (tokensApproved < burnAmount) {
-  //     //     let tokens = ethers.utils.parseEther("3000000000000000");
-  //     //     let tx = await LngbToken.approve(
-  //     //       LngbMainBridgeBaseAddress.address,
-  //     //       tokens
-  //     //     );
-  //     //     await tx.wait();
-  //     //   }
+      //   let tokensApproved = await LngbToken.allowance(
+      //     address,
+      //     LngbMainBridgeBaseAddress.address
+      //   );
+      //   if (tokensApproved < burnAmount) {
+      //     let tokens = ethers.utils.parseEther("3000000000000000");
+      //     let tx = await LngbToken.approve(
+      //       LngbMainBridgeBaseAddress.address,
+      //       tokens
+      //     );
+      //     await tx.wait();
+      //   }
      
-  //     //   let tx = await LngbBNBMainBridge.lockDeposit(burnAmount, to); //TODO change wanted chain
-  //     //   await tx.wait();
+      //   let tx = await LngbBNBMainBridge.lockDeposit(burnAmount, to); //TODO change wanted chain
+      //   await tx.wait();
 
-  //     //   let apiData = {
-  //     //     from: address,
-  //     //     to: tronWalletForBridge,
-  //     //     amount: burnAmount?.toString(),
-  //     //     date: new Date(),
-  //     //     chainId: to,
-  //     //   };
-  //     //   await apis.swapTokenForTronBridge(apiData);
-  //     //   //await apis.lockForTronUpdate(apiData);
-  //     // }
-  //   } catch (error) {
-  //     console.log(error, "error");
-  //   }
-  // };
+      //   let apiData = {
+      //     from: address,
+      //     to: tronWalletForBridge,
+      //     amount: burnAmount?.toString(),
+      //     date: new Date(),
+      //     chainId: to,
+      //   };
+      //   await apis.swapTokenForTronBridge(apiData);
+      //   //await apis.lockForTronUpdate(apiData);
+      // }
+    } catch (error) {
+      console.log(error, "error");
+    }
+  };
 
   // const unLockDeposit = async (amount, from, to) => {
   //   try {
@@ -859,9 +858,6 @@ export const StoreProvider = ({ children }) => {
     <>
       <Store.Provider
         value={{
-          //Bridge Contract Sections
-          // LockDeposit,
-          // unLockDeposit,
           coin,
           loader,
           setloader,
@@ -886,6 +882,7 @@ export const StoreProvider = ({ children }) => {
           withdrawInvestedTokensRequests,
           tronConnected,
           setTronConnected,
+          LockDeposit,
         }}
       >
         {children}
