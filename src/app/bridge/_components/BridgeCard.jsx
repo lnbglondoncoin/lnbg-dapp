@@ -7,6 +7,7 @@ import { ethSvg, usdtSvg, bnbSvg, polySvg } from "@/components/icons";
 import { useRouter } from "next/navigation";
 import SelectDropdown from "./SelectDropdown";
 import { Store } from "@/context/Store";
+import { toast } from "react-toastify";
 
 export default function BridgeCard() {
   // --------------For hydration error-------------------
@@ -29,9 +30,9 @@ export default function BridgeCard() {
 
   const handleBridge = () => {
     if (transferFrom == "Binance" && transferTo == "Ethereum") {
-      LockDeposit(amount, transferFrom, transferTo);
+      LockDeposit(fromValue, transferFrom, transferTo);
     } else if (transferFrom == "Ethereum" && transferTo == "Binance") {
-      unLockDeposit(amount, transferFrom, transferTo);
+      unLockDeposit(fromValue, transferFrom, transferTo);
     } else {
       toast.info("Coming Soon");
     }

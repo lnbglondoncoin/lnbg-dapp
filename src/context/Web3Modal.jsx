@@ -30,13 +30,13 @@ console.log(process.env.NEXT_PUBLIC_RPC_URL_BNB,"process.env.NEXT_PUBLIC_RPC_URL
 // }
 
 
-// const seoiliaTestnet = {
-//   chainId: 11155111,
-//   name: 'Sepolia',
-//   currency: 'ETH',
-//   explorerUrl: 'https://sepolia.etherscan.io',
-//   rpcUrl: `${process.env.NEXT_PUBLIC_RPC_URL_SEPO}`
-// }
+const seoiliaTestnet = {
+  chainId: 11155111,
+  name: 'Sepolia',
+  currency: 'ETH',
+  explorerUrl: 'https://sepolia.etherscan.io',
+  rpcUrl: `${process.env.NEXT_PUBLIC_RPC_URL_SEPO}`
+}
 
 // // 
 
@@ -63,7 +63,7 @@ const ethersConfig = defaultConfig({
 
 createWeb3Modal({
   ethersConfig,
-  chains: [Binance],
+  chains: [Binance,seoiliaTestnet],
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration,
   enableOnramp: true // Optional - false as default

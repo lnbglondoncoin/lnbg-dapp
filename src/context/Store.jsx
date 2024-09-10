@@ -1,27 +1,31 @@
-"use client"
+"use client";
 import React, { useState, useEffect, createContext } from "react";
 import { ethers, providers, utils } from "ethers";
 import CryptoJS from "crypto-js";
 import axios from "axios";
-import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import {
+  useWeb3Modal,
+  useWeb3ModalAccount,
+  useWeb3ModalProvider,
+} from "@web3modal/ethers5/react";
 import { ToastContainer, toast } from "react-toastify";
 
-import LngbCoinAddress from "./contractsData/LnbgLondonCoin-address.json"; 
-import LngbCoin from "./contractsData/LnbgLondonCoin.json";
+import LnbgCoinAddress from "./contractsData/LnbgLondonCoin-address.json";
+import LnbgCoin from "./contractsData/LnbgLondonCoin.json";
 
-import LngbMasterContractAddress from "./contractsData/LnbgLondonCoinMasterContract-address.json"; 
-import LngbMasterContract from "./contractsData/LnbgLondonCoinMasterContract.json";
+import LnbgMasterContractAddress from "./contractsData/LnbgLondonCoinMasterContract-address.json";
+import LnbgMasterContract from "./contractsData/LnbgLondonCoinMasterContract.json";
+
+import LnbgMainBridgeBaseAddress from "./contractsData/LnbgLondonCoinBridgeBase-address.json";
+import LnbgMainBridgeBaseAbi from "./contractsData/LnbgLondonCoinBridgeBase.json";
 
 
-import LngbMainBridgeBaseAddress from "./contractsData/LnbgLondonCoinBridgeBase-address.json"; 
-import LngbMainBridgeBaseAbi from "./contractsData/LnbgLondonCoinBridgeBase.json"; 
+//////   ETHEREUM WRAPPED BRIDGE  //////////////
+import WrappedBridgeETHLnbgAddress from "./contractsData/WrappedBridgeLnbg-address.json";
+import WrappedBridgeETHLnbgAbi from "./contractsData/WrappedBridgeLnbg.json";
 
-// import WrappedBridgeLngbAddress from "../contractsData/WrapedBridgeBase-address.json"; 
-// import WrappedBridgeLngbAbi from "../contractsData/WrapedBridgeBase.json"; 
-
-// import WrappedTokenLngbAddress from "../contractsData/WrappedLngb-address.json"; 
-// import WrappedTokenLngbAbi from "../contractsData/WrappedLngb.json"; 
-
+import WrappedTokenETHLnbgAddress from "./contractsData/WrappedLnbgLondon-address.json";
+import WrappedTokenETHLnbgAbi from "./contractsData/WrappedLnbgLondon.json";
 
 // import apis from "../Services/apis";
 
@@ -29,8 +33,8 @@ const getProviderMasterContract = () => {
   const providers = process.env.NEXT_PUBLIC_RPC_URL_BNB;
   const provider = new ethers.providers.JsonRpcProvider(providers); //"http://localhost:8545/"
   const masterContract = new ethers.Contract(
-    LngbMasterContractAddress.address,
-    LngbMasterContract.abi,
+    LnbgMasterContractAddress.address,
+    LnbgMasterContract.abi,
     provider
   );
   return masterContract;
@@ -39,7 +43,6 @@ const getProviderMasterContract = () => {
 export const Store = createContext();
 
 export const StoreProvider = ({ children }) => {
-
   const { address, chainId, isConnected } = useWeb3ModalAccount();
 
   const { walletProvider } = useWeb3ModalProvider();
@@ -50,12 +53,15 @@ export const StoreProvider = ({ children }) => {
 
   const [proposal, setProposals] = useState([]);
 
-  const [withdrawInvestedTokensRequests, setWithdrawInvestedTokensRequests] = useState([]);
+  const [withdrawInvestedTokensRequests, setWithdrawInvestedTokensRequests] =
+    useState([]);
 
-  const [masterContractProposalData, setMasterContractProposalData] = useState([]);
+  const [masterContractProposalData, setMasterContractProposalData] = useState(
+    []
+  );
 
   const [contractData, setContractData] = useState({
-    LngbBalance: 0,
+    LnbgBalance: 0,
     stakedTokens: 0,
     startTime: 0,
     duration: 0,
@@ -81,26 +87,27 @@ export const StoreProvider = ({ children }) => {
   //////////////////////////////////////////  MASTER CONTRACT STAKING ///////////////////////////////
   //////////////////////////////////////////  MASTER CONTRACT STAKING ///////////////////////////////
 
-  const getLngbBalance = async () => {
-    if(isConnected){
+  const getLnbgBalance = async () => {
+    if (isConnected) {
       const provider = new ethers.providers.Web3Provider(walletProvider);
       const signer = provider.getSigner();
-      const LngbContracts = new ethers.Contract(
-        LngbCoinAddress.address,
-        LngbCoin.abi,
+      const LnbgContracts = new ethers.Contract(
+        LnbgCoinAddress.address,
+        LnbgCoin.abi,
         signer
       );
-      const balance = await LngbContracts.balanceOf(address?.toString());
+      const balance = await LnbgContracts.balanceOf(address?.toString());
       setContractData((prevState) => ({
         ...prevState,
-        LngbBalance: ethers.utils.formatEther(balance?.toString())?.toString()}))}
-  }
-
-
+        LnbgBalance: ethers.utils.formatEther(balance?.toString())?.toString(),
+      }));
+    }
+  };
 
   const getMasterContractData = async () => {
-    console.log("dddddddddddd",await getProviderMasterContract());
-    const totalStakedTokens = await getProviderMasterContract().totalStakedTokens();
+    console.log("dddddddddddd", await getProviderMasterContract());
+    const totalStakedTokens =
+      await getProviderMasterContract().totalStakedTokens();
     const totalStakers = await getProviderMasterContract().totalInvesters();
     console.log(
       totalStakedTokens?.toString(),
@@ -168,9 +175,8 @@ export const StoreProvider = ({ children }) => {
       for (let i = 0; i < getTokensInvesters.length; i++) {
         let userAddress = getTokensInvesters[i];
 
-        let reward = await getProviderMasterContract().rewardedTokens(
-          userAddress
-        );
+        let reward =
+          await getProviderMasterContract().rewardedTokens(userAddress);
 
         const Data = {
           amount: reward?.toString(),
@@ -205,8 +211,8 @@ export const StoreProvider = ({ children }) => {
       const provider = new ethers.providers.Web3Provider(walletProvider);
       const signer = provider.getSigner();
       const masterContract = new ethers.Contract(
-        LngbMasterContractAddress.address,
-        LngbMasterContract.abi,
+        LnbgMasterContractAddress.address,
+        LnbgMasterContract.abi,
         signer
       );
       let info = await masterContract.stakingInfo(address?.toString());
@@ -248,25 +254,25 @@ export const StoreProvider = ({ children }) => {
       const provider = new ethers.providers.Web3Provider(walletProvider);
       const signer = provider.getSigner();
       const masterContract = new ethers.Contract(
-        LngbMasterContractAddress.address,
-        LngbMasterContract.abi,
+        LnbgMasterContractAddress.address,
+        LnbgMasterContract.abi,
         signer
       );
-      const LngbContracts = new ethers.Contract(
-        LngbCoinAddress.address,
-        LngbCoin.abi,
+      const LnbgContracts = new ethers.Contract(
+        LnbgCoinAddress.address,
+        LnbgCoin.abi,
         signer
       );
 
       const tokens = ethers.utils.parseEther(amount?.toString());
-      console.log(address,"addressaddress")
-      let balance = await LngbContracts.balanceOf(address?.toString());
-      let allow = await LngbContracts.allowance(
+      console.log(address, "addressaddress");
+      let balance = await LnbgContracts.balanceOf(address?.toString());
+      let allow = await LnbgContracts.allowance(
         address?.toString(),
-        LngbMasterContractAddress?.address
+        LnbgMasterContractAddress?.address
       );
-  
-      console.log(allow?.toString(),balance?.toString(),"allowallowallow");
+
+      console.log(allow?.toString(), balance?.toString(), "allowallowallow");
 
       if (+tokens?.toString() > +balance?.toString())
         return (
@@ -274,15 +280,15 @@ export const StoreProvider = ({ children }) => {
           toast.error(
             `Your available balance is ${Number(
               ethers.utils.formatEther(balance?.toString())
-            )?.toFixed(5)} $Lngb`
+            )?.toFixed(5)} $Lnbg`
           )
         );
 
       if (+allow?.toString() < +tokens?.toString()) {
-        console.log("condidtion True")
+        console.log("condidtion True");
 
-        let approve = await LngbContracts.approve(
-          LngbMasterContractAddress.address,
+        let approve = await LnbgContracts.approve(
+          LnbgMasterContractAddress.address,
           tokens?.toString()
         );
 
@@ -292,7 +298,7 @@ export const StoreProvider = ({ children }) => {
       const currentTimestamp = Math.floor(Date.now() / 1000);
       const ninetyDaysInSeconds = duration * 24 * 60 * 60; // 90 days in seconds
       let days = currentTimestamp + ninetyDaysInSeconds;
-      console.log(days,"daysdaysdays")
+      console.log(days, "daysdaysdays");
       let respon = await masterContract.stakeTokens(tokens?.toString(), days);
       await respon.wait();
       // setWithdrawInvestedTokensRequests([]);
@@ -317,8 +323,8 @@ export const StoreProvider = ({ children }) => {
       const provider = new ethers.providers.Web3Provider(walletProvider);
       const signer = provider.getSigner();
       const masterContract = new ethers.Contract(
-        LngbMasterContractAddress.address,
-        LngbMasterContract.abi,
+        LnbgMasterContractAddress.address,
+        LnbgMasterContract.abi,
         signer
       );
 
@@ -407,25 +413,24 @@ export const StoreProvider = ({ children }) => {
       const provider = new ethers.providers.Web3Provider(walletProvider);
       const signer = provider.getSigner();
       const masterContract = new ethers.Contract(
-        LngbMasterContractAddress.address,
-        LngbMasterContract.abi,
+        LnbgMasterContractAddress.address,
+        LnbgMasterContract.abi,
         signer
       );
 
-      const LngbContracts = new ethers.Contract(
-        LngbCoinAddress.address,
-        LngbCoin.abi,
+      const LnbgContracts = new ethers.Contract(
+        LnbgCoinAddress.address,
+        LnbgCoin.abi,
         signer
       );
 
-      let approve = await LngbContracts.approve(
-        LngbMasterContractAddress.address,
+      let approve = await LnbgContracts.approve(
+        LnbgMasterContractAddress.address,
         amount?.toString()
       );
       await approve.wait();
-      const response = await masterContract.acceptWithdrawTokenRequest(
-        addresses
-      );
+      const response =
+        await masterContract.acceptWithdrawTokenRequest(addresses);
       await response.wait();
       // setWithdrawRequests([]);
       // setWithdrawInvestedTokensRequests([]);
@@ -449,19 +454,19 @@ export const StoreProvider = ({ children }) => {
   const submitProposal = async (data) => {
     setloader(true);
     if (!isConnected) {
-      console.log(data,"datadata");
+      console.log(data, "datadata");
       return toast.error("Please Connect Your Wallet."), setloader(false);
     }
     try {
       const provider = new ethers.providers.Web3Provider(walletProvider);
       const signer = provider.getSigner();
       const masterContract = new ethers.Contract(
-        LngbMasterContractAddress.address,
-        LngbMasterContract.abi,
+        LnbgMasterContractAddress.address,
+        LnbgMasterContract.abi,
         signer
       );
       console.log(provider);
-      console.log(address,"address");
+      console.log(address, "address");
       const response = await masterContract.submitProposal(data);
       await response.wait();
       // setWithdrawRequests([]);
@@ -494,7 +499,7 @@ export const StoreProvider = ({ children }) => {
 
         const decryptData = (ciphertext) => {
           try {
-            let keys = process.env.NEXT_PUBLIC_ENCRYPT_SECRET_KEYS
+            let keys = process.env.NEXT_PUBLIC_ENCRYPT_SECRET_KEYS;
             const bytes = CryptoJS.AES.decrypt(ciphertext, keys);
             const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
             return decryptedData;
@@ -538,8 +543,8 @@ export const StoreProvider = ({ children }) => {
       const provider = new ethers.providers.Web3Provider(walletProvider);
       const signer = provider.getSigner();
       let masterContract = new ethers.Contract(
-        LngbMasterContractAddress.address,
-        LngbMasterContract.abi,
+        LnbgMasterContractAddress.address,
+        LnbgMasterContract.abi,
         signer
       );
 
@@ -567,86 +572,83 @@ export const StoreProvider = ({ children }) => {
   // ////////////////////////////////////////  Bridge CONTRACT Functions ///////////////////////////////
 
 
-// LngbMainBridgeBaseAddress
-// LngbMainBridgeBaseAbi
-// LngbCoinAddress
-// LngbCoin
-
-// WrappedBridgeLngbAddress
-// WrappedBridgeLngbAbi
-
-// WrappedTokenLngbAddress
-// WrappedTokenLngbAbi
-
   const LockDeposit = async (amount, from, to) => {
     try {
-      if (from === "Ethereum"  && to == "Binance") { //56
-        if (chainId != 11155111) { //TODO::
-          return toast.error("Please change Network to Sepolia Smart Chain");
+      if (from === "Binance" && to == "Ethereum") {
+        if (chainId != 97) {
+          return toast.error("Please change Network to BNB Smart Chain");
         }
         const provider = new ethers.providers.Web3Provider(walletProvider);
         const signer = provider.getSigner();
-        //ETH
-        const LngbETHMainBridge = new ethers.Contract(
-          LngbMainBridgeBaseAddress.address,
-          LngbMainBridgeBaseAbi.abi,
+
+        const LnbgBNBMainBridge = new ethers.Contract(
+          LnbgMainBridgeBaseAddress.address,
+          LnbgMainBridgeBaseAbi.abi,
           signer
         );
-        const LngbToken = new ethers.Contract(
-          LngbCoinAddress.address,
-          LngbCoin.abi,
+        const LnbgToken = new ethers.Contract(
+          LnbgCoinAddress.address,
+          LnbgCoin.abi,
           signer
         );
         let burnAmount = ethers.utils.parseEther(amount?.toString());
-        let tokensApproved = await LngbToken.allowance(
+        let tokensApproved = await LnbgToken.allowance(
           address,
-          LngbMainBridgeBaseAddress.address
+          LnbgMainBridgeBaseAddress.address
         );
         if (tokensApproved < burnAmount) {
           let tokens = ethers.utils.parseEther("3000000000000000");
-          let tx = await LngbToken.approve(
-            LngbMainBridgeBaseAddress.address,
+          let tx = await LnbgToken.approve(
+            LnbgMainBridgeBaseAddress.address,
             tokens
           );
           await tx.wait();
         }
-        let tx = await LngbETHMainBridge.depositTokenFor(address,address,burnAmount,to); //TODO change wanted chain
+        let tx = await LnbgBNBMainBridge.depositTokenFor(address,address,burnAmount,1); //TODO change wanted chain
         await tx.wait();
       } 
-      // else if (from === 56 && to == 137) {
-      //   if (chainId != from) {
-      //     //BNB
-      //     return toast.error("Please change Network to BNB Smart Chain");
-      //   }
-      //   const provider = new ethers.providers.Web3Provider(walletProvider);
-      //   const signer = provider.getSigner();
-      //   //ETH
-      //   const LngbBNBMainBridge = new ethers.Contract(
-      //     LngbMainBridgeBaseAddress.address,
-      //     LngbBNBBridge.abi,
-      //     signer
-      //   );
-      //   const LngbToken = new ethers.Contract(
-      //     LngbCoinAddress.address,
-      //     LngbCoin.abi,
-      //     signer
-      //   );
-      //   let burnAmount = ethers.utils.parseEther(amount?.toString());
-      //   let tokensApproved = await LngbToken.allowance(
-      //     address,
-      //     LngbMainBridgeBaseAddress.address
-      //   );
-      //   if (tokensApproved < burnAmount) {
-      //     let tokens = ethers.utils.parseEther("3000000000000000");
-      //     let tx = await LngbToken.approve(
-      //       LngbMainBridgeBaseAddress.address,
-      //       tokens
-      //     );
-      //     await tx.wait();
-      //   }
-      //   let tx = await LngbBNBMainBridge.lockDeposit(burnAmount, to); //TODO change wanted chain
-      //   await tx.wait();
-      // } else if (from === 56 && to == 1000) {
+
+    // else if (from === "Ethereum" && to == "Binance") {
+    //     if (chainId != 11155111) {
+    //       //TODO::
+    //       return toast.error("Please change Network to Sepolia Smart Chain");
+    //     }
+    //     const provider = new ethers.providers.Web3Provider(walletProvider);
+    //     const signer = provider.getSigner();
+
+    //     const LnbgETHMainBridge = new ethers.Contract(
+    //       LnbgMainBridgeBaseAddress.address,
+    //       LnbgMainBridgeBaseAbi.abi,
+    //       signer
+    //     );
+    //     const LnbgToken = new ethers.Contract(
+    //       LnbgCoinAddress.address,
+    //       LnbgCoin.abi,
+    //       signer
+    //     );
+    //     let burnAmount = ethers.utils.parseEther(amount?.toString());
+    //     let tokensApproved = await LnbgToken.allowance(
+    //       address,
+    //       LnbgMainBridgeBaseAddress.address
+    //     );
+    //     if (tokensApproved < burnAmount) {
+    //       let tokens = ethers.utils.parseEther("3000000000000000");
+    //       let tx = await LnbgToken.approve(
+    //         LnbgMainBridgeBaseAddress.address,
+    //         tokens
+    //       );
+    //       await tx.wait();
+    //     }
+    //     let tx = await LnbgETHMainBridge.depositTokenFor(
+    //       address,
+    //       address,
+    //       burnAmount,
+    //       to
+    //     ); //TODO change wanted chain
+    //     await tx.wait();
+    //   }
+
+      // else if (from === 56 && to == 1000) {
       //   if (chainId != from) {
       //     //Tron
       //     return toast.error("Please change Network to BNB Smart Chain");
@@ -656,33 +658,33 @@ export const StoreProvider = ({ children }) => {
       //   const provider = new ethers.providers.Web3Provider(walletProvider);
       //   const signer = provider.getSigner();
 
-      //   const LngbBNBMainBridge = new ethers.Contract(
-      //     LngbMainBridgeBaseAddress.address,
-      //     LngbBNBBridge.abi,
+      //   const LnbgBNBMainBridge = new ethers.Contract(
+      //     LnbgMainBridgeBaseAddress.address,
+      //     LnbgBNBBridge.abi,
       //     signer
       //   );
-      //   const LngbToken = new ethers.Contract(
-      //     LngbCoinAddress.address,
-      //     LngbCoin.abi,
+      //   const LnbgToken = new ethers.Contract(
+      //     LnbgCoinAddress.address,
+      //     LnbgCoin.abi,
       //     signer
       //   );
-        
+
       //   let burnAmount = ethers.utils.parseEther(amount?.toString());
 
-      //   let tokensApproved = await LngbToken.allowance(
+      //   let tokensApproved = await LnbgToken.allowance(
       //     address,
-      //     LngbMainBridgeBaseAddress.address
+      //     LnbgMainBridgeBaseAddress.address
       //   );
       //   if (tokensApproved < burnAmount) {
       //     let tokens = ethers.utils.parseEther("3000000000000000");
-      //     let tx = await LngbToken.approve(
-      //       LngbMainBridgeBaseAddress.address,
+      //     let tx = await LnbgToken.approve(
+      //       LnbgMainBridgeBaseAddress.address,
       //       tokens
       //     );
       //     await tx.wait();
       //   }
-     
-      //   let tx = await LngbBNBMainBridge.lockDeposit(burnAmount, to); //TODO change wanted chain
+
+      //   let tx = await LnbgBNBMainBridge.lockDeposit(burnAmount, to); //TODO change wanted chain
       //   await tx.wait();
 
       //   let apiData = {
@@ -700,158 +702,152 @@ export const StoreProvider = ({ children }) => {
     }
   };
 
-  // const unLockDeposit = async (amount, from, to) => {
-  //   try {
-  //     if (from === 80002 && to == 11155111){
-  //       if (chainId != from) {
-  //         //ETHEREUM
-  //         return toast.error("Please change network to Polygon chain");
-  //       }
-  //       const provider = new ethers.providers.Web3Provider(walletProvider);
-  //       const signer = provider.getSigner();
+  const unLockDeposit = async (amount, from, to) => {
+    try {
+      // if (from === 80002 && to == 11155111) {
+      if (from === "Ethereum" && to === "Binance") {
+        if (chainId != 11155111) {
+          //ETHEREUM
+          return toast.error("Please Change Network to Ethereum Chain");
+        }
+        const provider = new ethers.providers.Web3Provider(walletProvider);
+        const signer = provider.getSigner();
 
-  //       const wrappedPolyBridge = new ethers.Contract(
-  //         WrappedBridgeLngbAddress.address,
-  //         WrappedBridgeLngbAbi.abi,
-  //         signer
-  //       );
-  //       const wrappedToken = new ethers.Contract(
-  //         WrappedTokenLngbAddress.address,
-  //         WrappedTokenLngbAbi.abi,
-  //         signer
-  //       );
+        const wrappedETHBridge = new ethers.Contract(
+          WrappedBridgeETHLnbgAddress.address,
+          WrappedBridgeETHLnbgAbi.abi,
+          signer
+        );
+        const wrappedETHToken = new ethers.Contract(
+          WrappedTokenETHLnbgAddress.address,
+          WrappedTokenETHLnbgAbi.abi,
+          signer
+        );
 
-  //       let tokens = ethers.utils.parseEther("300000000000000");
-  //       let tokensApproved = await wrappedToken.allowance(
-  //         address,
-  //         WrappedBridgeLngbAddress.address
-  //       );
+        let tokens = ethers.utils.parseEther("300000000000000");
+        let tokensApproved = await wrappedETHToken.allowance(
+          address,
+          WrappedBridgeETHLnbgAddress.address
+        );
 
-  //       if (tokensApproved < tokens) {
-  //         let tx = await wrappedToken.approve(
-  //           WrappedBridgeLngbAddress.address,
-  //           tokens
-  //         );
-  //         await tx.wait();
-  //       }
-  //       let burnAmount = ethers.utils.parseEther(amount?.toString());
-  //       let tx = await wrappedPolyBridge.burn(address,address,burnAmount,to); //TODO change wanted chain
-  //       await tx.wait();
-  //     } 
-  //     // else if (from === 137 && to == 56) {
-  //     //   if (chainId != from) {
-  //     //     //ETHEREUM
-  //     //     return toast.error("Please change network to Polygon chain");
-  //     //   }
-  //     //   const provider = new ethers.providers.Web3Provider(walletProvider);
-  //     //   const signer = provider.getSigner();
+        if (tokensApproved < tokens) {
+          let tx = await wrappedETHToken.approve(
+            WrappedBridgeETHLnbgAddress.address,
+            tokens
+          );
+          await tx.wait();
+        }
+        let burnAmount = ethers.utils.parseEther(amount?.toString());
+        let tx = await wrappedETHBridge.burn(address, address, burnAmount, 97); //TODO change wanted chain
+        await tx.wait();
+      } 
+      // else if (from === "Ethereum" && to === "Binance") {
+      //   if (chainId != from) {
+      //     //ETHEREUM
+      //     return toast.error("Please change network to Polygon chain");
+      //   }
+      //   const provider = new ethers.providers.Web3Provider(walletProvider);
+      //   const signer = provider.getSigner();
 
-  //     //   //WrappedPolygonTokenAddress
-  //     //   //WrappedPolygonBridgeAddress
+      //   const wrappedPolyBridge = new ethers.Contract(
+      //     WrappedPolygonBridgeAddress.address,
+      //     WrappedETHBridge.abi,
+      //     signer
+      //   );
+      //   const wrappedToken = new ethers.Contract(
+      //     WrappedPolygonTokenAddress.address,
+      //     WrappedETHToken.abi,
+      //     signer
+      //   );
 
-  //     //   const wrappedPolyBridge = new ethers.Contract(
-  //     //     WrappedPolygonBridgeAddress.address,
-  //     //     WrappedETHBridge.abi,
-  //     //     signer
-  //     //   );
-  //     //   const wrappedToken = new ethers.Contract(
-  //     //     WrappedPolygonTokenAddress.address,
-  //     //     WrappedETHToken.abi,
-  //     //     signer
-  //     //   );
+      //   let tokens = ethers.utils.parseEther("300000000000000");
+      //   let tokensApproved = await wrappedToken.allowance(
+      //     address,
+      //     WrappedPolygonBridgeAddress.address
+      //   );
 
-  //     //   let tokens = ethers.utils.parseEther("300000000000000");
-  //     //   let tokensApproved = await wrappedToken.allowance(
-  //     //     address,
-  //     //     WrappedPolygonBridgeAddress.address
-  //     //   );
+      //   if (tokensApproved < tokens) {
+      //     let tx = await wrappedToken.approve(
+      //       WrappedPolygonBridgeAddress.address,
+      //       tokens
+      //     );
+      //     await tx.wait();
+      //   }
+      //   let burnAmount = ethers.utils.parseEther(amount?.toString());
+      //   let tx = await wrappedPolyBridge.burn(address, burnAmount, to); //TODO change wanted chain
+      //   await tx.wait();
+      // }
+      // else if (from === 1000 && to == 56) {
+      //   if (!tronConnected) {
+      //     //Tron TODO:
+      //     return toast.error("Please Connect Tron wallet");
+      //   } else if (!tronWalletForBridge) {
+      //     return toast.error("Please Insert BNB wallet");
+      //   }
+      //   // let resultToken = await TronWrappedLnbgContract.approve("TQHVAmS6CoDuDfM74kGyAuHM1zuGDzQri9",tokens?.toString()).send({
+      //   //   feeLimit:100_000_000,
+      //   //   callValue:0,
+      //   //   shouldPollResponse:true
+      //   // });
+      //   // // await result.wait();
+      //   // console.log(resultToken, "resultTokenresultTokenresultToken");
 
-  //     //   if (tokensApproved < tokens) {
-  //     //     let tx = await wrappedToken.approve(
-  //     //       WrappedPolygonBridgeAddress.address,
-  //     //       tokens
-  //     //     );
-  //     //     await tx.wait();
-  //     //   }
-  //     //   let burnAmount = ethers.utils.parseEther(amount?.toString());
-  //     //   let tx = await wrappedPolyBridge.burn(address, burnAmount, to); //TODO change wanted chain
-  //     //   await tx.wait();
-  //     // } else if (from === 1000 && to == 56) {
-  //     //   if (!tronConnected) {
-  //     //     //Tron TODO:
-  //     //     return toast.error("Please Connect Tron wallet");
-  //     //   } else if (!tronWalletForBridge) {
-  //     //     return toast.error("Please Insert BNB wallet");
-  //     //   }
+      //   // let result = await TronWrappedBridgeContract.burn("TUQvyTGrZkqgVQrWP8gwJH1tce8cfp8yuX",tokens?.toString(),1,1000).send({
+      //   //     feeLimit:100_000_000,
+      //   //     callValue:0,
+      //   //     shouldPollResponse:true
+      //   //   });
 
-  //     //   // let resultToken = await TronWrappedLngbContract.approve("TQHVAmS6CoDuDfM74kGyAuHM1zuGDzQri9",tokens?.toString()).send({
-  //     //   //   feeLimit:100_000_000,
-  //     //   //   callValue:0,
-  //     //   //   shouldPollResponse:true
-  //     //   // });
-  //     //   // // await result.wait();
-  //     //   // console.log(resultToken, "resultTokenresultTokenresultToken");
+      //   //   console.log(result, "resultresultresultresult2");
 
-  //     //   // let result = await TronWrappedBridgeContract.burn("TUQvyTGrZkqgVQrWP8gwJH1tce8cfp8yuX",tokens?.toString(),1,1000).send({
-  //     //   //     feeLimit:100_000_000,
-  //     //   //     callValue:0,
-  //     //   //     shouldPollResponse:true
-  //     //   //   });
+      //   let TronWrappedLnbgContract = await window.tronWeb
+      //     .contract()
+      //     .at(WrappedTronTokenAddress.address);
+      //   console.log("check");
 
-  //     //   //   console.log(result, "resultresultresultresult2");
+      //   let tokens = ethers.utils.parseEther("300000000000000");
+      //   let tokensApproved = await TronWrappedLnbgContract.allowance(
+      //     tronCurrentAccount,
+      //     WrappedTronBridgeAddress.address
+      //   );
 
-  //     //   let TronWrappedLngbContract = await window.tronWeb
-  //     //     .contract()
-  //     //     .at(WrappedTronTokenAddress.address);
-  //     //   console.log("check");
+      //   if (tokensApproved < tokens) {
+      //     await TronWrappedLnbgContract.approve(
+      //       WrappedTronBridgeAddress.address,
+      //       tokens
+      //     ).send({
+      //       feeLimit: 100_000_000,
+      //       callValue: 0,
+      //       shouldPollResponse: true,
+      //     });
+      //   }
 
-  //     //   let tokens = ethers.utils.parseEther("300000000000000");
-  //     //   let tokensApproved = await TronWrappedLngbContract.allowance(
-  //     //     tronCurrentAccount,
-  //     //     WrappedTronBridgeAddress.address
-  //     //   );
+      //   let burnAmount = ethers.utils.parseEther(amount?.toString());
+      //   console.log("transaction2");
+      //   let TronWrappedBridgeContract = await window.tronWeb
+      //     .contract()
+      //     .at(WrappedTronBridgeAddress.address);
 
-  //     //   if (tokensApproved < tokens) {
-  //     //     await TronWrappedLngbContract.approve(
-  //     //       WrappedTronBridgeAddress.address,
-  //     //       tokens
-  //     //     ).send({
-  //     //       feeLimit: 100_000_000,
-  //     //       callValue: 0,
-  //     //       shouldPollResponse: true,
-  //     //     });
-  //     //   }
+      //   console.log("transaction3");
 
-  //     //   let burnAmount = ethers.utils.parseEther(amount?.toString());
-  //     //   console.log("transaction2");
-  //     //   let TronWrappedBridgeContract = await window.tronWeb
-  //     //     .contract()
-  //     //     .at(WrappedTronBridgeAddress.address);
-
-  //     //   console.log("transaction3");
-
-  //     //   await TronWrappedBridgeContract.burn(
-  //     //     tronWalletForBridge,
-  //     //     burnAmount,
-  //     //     to
-  //     //   ).send({
-  //     //     feeLimit: 100_000_000,
-  //     //     callValue: 0,
-  //     //     shouldPollResponse: true,
-  //     //   });
-  //     //   console.log("transaction40,", tronCurrentAccount);
-  //     // }
-  //   } catch (error) {
-  //     console.log(error, "error");
-  //   }
-  // };
-
+      //   await TronWrappedBridgeContract.burn(
+      //     tronWalletForBridge,
+      //     burnAmount,
+      //     to
+      //   ).send({
+      //     feeLimit: 100_000_000,
+      //     callValue: 0,
+      //     shouldPollResponse: true,
+      //   });
+      //   console.log("transaction40,", tronCurrentAccount);
+      // }
+    } catch (error) {
+      console.log(error, "error");
+    }
+  };
 
   useEffect(() => {
-    // GetTotalRewardEarned();
-    // GetAllProposalByArray();
-    getLngbBalance();
-    // GetInvestedTokensWithdrawRequests();
+    getLnbgBalance();
   }, [address]);
 
   return (
@@ -883,6 +879,7 @@ export const StoreProvider = ({ children }) => {
           tronConnected,
           setTronConnected,
           LockDeposit,
+          unLockDeposit,
         }}
       >
         {children}

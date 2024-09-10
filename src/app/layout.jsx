@@ -5,6 +5,7 @@ import { Rajdhani } from "next/font/google";
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { StoreProvider } from "@/context/Store";
+import { ToastContainer } from "react-toastify";
 
 const font = Rajdhani({
   subsets: ["latin"],
@@ -38,6 +39,7 @@ export default function layout({ children }) {
           font.className
         )}
       >
+        <ToastContainer />
         <StoreProvider>
         <Web3Modal>
           <Sidebar />
