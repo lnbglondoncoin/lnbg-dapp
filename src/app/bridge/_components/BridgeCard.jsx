@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 export default function BridgeCard() {
   // --------------For hydration error-------------------
   const [isClient, setIsClient] = useState(false);
-  const {LockDeposit, unLockDeposit}=useContext(Store)
+  const { LockDeposit, unLockDeposit } = useContext(Store);
 
   const [dropdownOpen, setDropdownOpen] = useState(false); // Manage dropdown state
   const [transferFrom, setTransferFrom] = useState("Ethereum"); // Manage selected option
@@ -26,7 +26,6 @@ export default function BridgeCard() {
   const { isConnected } = useWeb3ModalAccount();
   const [fromValue, setFromValue] = useState(null);
   const router = useRouter();
-
 
   const handleBridge = () => {
     if (transferFrom == "Binance" && transferTo == "Ethereum") {
@@ -53,7 +52,6 @@ export default function BridgeCard() {
     //   toast.info("Coming Soon");
     // }
   };
-
 
   return (
     <div className="col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
@@ -90,7 +88,12 @@ export default function BridgeCard() {
           <SelectDropdown
             button={
               <>
-                {ethSvg} {transferFrom} {bridgeIcon}
+                {transferFrom === "Ethereum"
+                  ? ethSvg
+                  : transferFrom === "Binance"
+                    ? bnbSvg
+                    : polySvg}{" "}
+                {transferFrom} {bridgeIcon}
               </>
             }
             isOpen={dropdownOpen}
@@ -147,7 +150,12 @@ export default function BridgeCard() {
           <SelectDropdown
             button={
               <>
-                {ethSvg} {transferTo} {bridgeIcon}
+                {transferTo === "Ethereum"
+                  ? ethSvg
+                  : transferTo === "Binance"
+                    ? bnbSvg
+                    : polySvg}{" "}
+                {transferTo} {bridgeIcon}
               </>
             }
             isOpen={dropdownOpen}
@@ -176,7 +184,8 @@ export default function BridgeCard() {
       </div>
       {isClient &&
         (isConnected ? (
-          <Button onClick={()=>handleBridge()}
+          <Button
+            onClick={() => handleBridge()}
             title="Bridge"
             className="hover:bg-primary2 bg-primary text-xl font-semibold uppercase text-black"
           />
