@@ -24,7 +24,7 @@ export default function ClaimPage() {
             <div className="flex w-full rounded-3xl bg-ash p-3">
               <div className="flex w-full rounded-xl bg-[url(/claim.jpeg)] bg-cover bg-center">
                 <div className="flex w-full bg-black/30 flex-col items-center justify-center gap-5 rounded-xl py-20 text-center">
-                  <span className="text-5xl font-semibold uppercase lg:text-6xl">
+                  <span className="text-3xl px-2 sm:text-5xl font-semibold uppercase lg:text-6xl">
                     Prepare for the LNBG Token <br /> Distribution Event!
                   </span>
                   <Timer />

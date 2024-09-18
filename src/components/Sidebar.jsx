@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -50,8 +51,10 @@ export default function Sidebar() {
                   </h1>
                 </div>
               </SheetTitle>
-              <div className="flex h-full min-h-[85vh] flex-col justify-between">
-                <div className="flex flex-col">
+            </SheetHeader>
+            <div className="flex h-full max-h-[70vh] flex-col justify-between">
+              <div className="flex flex-col">
+                <SheetClose asChild>
                   <Link
                     className={cn(
                       "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
@@ -79,6 +82,8 @@ export default function Sidebar() {
                       Dashboard
                     </span>
                   </Link>
+                </SheetClose>
+                <SheetClose asChild>
                   <Link
                     className={cn(
                       "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
@@ -106,6 +111,8 @@ export default function Sidebar() {
                       Staking
                     </span>
                   </Link>
+                </SheetClose>
+                <SheetClose asChild>
                   <Link
                     className={cn(
                       "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
@@ -133,6 +140,8 @@ export default function Sidebar() {
                       Bridge
                     </span>
                   </Link>
+                </SheetClose>
+                <SheetClose asChild>
                   <Link
                     className={cn(
                       "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
@@ -160,38 +169,43 @@ export default function Sidebar() {
                       Claim
                     </span>
                   </Link>
-                </div>
-                <div className="flex flex-col gap-3 py-8">
-                  <span
-                    className={cn(
-                      "px-10 font-medium text-gray2",
-                      font.className
-                    )}
+                </SheetClose>
+              </div>
+              <div className="flex flex-col gap-3 py-8">
+                <Link
+                  href="https://lnbglondon.com/en/contact"
+                  className={cn("px-10 font-medium text-gray2", font.className)}
+                >
+                  Support
+                </Link>
+                <Link
+                  href="https://lnbglondon.com/static/whitepaper.pdf"
+                  className={cn("px-10 font-medium text-gray2", font.className)}
+                >
+                  Docs
+                </Link>
+                <div className="flex gap-5 px-10 py-1 text-gray2">
+                  <Link
+                    href="https://twitter.com/lnbglondon"
+                    className="hover:text-yellow-300"
                   >
-                    Support
-                  </span>
-                  <span
-                    className={cn(
-                      "px-10 font-medium text-gray2",
-                      font.className
-                    )}
+                    {twitterIcon}
+                  </Link>
+                  <Link
+                    href="https://www.linkedin.com/company/lnbg-international-investments/"
+                    className="hover:text-yellow-300"
                   >
-                    Docs
-                  </span>
-                  <div className="flex gap-5 px-10 py-1 text-gray2">
-                    <button className="hover:text-yellow-300">
-                      {twitterIcon}
-                    </button>
-                    <button className="hover:text-yellow-300">
-                      {linkedInIcon}
-                    </button>
-                    <button className="hover:text-yellow-300">
-                      {discordIcon}
-                    </button>
-                  </div>
+                    {linkedInIcon}
+                  </Link>
+                  <Link
+                    href="https://discord.gg/KJhf24Uz"
+                    className="hover:text-yellow-300"
+                  >
+                    {discordIcon}
+                  </Link>
                 </div>
               </div>
-            </SheetHeader>
+            </div>
           </SheetContent>
         </Sheet>
       </div>
