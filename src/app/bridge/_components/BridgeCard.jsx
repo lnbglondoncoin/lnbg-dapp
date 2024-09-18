@@ -55,13 +55,13 @@ export default function BridgeCard() {
 
   return (
     <div className="col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
-      <div className="flex justify-between w-full items-center">
-        <span className="text-3xl font-semibold">
+      <div className="flex flex-col sm:flex-row gap-5 justify-between w-full sm:items-center">
+        <span className="text-xl sm:text-3xl font-semibold">
           Bridge ETH To BSC Mainnet
         </span>
         <Button
           title="All transactions"
-          className="w-fit py-1.5 hover:bg-primary2"
+          className="w-fit py-1.5 hover:bg-primary2 self-end"
           onClick={() => router.push("/bridge/transactions")}
         />
       </div>
