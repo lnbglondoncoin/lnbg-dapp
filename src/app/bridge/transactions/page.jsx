@@ -22,10 +22,6 @@ export default function TransactionsPage() {
           Socketbridge.
         </span>
         <TransactionTable />
-        <span className="text-sm mt-5 text-center">
-          If you don't see any success pending or failed transaction, please{" "}
-          <span className="text-primary2">contact support.</span>
-        </span>
       </div>
     </div>
   );

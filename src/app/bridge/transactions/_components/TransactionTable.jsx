@@ -258,89 +258,121 @@ export default function TransactionTable() {
 
   return (
     <div className="flex flex-col gap-3 w-full">
-      <div className="grid md:grid-cols-2 gap-2">
-        <div className="flex items-center justify-center gap-2 p-2 bg-ash rounded-md w-full md:w-72">
-          <Search size={20} />
-          <input
-            className="bg-transparent w-full focus:outline-none border-none outline-none"
-            type="search"
-            name="search"
-            id="search"
-            placeholder="Search Transaction ..."
-            onChange={handleSearchInputChange}
-          />
-        </div>
-        <div className="grid sm:grid-cols-3 gap-2">
-          <TransactionDropdown
-            isOpen={isTransactionFilterOpen}
-            setIsOpen={setIsTransactionFilterOpen}
-            filter={filter}
-            handleSelect={handleSelectFilter}
-          />
-          <DateFilterDropdown
-            isOpen={isDateFilterOpen}
-            setIsOpen={setIsDateFilterOpen}
-            filter={dateFilter}
-            handleSelect={handleSelectDate}
-          />
-          <SortDropdown
-            isOpen={isSortFilterOpen}
-            setIsOpen={setIsSortFilterOpen}
-            filter={sortFilter}
-            handleSelect={handleSortFilter}
-          />
-        </div>
-      </div>
-      <table className="table-auto">
-        <thead>
-          <tr className="bg-ash">
-            <th className="text-start font-semibold pl-4 uppercase">Hash</th>
-            <th className="text-start font-semibold py-2 uppercase">Network</th>
-            <th className="text-start font-semibold py-2 uppercase">Amount</th>
-            <th className="text-start font-semibold py-2 uppercase">Status</th>
-            <th className="text-start font-semibold py-2 uppercase">Time</th>
-            <th className="text-start font-semibold py-2 uppercase">Type</th>
-            <th className="text-start font-semibold py-2 uppercase">View</th>
-          </tr>
-        </thead>
-        <tbody>
+      {transactions && (
+        <div className="w-full overflow-auto">
           {transactions?.length > 0 ? (
-            transactions.map((item, index) => (
-              <tr className="border-b border-ash" key={index}>
-                <td className="py-3 pl-6">
-                  {item?.transactionHash?.slice(0, 6)}...
-                </td>
-                <td className="py-3">
-                  {item?.bridgeNetwork === "eth" ? "Ethereum" : "Polygon"}
-                </td>
-                <td className="py-3">
-                  {ethers.utils.formatEther(item?.amount)}
-                </td>
-                <td className="py-3">{item?.status}</td>
-                <td className="py-3">{item?.date}</td>
-                <td className="py-3">{item?.FunctionType}</td>
-                <td className="py-3">
-                  <button
-                    onClick={() =>
-                      ViewTransaction(
-                        item?.transactionHash,
-                        item?.bridgeNetwork
-                      )
-                    }
-                    className="text-primary2"
-                  >
-                    <Eye size={20} />
-                  </button>
-                </td>
-              </tr>
-            ))
+            <>
+              <div className="grid md:grid-cols-2 gap-2">
+                <div className="flex items-center justify-center gap-2 p-2 bg-ash rounded-md w-full md:w-72">
+                  <Search size={20} />
+                  <input
+                    className="bg-transparent w-full focus:outline-none border-none outline-none"
+                    type="search"
+                    name="search"
+                    id="search"
+                    placeholder="Search Transaction ..."
+                    onChange={handleSearchInputChange}
+                  />
+                </div>
+                <div className="grid sm:grid-cols-3 gap-2">
+                  <TransactionDropdown
+                    isOpen={isTransactionFilterOpen}
+                    setIsOpen={setIsTransactionFilterOpen}
+                    filter={filter}
+                    handleSelect={handleSelectFilter}
+                  />
+                  <DateFilterDropdown
+                    isOpen={isDateFilterOpen}
+                    setIsOpen={setIsDateFilterOpen}
+                    filter={dateFilter}
+                    handleSelect={handleSelectDate}
+                  />
+                  <SortDropdown
+                    isOpen={isSortFilterOpen}
+                    setIsOpen={setIsSortFilterOpen}
+                    filter={sortFilter}
+                    handleSelect={handleSortFilter}
+                  />
+                </div>
+              </div>
+              <table className="table-auto w-full">
+                <thead>
+                  <tr className="bg-ash">
+                    <th className="text-start font-semibold px-4 uppercase">
+                      Hash
+                    </th>
+                    <th className="text-start font-semibold py-2 pr-4 uppercase">
+                      Network
+                    </th>
+                    <th className="text-start font-semibold py-2 pr-4 uppercase">
+                      Amount
+                    </th>
+                    <th className="text-start font-semibold py-2 pr-4 uppercase">
+                      Status
+                    </th>
+                    <th className="text-start font-semibold py-2 pr-4 uppercase">
+                      Time
+                    </th>
+                    <th className="text-start font-semibold py-2 pr-4 uppercase">
+                      Type
+                    </th>
+                    <th className="text-start font-semibold py-2 pr-4 uppercase">
+                      View
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map((item, index) => (
+                    <tr className="border-b border-ash" key={index}>
+                      <td className="py-3 pl-4">
+                        {item?.transactionHash?.slice(0, 6)}...
+                      </td>
+                      <td className="py-3 pr-4">
+                        {item?.bridgeNetwork === "eth" ? "Ethereum" : "Polygon"}
+                      </td>
+                      <td className="py-3 pr-4">
+                        {ethers.utils.formatEther(item?.amount)}
+                      </td>
+                      <td className="py-3 pr-4">{item?.status}</td>
+                      <td className="py-3 pr-4">{item?.date}</td>
+                      <td className="py-3 pr-4">{item?.FunctionType}</td>
+                      <td className="py-3 pr-4">
+                        <button
+                          onClick={() =>
+                            ViewTransaction(
+                              item?.transactionHash,
+                              item?.bridgeNetwork
+                            )
+                          }
+                          className="text-primary2"
+                        >
+                          <Eye size={20} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <span className="text-sm mt-5 text-center">
+                If you don't see any success pending or failed transaction,
+                please <span className="text-primary2">contact support.</span>
+              </span>
+            </>
           ) : (
-            <div className="w-full flex items-center justify-center">
-              <span className="font-bold">No Transactions Found</span>
-            </div>
+            <>
+              <div className="w-full flex items-center">
+                <span className="font-bold text-2xl">
+                  No Transactions Found
+                </span>
+              </div>
+              <span className="text-sm mt-5">
+                If you don't see any success pending or failed transaction,
+                please <span className="text-primary2">contact support.</span>
+              </span>
+            </>
           )}
-        </tbody>
-      </table>
+        </div>
+      )}
     </div>
   );
 }
