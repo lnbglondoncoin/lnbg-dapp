@@ -34,7 +34,7 @@ export default function Timer() {
           ":" +
           (minutes > 9 ? minutes : "0" + minutes) +
           ":" +
-          (seconds > 9 ? seconds : "0" + seconds),
+          (seconds > 9 ? seconds : "0" + seconds)
       );
     }
   };
@@ -43,7 +43,7 @@ export default function Timer() {
     // If you adjust it you should also need to
     // adjust the Endtime formula we are about
     // to code next
-    setTimer("52:21:12:08");
+    setTimer("00:00:00:00");
 
     // If you try to remove this line the
     // updating of timer Variable will be
@@ -56,12 +56,12 @@ export default function Timer() {
   };
 
   const getDeadTime = () => {
-    let deadline = new Date();
+    let deadline = new Date("2024-09-30T00:00:00Z");
 
     // This is where you need to adjust if
     // you entend to add more time
     // set timer to 4 days 21 hours 12 minutes 08 seconds
-    deadline.setDate(deadline.getDate() + 4);
+    deadline.setDate(deadline.getDate());
     return deadline;
   };
 

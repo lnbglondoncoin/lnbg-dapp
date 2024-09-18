@@ -25,20 +25,21 @@ export default function ClaimPage() {
               <div className="flex w-full rounded-xl bg-[url(/claim.jpeg)] bg-cover bg-center">
                 <div className="flex w-full bg-black/30 flex-col items-center justify-center gap-5 rounded-xl py-20 text-center">
                   <span className="text-5xl font-semibold uppercase lg:text-6xl">
-                    Get Ready for the Token <br /> Generation Event!
+                    Prepare for the LNBG Token <br /> Distribution Event!
                   </span>
                   <Timer />
-                  <span className="px-5 text-xl font-semibold uppercase">
-                    This is a major step forward for our project, and we can't
-                    wait <br />
-                    to share it with you! Stay tuned and keep an eye on the{" "}
-                    <br />
-                    countdown - the future of LNBG is just around the corner!
+                  <span className="px-5 text-xl font-semibold max-w-2xl uppercase">
+                    We're approaching a monumental moment in our journey, and we
+                    can't wait to share this with our incredible community! The
+                    LNBG Token Distribution Event is right around the corner,
+                    marking a significant milestone for our project.
                   </span>
-                  <span className="px-5 text-lg font-medium text-gray2/80">
-                    The TGE marks the moment when our tokens will be minted and
-                    distributed to our community, <br /> allowing you to finally
-                    claim and trade your $LNBG tokens.
+                  <span className="px-5 text-lg font-medium max-w-2xl text-white/80">
+                    Get ready to claim and trade your $LLC tokens! Once the
+                    presale ends, the referral and airdrop token distribution
+                    will begin, opening up exciting opportunities for everyone
+                    involved. Keep a close eye on the countdown—this is your
+                    chance to be part of the future of finance!
                   </span>
                 </div>
               </div>
