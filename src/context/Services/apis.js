@@ -2,7 +2,7 @@ import axios from "axios";
 
 const createBackendServer = (baseURL) => {
     const api = axios.create({
-        baseURL: `${baseURL}/`,
+        baseURL: `${baseURL}/api/`,
         withCredentials: false,
         headers: {
             Accept: "application/json",
@@ -33,7 +33,6 @@ const createBackendServer = (baseURL) => {
     const viewTransactionsByLastTime = async (type, filter) => await api.get(`transactions/sortBy`, {
         params: { type, filter }
     });
-    // const forgotPassword = async (body) => await api.post(`forgot-password`, body);
 
     //Returning all the API
     return {
@@ -45,7 +44,4 @@ const createBackendServer = (baseURL) => {
 };
 
 const apis = createBackendServer("http://127.0.0.1:5000");
-//local
-//"http://127.0.0.1:5000"
-//Server
 export default apis;
