@@ -22,7 +22,7 @@ export default function ClaimPage() {
         {isClient &&
           (isConnected ? (
             <div className="flex w-full rounded-3xl bg-ash p-3">
-              <div className="flex w-full rounded-xl bg-[url(/claim.jpeg)] bg-cover bg-center">
+              <div className="flex w-full rounded-xl bg-[url(/static/claim.jpeg)] bg-cover bg-center">
                 <div className="flex w-full bg-black/30 flex-col items-center justify-center gap-5 rounded-xl py-20 text-center">
                   <span className="text-3xl px-2 sm:text-5xl font-semibold uppercase lg:text-6xl">
                     Prepare for the LNBG Token <br /> Distribution Event!
@@ -45,7 +45,7 @@ export default function ClaimPage() {
               </div>
             </div>
           ) : (
-            <div className="flex h-[320px] w-full flex-col items-center justify-end gap-5 rounded-xl bg-ash bg-[url(/bgs/bg-2.png)] bg-cover bg-center bg-no-repeat px-10 py-16">
+            <div className="flex h-[320px] w-full flex-col items-center justify-end gap-5 rounded-xl bg-ash bg-[url(/static/bgs/bg-2.png)] bg-cover bg-center bg-no-repeat px-10 py-16">
               <span className="w-full text-4xl font-semibold">
                 Connect wallet to access claim
               </span>

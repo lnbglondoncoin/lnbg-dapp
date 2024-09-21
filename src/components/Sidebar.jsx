@@ -15,19 +15,20 @@ import {
 import { MenuIcon } from "lucide-react";
 
 import { Rajdhani } from "next/font/google";
+import LanguageDropdown from "./dropdown/LanguageDropdown";
 
 const font = Rajdhani({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
 
-export default function Sidebar() {
+export default function Sidebar({ lang }) {
   const pathname = usePathname();
   return (
     <>
-      <div className="flex w-full justify-between bg-ash px-10 py-5 lg:hidden">
+      <div className="flex w-full justify-between bg-ash px-8 py-5 lg:hidden">
         <div className="flex w-full items-center gap-3">
-          <Image src="/logo.png" alt="logo" width={40} height={40} />
+          <Image src="/static/logo.png" alt="logo" width={40} height={40} />
           <h1 className="text-center text-2xl font-semibold text-white">
             LNBG Dapp
           </h1>
@@ -39,16 +40,19 @@ export default function Sidebar() {
           <SheetContent className="border-none bg-ash p-0 text-white">
             <SheetHeader>
               <SheetTitle>
-                <div className="flex w-full items-center gap-3 px-10 py-7">
-                  <Image src="/logo.png" alt="logo" width={40} height={40} />
-                  <h1
-                    className={cn(
-                      "text-center text-2xl font-semibold text-white",
-                      font.className
-                    )}
-                  >
-                    LNBG Dapp
-                  </h1>
+                <div className="flex w-full items-center gap-2 justify-between pt-12 p-6">
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src="/static/logo.png"
+                      alt="logo"
+                      width={25}
+                      height={30}
+                    />
+                    <h1 className="text-center text-2xl font-semibold text-white">
+                      LNBG Dapp
+                    </h1>
+                  </div>
+                  <LanguageDropdown selectedLang={lang} />
                 </div>
               </SheetTitle>
             </SheetHeader>
@@ -57,7 +61,7 @@ export default function Sidebar() {
                 <SheetClose asChild>
                   <Link
                     className={cn(
-                      "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
+                      "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
                       pathname == "/" && "bg-white/5",
                       font.className
                     )}
@@ -79,14 +83,20 @@ export default function Sidebar() {
                           : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
                       }
                     >
-                      Dashboard
+                      {lang === "en"
+                        ? "Dashboard"
+                        : lang === "fr"
+                          ? "Tableau de bord"
+                          : lang === "es"
+                            ? "Panel"
+                            : "Панель управления"}
                     </span>
                   </Link>
                 </SheetClose>
                 <SheetClose asChild>
                   <Link
                     className={cn(
-                      "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
+                      "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
                       pathname == "/staking" && "bg-white/5",
                       font.className
                     )}
@@ -108,14 +118,55 @@ export default function Sidebar() {
                           : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
                       }
                     >
-                      Staking
+                      {lang === "en"
+                        ? "Staking"
+                        : lang === "fr"
+                          ? "Mise en jeu"
+                          : lang === "es"
+                            ? "Apuesta"
+                            : "Ставка"}
                     </span>
                   </Link>
                 </SheetClose>
                 <SheetClose asChild>
                   <Link
                     className={cn(
-                      "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
+                      "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
+                      pathname == "/vote" && "bg-white/5",
+                      font.className
+                    )}
+                    href="/vote"
+                  >
+                    <span
+                      className={
+                        pathname == "/vote"
+                          ? "text-yellow-300"
+                          : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-yellow-300"
+                      }
+                    >
+                      {voteIcon}
+                    </span>
+                    <span
+                      className={
+                        pathname == "/vote"
+                          ? "text-white"
+                          : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
+                      }
+                    >
+                      {lang === "en"
+                        ? "Vote"
+                        : lang === "fr"
+                          ? "Vote"
+                          : lang === "es"
+                            ? "Vote"
+                            : "Голосование"}
+                    </span>
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    className={cn(
+                      "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
                       pathname == "/bridge" && "bg-white/5",
                       font.className
                     )}
@@ -137,14 +188,20 @@ export default function Sidebar() {
                           : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
                       }
                     >
-                      Bridge
+                      {lang === "en"
+                        ? "Bridge"
+                        : lang === "fr"
+                          ? "Pont"
+                          : lang === "es"
+                            ? "Puente"
+                            : "Мост"}
                     </span>
                   </Link>
                 </SheetClose>
                 <SheetClose asChild>
                   <Link
                     className={cn(
-                      "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
+                      "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
                       pathname == "/claim" && "bg-white/5",
                       font.className
                     )}
@@ -166,7 +223,13 @@ export default function Sidebar() {
                           : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
                       }
                     >
-                      Claim
+                      {lang === "en"
+                        ? "Claim"
+                        : lang === "fr"
+                          ? "Réclamation"
+                          : lang === "es"
+                            ? "Reclamar"
+                            : "Претензия"}
                     </span>
                   </Link>
                 </SheetClose>
@@ -174,17 +237,29 @@ export default function Sidebar() {
               <div className="flex flex-col gap-3 py-8">
                 <Link
                   href="https://lnbglondon.com/en/contact"
-                  className={cn("px-10 font-medium text-gray2", font.className)}
+                  className={cn("px-6 font-medium text-gray2", font.className)}
                 >
-                  Support
+                  {lang === "en"
+                    ? "Support"
+                    : lang === "fr"
+                      ? "Soutien"
+                      : lang === "es"
+                        ? "Apoyo"
+                        : "Поддержка"}
                 </Link>
                 <Link
                   href="https://lnbglondon.com/static/whitepaper.pdf"
-                  className={cn("px-10 font-medium text-gray2", font.className)}
+                  className={cn("px-6 font-medium text-gray2", font.className)}
                 >
-                  Docs
+                  {lang === "en"
+                    ? "Docs"
+                    : lang === "fr"
+                      ? "Docs"
+                      : lang === "es"
+                        ? "Docs"
+                        : "Документы"}
                 </Link>
-                <div className="flex gap-5 px-10 py-1 text-gray2">
+                <div className="flex gap-5 px-6 py-3 text-gray2">
                   <Link
                     href="https://twitter.com/lnbglondon"
                     className="hover:text-yellow-300"
@@ -216,16 +291,19 @@ export default function Sidebar() {
             clipPath: "polygon(100% 0, 61% 85%, 100% 100%)",
           }}
         ></div> */}
-        <div className="flex flex-col">
-          <div className="flex w-full items-center gap-3 px-10 py-8">
-            <Image src="/logo.png" alt="logo" width={40} height={40} />
-            <h1 className="text-center text-3xl font-semibold text-white">
-              LNBG Dapp
-            </h1>
+        <div className="flex flex-col py-2">
+          <div className="flex w-full items-center gap-2 justify-between p-6">
+            <div className="flex items-center gap-2">
+              <Image src="/static/logo.png" alt="logo" width={25} height={30} />
+              <h1 className="text-center text-2xl font-semibold text-white">
+                LNBG Dapp
+              </h1>
+            </div>
+            <LanguageDropdown selectedLang={lang} />
           </div>
           <Link
             className={cn(
-              "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
+              "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
               pathname == "/" && "bg-white/5"
             )}
             href="/"
@@ -246,12 +324,18 @@ export default function Sidebar() {
                   : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
               }
             >
-              Dashboard
+              {lang === "en"
+                ? "Dashboard"
+                : lang === "fr"
+                  ? "Tableau de bord"
+                  : lang === "es"
+                    ? "Panel"
+                    : "Панель управления"}
             </span>
           </Link>
           <Link
             className={cn(
-              "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
+              "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
               pathname == "/staking" && "bg-white/5"
             )}
             href="/staking"
@@ -272,12 +356,18 @@ export default function Sidebar() {
                   : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
               }
             >
-              Staking
+              {lang === "en"
+                ? "Staking"
+                : lang === "fr"
+                  ? "Mise en jeu"
+                  : lang === "es"
+                    ? "Apuesta"
+                    : "Ставка"}
             </span>
           </Link>
           <Link
             className={cn(
-              "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
+              "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
               pathname == "/vote" && "bg-white/5"
             )}
             href="/vote"
@@ -298,12 +388,18 @@ export default function Sidebar() {
                   : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
               }
             >
-              Vote
+              {lang === "en"
+                ? "Vote"
+                : lang === "fr"
+                  ? "Vote"
+                  : lang === "es"
+                    ? "Vote"
+                    : "Голосование"}
             </span>
           </Link>
           <Link
             className={cn(
-              "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
+              "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
               pathname == "/bridge" && "bg-white/5"
             )}
             href="/bridge"
@@ -324,12 +420,18 @@ export default function Sidebar() {
                   : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
               }
             >
-              Bridge
+              {lang === "en"
+                ? "Bridge"
+                : lang === "fr"
+                  ? "Pont"
+                  : lang === "es"
+                    ? "Puente"
+                    : "Мост"}
             </span>
           </Link>
           <Link
             className={cn(
-              "group flex items-center gap-4 px-10 py-5 text-lg font-medium",
+              "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
               pathname == "/claim" && "bg-white/5"
             )}
             href="/claim"
@@ -350,14 +452,36 @@ export default function Sidebar() {
                   : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
               }
             >
-              Claim
+              {lang === "en"
+                ? "Claim"
+                : lang === "fr"
+                  ? "Réclamation"
+                  : lang === "es"
+                    ? "Reclamar"
+                    : "Претензия"}
             </span>
           </Link>
         </div>
         <div className="flex flex-col gap-3 py-8">
-          <span className="px-10 font-medium text-gray2">Support</span>
-          <span className="px-10 font-medium text-gray2">Docs</span>
-          <div className="flex gap-5 px-10 py-1 text-gray2">
+          <span className="px-6 font-medium text-gray2">
+            {lang === "en"
+              ? "Support"
+              : lang === "fr"
+                ? "Soutien"
+                : lang === "es"
+                  ? "Apoyo"
+                  : "Поддержка"}
+          </span>
+          <span className="px-6 font-medium text-gray2">
+            {lang === "en"
+              ? "Docs"
+              : lang === "fr"
+                ? "Docs"
+                : lang === "es"
+                  ? "Docs"
+                  : "Документы"}
+          </span>
+          <div className="flex gap-5 px-6 py-1 text-gray2">
             <button className="hover:text-yellow-300">{twitterIcon}</button>
             <button className="hover:text-yellow-300">{linkedInIcon}</button>
             <button className="hover:text-yellow-300">{discordIcon}</button>

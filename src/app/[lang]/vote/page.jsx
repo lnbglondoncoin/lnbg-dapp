@@ -9,7 +9,8 @@ export default function VotingPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState("Proposal");
 
-  const { masterContractProposalData, GetAllProposalByArray } = useContext(Store);
+  const { masterContractProposalData, GetAllProposalByArray } =
+    useContext(Store);
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
@@ -21,12 +22,15 @@ export default function VotingPage() {
     GetAllProposalByArray();
   }, []);
 
-  console.log(masterContractProposalData,"masterContractProposalDatamasterContractProposalDatamasterContractProposalData");
+  console.log(
+    masterContractProposalData,
+    "masterContractProposalDatamasterContractProposalDatamasterContractProposalData"
+  );
 
   return (
     <div className="flex w-full justify-center p-10">
       <div className="flex w-full flex-col gap-5">
-        <div className="flex gap-10 items-center justify-between">
+        <div className="flex flex-wrap md:gap-10 items-center justify-between">
           <h1 className="mb-5 text-5xl font-semibold text-white">Proposals</h1>
           <AddProposalModal />
         </div>

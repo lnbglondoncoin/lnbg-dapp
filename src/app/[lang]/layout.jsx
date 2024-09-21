@@ -30,21 +30,22 @@ export const metadata = {
   ],
 };
 
-export default function layout({ children }) {
+export default function layout({ children, params }) {
+  const lang = params.lang;
   return (
     <html lang="en">
       <body
         className={cn(
-          "flex flex-col text-white bg-[url('/bgs/body-bg.png')] lg:p-3 bg-coal lg:flex-row",
+          "flex flex-col text-white bg-[url('/static/bgs/body-bg.png')] lg:p-3 bg-coal lg:flex-row",
           font.className
         )}
       >
         <ToastContainer />
         <StoreProvider>
-        <Web3Modal>
-          <Sidebar />
-          {children}
-        </Web3Modal>
+          <Web3Modal>
+            <Sidebar lang={lang} />
+            {children}
+          </Web3Modal>
         </StoreProvider>
       </body>
     </html>
