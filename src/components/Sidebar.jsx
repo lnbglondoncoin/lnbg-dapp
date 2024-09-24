@@ -65,11 +65,11 @@ export default function Sidebar({ lang }) {
                       pathname == "/" && "bg-white/5",
                       font.className
                     )}
-                    href="/"
+                    href={`/${lang}`}
                   >
                     <span
                       className={
-                        pathname == "/"
+                        pathname == `/${lang}`
                           ? "text-yellow-300"
                           : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-yellow-300"
                       }
@@ -78,7 +78,7 @@ export default function Sidebar({ lang }) {
                     </span>
                     <span
                       className={
-                        pathname == "/"
+                        pathname == `/${lang}`
                           ? "text-white"
                           : "text-gray2 transition-all duration-200 ease-in-out group-hover:text-white"
                       }
@@ -100,7 +100,7 @@ export default function Sidebar({ lang }) {
                       pathname == "/staking" && "bg-white/5",
                       font.className
                     )}
-                    href="/staking"
+                    href={`/${lang}/staking`}
                   >
                     <span
                       className={
@@ -135,7 +135,7 @@ export default function Sidebar({ lang }) {
                       pathname == "/vote" && "bg-white/5",
                       font.className
                     )}
-                    href="/vote"
+                    href={`/${lang}/vote`}
                   >
                     <span
                       className={
@@ -170,7 +170,7 @@ export default function Sidebar({ lang }) {
                       pathname == "/bridge" && "bg-white/5",
                       font.className
                     )}
-                    href="/bridge"
+                    href={`/${lang}/bridge`}
                   >
                     <span
                       className={
@@ -205,7 +205,7 @@ export default function Sidebar({ lang }) {
                       pathname == "/claim" && "bg-white/5",
                       font.className
                     )}
-                    href="/claim"
+                    href={`/${lang}/claim`}
                   >
                     <span
                       className={
@@ -306,7 +306,7 @@ export default function Sidebar({ lang }) {
               "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
               pathname == "/" && "bg-white/5"
             )}
-            href="/"
+            href={`/${lang}`}
           >
             <span
               className={
@@ -338,7 +338,7 @@ export default function Sidebar({ lang }) {
               "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
               pathname == "/staking" && "bg-white/5"
             )}
-            href="/staking"
+            href={`/${lang}/staking`}
           >
             <span
               className={
@@ -370,7 +370,7 @@ export default function Sidebar({ lang }) {
               "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
               pathname == "/vote" && "bg-white/5"
             )}
-            href="/vote"
+            href={`/${lang}/vote`}
           >
             <span
               className={
@@ -402,7 +402,7 @@ export default function Sidebar({ lang }) {
               "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
               pathname == "/bridge" && "bg-white/5"
             )}
-            href="/bridge"
+            href={`/${lang}/bridge`}
           >
             <span
               className={
@@ -434,7 +434,7 @@ export default function Sidebar({ lang }) {
               "group flex items-center gap-4 px-6 py-3 text-lg font-medium",
               pathname == "/claim" && "bg-white/5"
             )}
-            href="/claim"
+            href={`/${lang}/claim`}
           >
             <span
               className={
