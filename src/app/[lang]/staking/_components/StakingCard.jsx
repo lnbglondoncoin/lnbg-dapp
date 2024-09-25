@@ -7,6 +7,8 @@ import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import { Activity } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import SelectDropdown from "../../bridge/_components/SelectDropdown";
+import { usdcSvg, usdtSvg } from "@/components/icons";
 
 export default function StakingCard() {
   // --------------For hydration error-------------------
@@ -21,14 +23,17 @@ export default function StakingCard() {
   const [tab, setTab] = useState("Stake");
   const [selectedOffer, setSelectedOffer] = useState("12 months");
   const [stake, setStake] = useState(null);
+  const [selectedToken, setSelectedToken] = useState("USDT");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const {StakeTokensSend, unstakeTokensRequest, getStakedInfoByUser}=useContext(Store)
+  const { StakeTokensSend, unstakeTokensRequest, getStakedInfoByUser } =
+    useContext(Store);
 
-  const stakeTokens = async ()=>{
+  const stakeTokens = async () => {
     try {
       const months = parseInt(selectedOffer);
       const days = months * 30;
-      console.log(days,months,"months");
+      console.log(days, months, "months");
       if (days < 90) {
         return toast.error("Please Add More then 90 Days");
       }
@@ -36,8 +41,7 @@ export default function StakingCard() {
     } catch (error) {
       console.log(error);
     }
-
-  }
+  };
 
   const unstakingToken = async () => {
     try {
@@ -50,8 +54,6 @@ export default function StakingCard() {
   useEffect(() => {
     getStakedInfoByUser();
   }, []);
-
-
 
   return (
     <div className="relative col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
@@ -69,7 +71,7 @@ export default function StakingCard() {
           onClick={() => setTab("Stake")}
           className={cn(
             tab == "Stake" ? "text-white" : "text-gray2",
-            "uppercase",
+            "uppercase"
           )}
         >
           Stake
@@ -78,7 +80,7 @@ export default function StakingCard() {
           onClick={() => setTab("Unstake")}
           className={cn(
             tab == "Unstake" ? "text-white" : "text-gray2",
-            "uppercase",
+            "uppercase"
           )}
         >
           Unstake
@@ -89,7 +91,7 @@ export default function StakingCard() {
           onClick={() => setSelectedOffer("12 months")}
           className={cn(
             "flex w-full flex-col items-center justify-center gap-1 rounded-full py-1",
-            selectedOffer == "12 months" && "border border-white/50",
+            selectedOffer == "12 months" && "border border-white/50"
           )}
         >
           12 months
@@ -103,7 +105,7 @@ export default function StakingCard() {
           onClick={() => setSelectedOffer("6 months")}
           className={cn(
             "flex w-full flex-col items-center justify-center gap-1 rounded-full py-1",
-            selectedOffer == "6 months" && "border border-white/50",
+            selectedOffer == "6 months" && "border border-white/50"
           )}
         >
           6 months
@@ -117,7 +119,7 @@ export default function StakingCard() {
           onClick={() => setSelectedOffer("3 months")}
           className={cn(
             "flex w-full flex-col items-center justify-center gap-1 rounded-full py-1",
-            selectedOffer == "3 months" && "border border-white/50",
+            selectedOffer == "3 months" && "border border-white/50"
           )}
         >
           3 months
@@ -153,6 +155,48 @@ export default function StakingCard() {
             onChange={(e) => setStake(e.target.value)}
             className="w-full border-none bg-transparent text-3xl outline-none"
           />
+          <SelectDropdown
+            button={
+              <div className="flex items-center gap-3">
+                {selectedToken === "USDT"
+                  ? usdtSvg
+                  : selectedToken === "USDC"
+                    ? usdcSvg
+                    : lockIcon}
+                {selectedToken}
+              </div>
+            }
+            open={dropdownOpen}
+            setOpen={setDropdownOpen}
+          >
+            <div
+              onClick={() => {
+                setSelectedToken("USDT");
+                setDropdownOpen(false);
+              }}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              {usdtSvg} USDT
+            </div>
+            <div
+              onClick={() => {
+                setSelectedToken("USDC");
+                setDropdownOpen(false);
+              }}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              {usdcSvg} USDC
+            </div>
+            <div
+              onClick={() => {
+                setSelectedToken("LNBG");
+                setDropdownOpen(false);
+              }}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              {lockIcon} LNBG
+            </div>
+          </SelectDropdown>
         </div>
       </div>
       <div className="flex w-full items-center justify-between text-xl">
@@ -173,7 +217,10 @@ export default function StakingCard() {
       </div>
       {isClient &&
         (isConnected ? (
-          <Button onClick={tab === "Stake" ? ()=>stakeTokens() : ()=> unstakingToken()}
+          <Button
+            onClick={
+              tab === "Stake" ? () => stakeTokens() : () => unstakingToken()
+            }
             title={tab === "Stake" ? "Stake" : "UnStake"}
             className="hover:bg-primary2 bg-primary text-xl font-semibold uppercase text-black"
           />
