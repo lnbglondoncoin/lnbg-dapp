@@ -55,7 +55,7 @@ export default function StakeRewardCard({ lang }) {
                   : "Bcero вознаграждено"}
           </span>
           <span className="text-2xl font-bold">
-            {masterContractData?.totalRewards}
+            {Number(masterContractData?.totalRewards)?.toFixed(8)}
           </span>
         </div>
       </div>
