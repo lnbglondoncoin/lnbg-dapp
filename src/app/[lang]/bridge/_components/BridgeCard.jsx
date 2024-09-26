@@ -9,7 +9,7 @@ import SelectDropdown from "./SelectDropdown";
 import { Store } from "@/context/Store";
 import { toast } from "react-toastify";
 
-export default function BridgeCard() {
+export default function BridgeCard({ lang }) {
   // --------------For hydration error-------------------
   const [isClient, setIsClient] = useState(false);
   const { LockDeposit, unLockDeposit } = useContext(Store);
@@ -57,7 +57,13 @@ export default function BridgeCard() {
     <div className="col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
       <div className="flex flex-col sm:flex-row gap-5 justify-between w-full sm:items-center">
         <span className="text-xl sm:text-3xl font-semibold">
-          Bridge ETH To BSC Mainnet
+          {lang === "en"
+            ? "Bridge ETH To BSC Mainnet"
+            : lang === "es"
+              ? "Puente ETH a BSC Mainnet"
+              : lang === "ru"
+                ? "Мост ETH на BSC Mainnet"
+                : "Pont ETH vers BSC Mainnet"}
         </span>
         <Button
           title="All transactions"
@@ -68,10 +74,25 @@ export default function BridgeCard() {
       <div className="flex w-full flex-col gap-5">
         <div className="flex w-full items-center justify-between">
           <div className="flex w-full items-center gap-2">
-            <div className="text-xl text-gray2/70">From:</div>
+            <div className="text-xl text-gray2/70">
+              {lang === "en"
+                ? "From:"
+                : lang === "es"
+                  ? "Desde:"
+                  : lang === "ru"
+                    ? "Откуда:"
+                    : "De:"}
+            </div>
           </div>
           <div className="text-nowrap text-xl text-gray2/70">
-            Balance: 0.0015
+            {lang === "en"
+              ? "Balance:"
+              : lang === "es"
+                ? "Equilibrio:"
+                : lang === "ru"
+                  ? "Баланс:"
+                  : "Équilibre:"}{" "}
+            0.0015
           </div>
         </div>
         <div className="flex w-full items-center gap-2 border-b border-gray2/50 pb-2">

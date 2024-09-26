@@ -2,20 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function LanguageDropdown({
   selectedLang,
   showFlag = true,
   lang,
 }) {
+  const pathname = usePathname();
+  const pathWithoutLang = pathname.replace(`/${selectedLang}`, "");
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef();
   const router = useRouter();
 
   const handleSelect = (lang) => {
     setIsOpen(false);
-    router.push(`/${lang.toLowerCase()}`);
+    router.push(`/${lang.toLowerCase()}/${pathWithoutLang}`);
   };
 
   useEffect(() => {
