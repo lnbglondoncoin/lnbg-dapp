@@ -27,7 +27,13 @@ import WrappedBridgeETHLnbgAbi from "./contractsData/WrappedBridgeLnbg.json";
 import WrappedTokenETHLnbgAddress from "./contractsData/WrappedLnbgLondon-address.json";
 import WrappedTokenETHLnbgAbi from "./contractsData/WrappedLnbgLondon.json";
 
-// import apis from "../Services/apis";
+//////   BINANCE Staking Contract WITH USDT AND USDC   //////////////
+import USDCTokenAddress from "./contractsData/USDCToken-address.json";
+import USDTTokenAddress from "./contractsData/USDTToken-address.json";
+
+import LnbgLondonCoinStakingContractAddress from "./contractsData/LnbgLondonCoinStakingContract-address.json";
+import LnbgLondonCoinStakingContractAbi from "./contractsData/LnbgLondonCoinStakingContract.json";
+
 
 const getProviderMasterContract = () => {
   const providers = process.env.NEXT_PUBLIC_RPC_URL_BNB;
@@ -39,6 +45,18 @@ const getProviderMasterContract = () => {
   );
   return masterContract;
 };
+
+const getProviderStakingContract = () => {
+  const providers = process.env.NEXT_PUBLIC_RPC_URL_BNB;
+  const provider = new ethers.providers.JsonRpcProvider(providers); //"http://localhost:8545/"
+  const stakingContract = new ethers.Contract(
+    LnbgLondonCoinStakingContractAddress.address,
+    LnbgLondonCoinStakingContractAbi.abi,
+    provider
+  );
+  return stakingContract;
+};
+
 
 export const Store = createContext();
 
@@ -53,20 +71,20 @@ export const StoreProvider = ({ children }) => {
 
   const [proposal, setProposals] = useState([]);
 
-  const [withdrawInvestedTokensRequests, setWithdrawInvestedTokensRequests] =
-    useState([]);
+  const [withdrawInvestedTokensRequests, setWithdrawInvestedTokensRequests] = useState([]);
 
-  const [masterContractProposalData, setMasterContractProposalData] = useState(
-    []
-  );
+  const [masterContractProposalData, setMasterContractProposalData] = useState([]);
 
-  const [contractData, setContractData] = useState({
+  const [stakingContractData, setStakingContractData] = useState({
     LnbgBalance: 0,
-    stakedTokens: 0,
-    startTime: 0,
-    duration: 0,
-    rewardEarned: 0,
-    ClaimedReward: 0,
+    UsdtBalance: 0,
+    UsdcBalance: 0,
+    // stakedTokens: 0,
+    // startTime: 0,
+    // duration: 0,
+    // rewardEarned: 0,
+    // ClaimedReward: 0,
+    userStakesInfo:[],
   });
 
   const [masterContractData, setMasterContractData] = useState({
@@ -97,18 +115,21 @@ export const StoreProvider = ({ children }) => {
         signer
       );
       const balance = await LnbgContracts.balanceOf(address?.toString());
-      setContractData((prevState) => ({
+      setStakingContractData((prevState) => ({
         ...prevState,
         LnbgBalance: ethers.utils.formatEther(balance?.toString())?.toString(),
       }));
     }
   };
 
-  const getMasterContractData = async () => {
-    console.log("dddddddddddd", await getProviderMasterContract());
-    const totalStakedTokens =
-      await getProviderMasterContract().totalStakedTokens();
-    const totalStakers = await getProviderMasterContract().totalInvesters();
+  const getStakingContractData = async () => {
+    const totalStakedTokens = await getProviderStakingContract().totalStakedTokens();
+    const totalStakers = await getProviderStakingContract().totalInvestors();
+    const getAllUsersEarnedTokens = await getProviderStakingContract().getAllUsersEarnedTokens();
+    const getAllUsersClaimedTokens = await getProviderStakingContract().getAllUsersClaimedTokens();
+    
+    console.log(getAllUsersEarnedTokens?.toString(),"getAllUsersEarnedTokens");
+    console.log(getAllUsersClaimedTokens?.toString(),"getAllUsersClaimedTokens");
     console.log(
       totalStakedTokens?.toString(),
       totalStakers?.toString(),
@@ -116,150 +137,119 @@ export const StoreProvider = ({ children }) => {
     );
     setMasterContractData((prevState) => ({
       ...prevState,
-      totalStakeAmount: ethers.utils
-        .formatEther(totalStakedTokens?.toString())
-        ?.toString(),
       totalStakers: totalStakers?.toString(),
+      totalRewards: ethers.utils.formatEther(getAllUsersEarnedTokens?.toString() || 0)?.toString(),
+      totalStakeAmount: ethers.utils.formatEther(totalStakedTokens?.toString() || 0)?.toString(),
+      distributed: ethers.utils.formatEther(getAllUsersClaimedTokens?.toString() || 0)?.toString(),
     }));
   };
 
-  const GetInvestedTokensWithdrawRequests = async () => {
-    setloader(true);
 
-    let withdrawalDeta = [];
+  // const getStakedInfoByUser = async () => {
+  //   console.log(address, isConnected, "addressaddress");
+  //   if (isConnected) {
+  //     const provider = new ethers.providers.Web3Provider(walletProvider);
+  //     const signer = provider.getSigner();
+  //     const stakingContract = new ethers.Contract(
+  //       LnbgLondonCoinStakingContractAddress.address,
+  //       LnbgLondonCoinStakingContractAbi.abi,
+  //       signer
+  //     );
+  //     let info = await stakingContract.stakingInfo(address?.toString());
+  //     let earnedRewardTokens = await stakingContract.rewardedTokens(
+  //       address?.toString()
+  //     );
+  //     console.log(info, "addressaddrssssassadddess");
+  //     console.log(info?.stakedTokens?.toString(), "addressaddrssssassadddess");
+  //     console.log(info?.startTime?.toString(), "addressaddrssssassadddess");
+  //     console.log(info.duration?.toString(), "addressaddrssssassadddess");
+  //     console.log(info?.rewardEarned?.toString(), "addressaddrssssassadddess");
 
-    const investedwithdrawRequesters =
-      await getProviderMasterContract().getWithdrawRequesters();
-
-    console.log(investedwithdrawRequesters, "investedwithdrawRequesters");
-    console.log(
-      investedwithdrawRequesters?.length?.toString(),
-      "investedwithdrawRequesters"
-    );
-
-    if (+investedwithdrawRequesters?.length?.toString() > 0) {
-      for (let i = 0; i < investedwithdrawRequesters?.length; i++) {
-        let userAddress = investedwithdrawRequesters[i];
-
-        console.log(userAddress, "userAddress");
-
-        let amountTobe =
-          await getProviderMasterContract().invetedTokenWithdrawRequest(
-            userAddress
-          );
-
-        console.log(amountTobe?.toString(), "amountTobeamountTobe");
-        const Data = {
-          address: userAddress,
-          amount: amountTobe?.toString(),
-        };
-
-        withdrawalDeta.push(Data);
-      }
-
-      setWithdrawInvestedTokensRequests(withdrawalDeta);
-    }
-
-    setloader(false);
-  };
-
-  const GetTotalRewardEarned = async () => {
-    try {
-      setloader(true);
-
-      let RewardAmount = [];
-
-      const getTokensInvesters =
-        await getProviderMasterContract().getTokensInvesters();
-
-      for (let i = 0; i < getTokensInvesters.length; i++) {
-        let userAddress = getTokensInvesters[i];
-
-        let reward =
-          await getProviderMasterContract().rewardedTokens(userAddress);
-
-        const Data = {
-          amount: reward?.toString(),
-        };
-        RewardAmount.push(Data);
-      }
-
-      // Calculate total amount
-      const totalAmount = RewardAmount.reduce((total, data) => {
-        // Convert amount to number and add to total
-        return total + parseFloat(data.amount);
-      }, 0); // Initialize total with 0
-
-      setMasterContractData((prevState) => ({
-        ...prevState,
-        totalRewards: ethers.utils
-          .formatEther(totalAmount?.toString())
-          ?.toString(),
-      }));
-
-      setloader(false);
-    } catch (error) {
-      setloader(false);
-      console.log(error);
-      toast.error(`${JSON.stringify(error.reason)}`);
-    }
-  };
+  //     setStakingContractData((prevState) => ({
+  //       ...prevState,
+  //       stakedTokens: ethers.utils
+  //         .formatEther(info?.stakedTokens?.toString())
+  //         ?.toString(),
+  //       startTime: info?.startTime?.toString(),
+  //       duration: info.duration?.toString() * 1000,
+  //       ClaimedReward: ethers.utils
+  //         .formatEther(info?.rewardEarned?.toString())
+  //         ?.toString(),
+  //       rewardEarned: ethers.utils
+  //         .formatEther(earnedRewardTokens?.toString())
+  //         ?.toString(),
+  //     }));
+  //   }
+  // };
 
   const getStakedInfoByUser = async () => {
     console.log(address, isConnected, "addressaddress");
+
     if (isConnected) {
-      const provider = new ethers.providers.Web3Provider(walletProvider);
-      const signer = provider.getSigner();
-      const masterContract = new ethers.Contract(
-        LnbgMasterContractAddress.address,
-        LnbgMasterContract.abi,
-        signer
-      );
-      let info = await masterContract.stakingInfo(address?.toString());
-      let earnedRewardTokens = await masterContract.rewardedTokens(
-        address?.toString()
-      );
-      console.log(info, "addressaddrssssassadddess");
-      console.log(info?.stakedTokens?.toString(), "addressaddrssssassadddess");
-      console.log(info?.startTime?.toString(), "addressaddrssssassadddess");
-      console.log(info.duration?.toString(), "addressaddrssssassadddess");
-      console.log(info?.rewardEarned?.toString(), "addressaddrssssassadddess");
+        const provider = new ethers.providers.Web3Provider(walletProvider);
+        const signer = provider.getSigner();
 
-      setContractData((prevState) => ({
-        ...prevState,
-        stakedTokens: ethers.utils
-          .formatEther(info?.stakedTokens?.toString())
-          ?.toString(),
-        startTime: info?.startTime?.toString(),
-        duration: info.duration?.toString() * 1000,
-        ClaimedReward: ethers.utils
-          .formatEther(info?.rewardEarned?.toString())
-          ?.toString(),
-        rewardEarned: ethers.utils
-          .formatEther(earnedRewardTokens?.toString())
-          ?.toString(),
-      }));
+        const stakingContract = new ethers.Contract(
+            LnbgLondonCoinStakingContractAddress.address,
+            LnbgLondonCoinStakingContractAbi.abi,
+            signer
+        );
+
+        try {
+            // Get the number of stakes for the user
+            const numberOfStakes = await stakingContract.userStakes(address); // Assuming you have a way to get this
+console.log(numberOfStakes,"numberOfStakes");
+            const stakedInfoArray = [];
+
+            for (let i = 0; i < numberOfStakes?.length; i++) {
+                // Get each stake by index
+                const stakeInfo = await stakingContract.userStakes(address, i);
+
+                // Fetch earned reward tokens using the rewardedTokens function
+                const earnedRewardTokens = await stakingContract.rewardedTokens(address, i);
+                
+                stakedInfoArray.push({
+                    stakedTokens: ethers.utils.formatEther(stakeInfo.stakedTokens.toString()),
+                    startTime: stakeInfo.startTime.toString(),
+                    duration: stakeInfo.duration.toString() * 1000, // Convert to milliseconds if needed
+                    rewardEarned: ethers.utils.formatEther(stakeInfo.rewardEarned.toString()),
+                    earnedRewardTokens: ethers.utils.formatEther(earnedRewardTokens.toString()),
+                });
+            }
+
+            console.log(stakedInfoArray, "User Staked Info");
+            setStakingContractData((prevState) => ({
+                ...prevState,
+                userStakesInfo: stakedInfoArray,
+            }));
+        } catch (error) {
+            console.error("Error fetching staked info:", error);
+        }
+    } else {
+        console.warn("User is not connected.");
     }
-  };
+};
 
-  const StakeTokensSend = async (amount, duration) => {
+  
+
+  const StakeTokensSend = async (amount, duration, token) => {
     setloader(true);
     if (!isConnected) {
       return toast.error("Please Connect Your Wallet."), setloader(false);
     }
     try {
-      if (amount <= 0)
-        return setloader(false), toast.error("Please enter amount");
+      if (amount <= 0) return setloader(false), toast.error("Please enter amount");
 
       const provider = new ethers.providers.Web3Provider(walletProvider);
       const signer = provider.getSigner();
-      const masterContract = new ethers.Contract(
-        LnbgMasterContractAddress.address,
-        LnbgMasterContract.abi,
+      const stakingContract = new ethers.Contract(
+        LnbgLondonCoinStakingContractAddress.address,
+        LnbgLondonCoinStakingContractAbi.abi,
         signer
       );
+      
       const LnbgContracts = new ethers.Contract(
-        LnbgCoinAddress.address,
+        token === "USDT" ? USDTTokenAddress.address : token === "USDC" ? USDCTokenAddress.address : LnbgCoinAddress.address,
         LnbgCoin.abi,
         signer
       );
@@ -269,7 +259,7 @@ export const StoreProvider = ({ children }) => {
       let balance = await LnbgContracts.balanceOf(address?.toString());
       let allow = await LnbgContracts.allowance(
         address?.toString(),
-        LnbgMasterContractAddress?.address
+        LnbgLondonCoinStakingContractAddress?.address
       );
 
       console.log(allow?.toString(), balance?.toString(), "allowallowallow");
@@ -288,7 +278,7 @@ export const StoreProvider = ({ children }) => {
         console.log("condidtion True");
 
         let approve = await LnbgContracts.approve(
-          LnbgMasterContractAddress.address,
+          LnbgLondonCoinStakingContractAddress.address,
           tokens?.toString()
         );
 
@@ -298,11 +288,14 @@ export const StoreProvider = ({ children }) => {
       const currentTimestamp = Math.floor(Date.now() / 1000);
       const ninetyDaysInSeconds = duration * 24 * 60 * 60; // 90 days in seconds
       let days = currentTimestamp + ninetyDaysInSeconds;
+      
       console.log(days, "daysdaysdays");
-      let respon = await masterContract.stakeTokens(tokens?.toString(), days);
+      let tokenAddress = token === "USDT" ? USDTTokenAddress.address : token === "USDC" ? USDCTokenAddress.address : LnbgCoinAddress.address;
+      
+      let respon = await stakingContract.stakeTokens(tokens?.toString(), days, tokenAddress);
       await respon.wait();
-      // setWithdrawInvestedTokensRequests([]);
-      toast.success("successfuly Staked"); // toast.success("successfuly Minted");
+
+      toast.success("successfuly Staked"); 
       setloader(false);
     } catch (error) {
       setloader(false);
@@ -312,24 +305,28 @@ export const StoreProvider = ({ children }) => {
     }
   };
 
-  const unstakeTokensRequest = async () => {
+  const unstakeTokensRequest = async (token) => {
     setloader(true);
     if (!isConnected) {
       return toast.error("Please Connect Your Wallet."), setloader(false);
     }
     try {
-      // if (+contractData?.rewardEarned <= 0)
+      // if (+stakingContractData?.rewardEarned <= 0)
       //   return setloader(false), toast.error("Please wait for End Time");
       const provider = new ethers.providers.Web3Provider(walletProvider);
       const signer = provider.getSigner();
-      const masterContract = new ethers.Contract(
-        LnbgMasterContractAddress.address,
-        LnbgMasterContract.abi,
+
+      const stakingContract = new ethers.Contract(
+        LnbgLondonCoinStakingContractAddress.address,
+        LnbgLondonCoinStakingContractAbi.abi,
         signer
       );
-
-      const response = await masterContract.unstakeTokensRequest();
+      
+      let tokenAddress = token === "USDT" ? USDTTokenAddress.address : token === "USDC" ? USDCTokenAddress.address : LnbgCoinAddress.address;
+      
+      const response = await stakingContract.unstakeTokensRequest(tokenAddress);
       await response.wait();
+
       // await GetValues();
       // setWithdrawRequests([]);
       // setWithdrawInvestedTokensRequests([]);
@@ -340,107 +337,6 @@ export const StoreProvider = ({ children }) => {
       setloader(false);
       console.log(error);
       toast.error(`${JSON.stringify(error.reason)}`);
-    }
-  };
-
-  // const withdrawStakedTokens = async () => {
-  //   setloader(true);
-  //   if (!isWalletConnected) {
-  //     connectWallet();
-  //     return toast.error("Please Connect Your Wallet."), setloader(false);
-  //   }
-
-  //   const timestamp = Number(stakerData[0]?.stakingEndTime); // Unix timestamp to compare against
-  //   const dateFromTimestamp = new Date(timestamp * 1000); // Convert Unix timestamp to milliseconds
-  //   const currentDate = new Date();
-
-  //   if (currentDate < dateFromTimestamp)
-  //     return setloader(false), toast.error("please wait for unstaketime ");
-  //   if (+stakerData[0]?.stakedTokens <= 0)
-  //     return setloader(false), toast.error("your staked amount is zero");
-  //   // let balance = await getSignerUSDTContrat().balanceOf(StakingContractAddress.address);
-  //   // if (+balance?.toString() < +stakerData[0]?.stakedTokens) return setloader(false), toast.error("please wait for admin deposit");
-  //   try {
-  //     const response =
-  //       await getSignerStakingContrat().withdrawRequestStakedTokens();
-  //     await response.wait();
-  //     await GetValues();
-  //     setWithdrawRequests([]);
-  //     setWithdrawInvestedTokensRequests([]);
-  //     await GetWithdrawRequests();
-  //     toast.success("successfuly Withdraw");
-  //     setloader(false);
-  //   } catch (error) {
-  //     setloader(false);
-  //     toast.error(`${JSON.stringify(error.reason)}`);
-  //     console.log(error);
-  //   }
-  // };
-
-  const rewardDistributed = async (amount) => {
-    setloader(true);
-    if (!isWalletConnected) {
-      connectWallet();
-      return toast.error("Please Connect Your Wallet."), setloader(false);
-    }
-    try {
-      // if (currentRound.toString() == 4) return setloader(false), setError(true), setMessage("All the rounds have finished"); //toast.error("All the rounds have finished");
-      let tokens = ethers.utils.parseEther(amount);
-      if (totalStakers == 0)
-        return setloader(false), toast.error("Please wait for investers");
-      const response = await getSignerStakingContrat().rewardDistributed(
-        tokens?.toString()
-      );
-      await response.wait();
-      setWithdrawRequests([]);
-      setWithdrawInvestedTokensRequests([]);
-      await GetWithdrawRequests();
-      toast.success("successfuly Distributed");
-      setloader(false);
-    } catch (error) {
-      setloader(false);
-      toast.error(`${JSON.stringify(error.reason)}`);
-      console.log(error);
-    }
-  };
-
-  const acceptWithdrawTokenRequest = async (addresses, amount) => {
-    setloader(true);
-    if (!isConnected) {
-      return toast.error("Please Connect Your Wallet."), setloader(false);
-    }
-    try {
-      const provider = new ethers.providers.Web3Provider(walletProvider);
-      const signer = provider.getSigner();
-      const masterContract = new ethers.Contract(
-        LnbgMasterContractAddress.address,
-        LnbgMasterContract.abi,
-        signer
-      );
-
-      const LnbgContracts = new ethers.Contract(
-        LnbgCoinAddress.address,
-        LnbgCoin.abi,
-        signer
-      );
-
-      let approve = await LnbgContracts.approve(
-        LnbgMasterContractAddress.address,
-        amount?.toString()
-      );
-      await approve.wait();
-      const response =
-        await masterContract.acceptWithdrawTokenRequest(addresses);
-      await response.wait();
-      // setWithdrawRequests([]);
-      // setWithdrawInvestedTokensRequests([]);
-      // await GetWithdrawRequests();
-      toast.success("successfuly Withdraw");
-      setloader(false);
-    } catch (error) {
-      setloader(false);
-      toast.error(`${JSON.stringify(error.reason)}`);
-      console.log(error);
     }
   };
 
@@ -570,7 +466,6 @@ export const StoreProvider = ({ children }) => {
   // ////////////////////////////////////////  Bridge CONTRACT Functions ///////////////////////////////
   // ////////////////////////////////////////  Bridge CONTRACT Functions ///////////////////////////////
   // ////////////////////////////////////////  Bridge CONTRACT Functions ///////////////////////////////
-
 
   const LockDeposit = async (amount, from, to) => {
     try {
@@ -858,7 +753,7 @@ export const StoreProvider = ({ children }) => {
           loader,
           setloader,
           GetAllProposalByArray,
-          contractData,
+          stakingContractData,
           tronCurrentAccount,
           setTronCurrentAccount,
           tronWalletForBridge,
@@ -867,13 +762,10 @@ export const StoreProvider = ({ children }) => {
           StakeTokensSend,
           getStakedInfoByUser,
           masterContractData,
-          GetTotalRewardEarned,
-          getMasterContractData,
+          getStakingContractData,
           submitProposal,
           proposal,
           masterContractProposalData,
-          GetInvestedTokensWithdrawRequests,
-          acceptWithdrawTokenRequest,
           addingVote,
           withdrawInvestedTokensRequests,
           tronConnected,

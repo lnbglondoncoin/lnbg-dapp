@@ -19,17 +19,16 @@ export default function StakingCard() {
   }, []);
   // ----------------------------------------------------
 
-  const { isConnected } = useWeb3ModalAccount();
+  const { address, isConnected } = useWeb3ModalAccount();
   const [tab, setTab] = useState("Stake");
   const [selectedOffer, setSelectedOffer] = useState("12 months");
   const [stake, setStake] = useState(null);
   const [selectedToken, setSelectedToken] = useState("USDT");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const { StakeTokensSend, unstakeTokensRequest, getStakedInfoByUser } =
-    useContext(Store);
+  const { StakeTokensSend, unstakeTokensRequest, getStakedInfoByUser } = useContext(Store);
 
-  const stakeTokens = async () => {
+  const stakeTokens = async ( ) => {
     try {
       const months = parseInt(selectedOffer);
       const days = months * 30;
@@ -37,7 +36,7 @@ export default function StakingCard() {
       if (days < 90) {
         return toast.error("Please Add More then 90 Days");
       }
-      await StakeTokensSend(stake?.toString(), days);
+      await StakeTokensSend(stake?.toString(), days, selectedToken);
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +44,7 @@ export default function StakingCard() {
 
   const unstakingToken = async () => {
     try {
-      await unstakeTokensRequest();
+      await unstakeTokensRequest(selectedToken);
     } catch (error) {
       console.error("Error while staking tokens:", error);
     }
@@ -53,7 +52,7 @@ export default function StakingCard() {
 
   useEffect(() => {
     getStakedInfoByUser();
-  }, []);
+  }, [address,isConnected]);
 
   return (
     <div className="relative col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
@@ -68,7 +67,7 @@ export default function StakingCard() {
       </div>
       <div className="flex w-full items-center gap-5 text-lg font-medium">
         <button
-          onClick={() => setTab("Stake")}
+          onClick={() => {setTab("Stake"), setStake(0)}}
           className={cn(
             tab == "Stake" ? "text-white" : "text-gray2",
             "uppercase"
@@ -77,7 +76,7 @@ export default function StakingCard() {
           Stake
         </button>
         <button
-          onClick={() => setTab("Unstake")}
+          onClick={() => {setTab("Unstake"), setStake(0)}}
           className={cn(
             tab == "Unstake" ? "text-white" : "text-gray2",
             "uppercase"
@@ -153,7 +152,10 @@ export default function StakingCard() {
             value={stake}
             placeholder="0.0"
             onChange={(e) => setStake(e.target.value)}
-            className="w-full border-none bg-transparent text-3xl outline-none"
+            className={`w-full border-none bg-transparent text-3xl outline-none ${tab === "Unstake" ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={tab === "Unstake"} // Disable input if isUnstake is true
+            // className="w-full border-none bg-transparent text-3xl outline-none"
+          
           />
           <SelectDropdown
             button={
@@ -218,9 +220,7 @@ export default function StakingCard() {
       {isClient &&
         (isConnected ? (
           <Button
-            onClick={
-              tab === "Stake" ? () => stakeTokens() : () => unstakingToken()
-            }
+            onClick={tab === "Stake" ? () => {stakeTokens(),setStake(0)} : () => {unstakingToken(),setStake(0)}}
             title={tab === "Stake" ? "Stake" : "UnStake"}
             className="hover:bg-primary2 bg-primary text-xl font-semibold uppercase text-black"
           />
