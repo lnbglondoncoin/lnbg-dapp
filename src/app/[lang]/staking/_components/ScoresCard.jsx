@@ -2,100 +2,176 @@
 import { Store } from "@/context/Store";
 import React, { useContext } from "react";
 
-export default function ScoresCard() {
-  const { stakingContractData, masterContractData}=useContext(Store);
-  console.log(stakingContractData,"contractDatacontractDatacontractData");
+export default function ScoresCard({ lang }) {
+  const { stakingContractData, masterContractData } = useContext(Store);
+  console.log(stakingContractData, "contractDatacontractDatacontractData");
   return (
     <div className="col-span-3 flex h-fit flex-col gap-8 rounded-3xl bg-ash p-6 lg:col-span-1">
       <div className="flex flex-col gap-3">
         <span className="text-primary2 text-sm font-semibold uppercase">
           {lang === "en"
-            ? "My scores"
+            ? "My Staked"
             : lang === "es"
-              ? "Mis puntos"
+              ? "Mi apuesta"
               : lang === "ru"
-                ? "Мои баллы"
-                : "Mes scores"}
+                ? "Моя ставка"
+                : "Mon pari"}
         </span>
         <div className="flex items-baseline gap-1">
           <span className="w-fit text-nowrap font-semibold text-gray2">
             {lang === "en"
-              ? "My LNGB Coin:"
+              ? "Earned Reward"
               : lang === "es"
-                ? "Mi moneda LNGB:"
+                ? "Recompensa ganada"
                 : lang === "ru"
-                  ? "Моя монета LNGB:"
-                  : "Ma pièce LNGB:"}
-          </span>
-          <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">{stakingContractData?.LngbBalance}{lockIcon}</div>
-        </div>
-        <div className="flex items-baseline gap-1">
-          <span className="w-fit text-nowrap font-semibold text-gray2">
-            {lang === "en"
-              ? "My staked amount:"
-              : lang === "es"
-                ? "Mi cantidad apostada:"
-                : lang === "ru"
-                  ? "Моя сумма ставки:"
-                  : "Mon montant misé:"}
-          </span>
-          <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">{stakingContractData?.stakedTokens}{lockIcon}</div>
-        </div>
-        <div className="flex items-baseline gap-1">
-          <span className="w-fit text-nowrap font-semibold text-gray2">
-            {lang === "en"
-              ? "My Earned Reward:"
-              : lang === "es"
-                ? "Mi recompensa ganada:"
-                : lang === "ru"
-                  ? "Моя заработанная награда:"
-                  : "Ma récompense gagnée:"}
-          </span>
-          <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">{stakingContractData?.rewardEarned}{lockIcon}</div>
-        </div>
-      </div>
-      <div className="flex flex-col gap-3">
-        <span className="text-primary2 text-sm font-semibold uppercase">
-          {lang === "en"
-            ? "Total scores"
-            : lang === "es"
-              ? "Puntos totales"
-              : lang === "ru"
-                ? "Общие баллы"
-                : "Scores totaux"}
-        </span>
-        <div className="flex items-baseline gap-1">
-          <span className="w-fit text-nowrap font-semibold text-gray2">
-            {lang === "en"
-              ? "All Participants:"
-              : lang === "es"
-                ? "Todos los participantes:"
-                : lang === "ru"
-                  ? "Все участники:"
-                  : "Tous les participants:"}
+                  ? "Заработанная награда"
+                  : "Récompense gagnée"}
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
           <div className="flex items-center gap-1">
-            {masterContractData?.totalStakers}
+            {stakingContractData?.stakedTokens}
             {lockIcon}
           </div>
         </div>
         <div className="flex items-baseline gap-1">
           <span className="w-fit text-nowrap font-semibold text-gray2">
             {lang === "en"
-              ? "Total staked amount:"
+              ? "Claimed Reward"
               : lang === "es"
-                ? "Cantidad total apostada:"
+                ? "Recompensa reclamada"
                 : lang === "ru"
-                  ? "Общая сумма ставки:"
-                  : "Montant total misé:"}
+                  ? "Запрошенная награда"
+                  : "Récompense demandée"}
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
           <div className="flex items-center gap-1">
-            {masterContractData?.totalStakeAmount}
+            {stakingContractData?.rewardEarned}
+            {lockIcon}
+          </div>
+        </div>
+        {/* LNBG STAKED START */}
+        <span className="text-primary2 text-sm font-semibold uppercase">
+          {lang === "en"
+            ? "LNBG Staked"
+            : lang === "es"
+              ? "LNBG apostados"
+              : lang === "ru"
+                ? "Ставка LNBG"
+                : "Jetons LNBG misés"}
+        </span>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staked LNBG Tokens"
+              : lang === "es"
+                ? "Tokens LNBG apostados"
+                : lang === "ru"
+                  ? "Ставка токенов LNBG"
+                  : "Jetons LNBG misés"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            {stakingContractData?.LngbBalance}
+            {lockIcon}
+          </div>
+        </div>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staking End Time"
+              : lang === "es"
+                ? "Hora de finalización de la apuesta"
+                : lang === "ru"
+                  ? "Время окончания ставки"
+                  : "Heure de fin de la mise"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            {stakingContractData?.rewardEarned}
+            {lockIcon}
+          </div>
+        </div>
+        {/* USDT STAKED START */}
+        <span className="text-primary2 text-sm font-semibold uppercase">
+          {lang === "en"
+            ? "USDT Staked"
+            : lang === "es"
+              ? "USDT apostados"
+              : lang === "ru"
+                ? "Ставка USDT"
+                : "Jetons USDT misés"}
+        </span>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staked USDT Tokens"
+              : lang === "es"
+                ? "Tokens USDT apostados"
+                : lang === "ru"
+                  ? "Ставка токенов USDT"
+                  : "Jetons USDT misés"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            {stakingContractData?.LngbBalance}
+            {lockIcon}
+          </div>
+        </div>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staking End Time"
+              : lang === "es"
+                ? "Hora de finalización de la apuesta"
+                : lang === "ru"
+                  ? "Время окончания ставки"
+                  : "Heure de fin de la mise"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            {stakingContractData?.rewardEarned}
+            {lockIcon}
+          </div>
+        </div>
+        {/* USDC STAKED START */}
+        <span className="text-primary2 text-sm font-semibold uppercase">
+          {lang === "en"
+            ? "USDC Staked"
+            : lang === "es"
+              ? "USDC apostados"
+              : lang === "ru"
+                ? "Ставка USDC"
+                : "Jetons USDC misés"}
+        </span>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staked USDC Tokens"
+              : lang === "es"
+                ? "Tokens USDC apostados"
+                : lang === "ru"
+                  ? "Ставка токенов USDC"
+                  : "Jetons USDC misés"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            {stakingContractData?.LngbBalance}
+            {lockIcon}
+          </div>
+        </div>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staking End Time"
+              : lang === "es"
+                ? "Hora de finalización de la apuesta"
+                : lang === "ru"
+                  ? "Время окончания ставки"
+                  : "Heure de fin de la mise"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            {stakingContractData?.rewardEarned}
             {lockIcon}
           </div>
         </div>

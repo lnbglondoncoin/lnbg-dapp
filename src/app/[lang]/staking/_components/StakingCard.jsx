@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import SelectDropdown from "../../bridge/_components/SelectDropdown";
 import { usdcSvg, usdtSvg } from "@/components/icons";
+import Image from "next/image";
 
 export default function StakingCard({ lang }) {
   // --------------For hydration error-------------------
@@ -26,9 +27,10 @@ export default function StakingCard({ lang }) {
   const [selectedToken, setSelectedToken] = useState("USDT");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const { StakeTokensSend, unstakeTokensRequest, getStakedInfoByUser } = useContext(Store);
+  const { StakeTokensSend, unstakeTokensRequest, getStakedInfoByUser } =
+    useContext(Store);
 
-  const stakeTokens = async ( ) => {
+  const stakeTokens = async () => {
     try {
       const months = parseInt(selectedOffer);
       const days = months * 30;
@@ -52,7 +54,7 @@ export default function StakingCard({ lang }) {
 
   useEffect(() => {
     getStakedInfoByUser();
-  }, [address,isConnected]);
+  }, [address, isConnected]);
 
   return (
     <div className="relative col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
@@ -73,7 +75,9 @@ export default function StakingCard({ lang }) {
       </div>
       <div className="flex w-full items-center gap-5 text-lg font-medium">
         <button
-          onClick={() => {setTab("Stake"), setStake(0)}}
+          onClick={() => {
+            setTab("Stake"), setStake(0);
+          }}
           className={cn(
             tab == "Stake" ? "text-white" : "text-gray2",
             "uppercase"
@@ -88,7 +92,9 @@ export default function StakingCard({ lang }) {
                 : "Enjeu"}
         </button>
         <button
-          onClick={() => {setTab("Unstake"), setStake(0)}}
+          onClick={() => {
+            setTab("Unstake"), setStake(0);
+          }}
           className={cn(
             tab == "Unstake" ? "text-white" : "text-gray2",
             "uppercase"
@@ -202,19 +208,26 @@ export default function StakingCard({ lang }) {
             value={stake}
             placeholder="0.0"
             onChange={(e) => setStake(e.target.value)}
-            className={`w-full border-none bg-transparent text-3xl outline-none ${tab === "Unstake" ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`w-full border-none bg-transparent text-3xl outline-none ${tab === "Unstake" ? "opacity-50 cursor-not-allowed" : ""}`}
             disabled={tab === "Unstake"} // Disable input if isUnstake is true
             // className="w-full border-none bg-transparent text-3xl outline-none"
-          
           />
           <SelectDropdown
             button={
               <div className="flex items-center gap-3">
-                {selectedToken === "USDT"
-                  ? usdtSvg
-                  : selectedToken === "USDC"
-                    ? usdcSvg
-                    : lockIcon}
+                {selectedToken === "USDT" ? (
+                  usdtSvg
+                ) : selectedToken === "USDC" ? (
+                  usdcSvg
+                ) : (
+                  <Image
+                    width={20}
+                    height={20}
+                    className="mx-1"
+                    alt="LNBG"
+                    src="/static/logo.png"
+                  />
+                )}
                 {selectedToken}
               </div>
             }
@@ -246,7 +259,14 @@ export default function StakingCard({ lang }) {
               }}
               className="flex items-center gap-2 cursor-pointer"
             >
-              {lockIcon} LNBG
+              <Image
+                width={20}
+                height={20}
+                className="mx-1"
+                alt="LNBG"
+                src="/static/logo.png"
+              />{" "}
+              LNBG
             </div>
           </SelectDropdown>
         </div>
@@ -276,7 +296,15 @@ export default function StakingCard({ lang }) {
       {isClient &&
         (isConnected ? (
           <Button
-            onClick={tab === "Stake" ? () => {stakeTokens(),setStake(0)} : () => {unstakingToken(),setStake(0)}}
+            onClick={
+              tab === "Stake"
+                ? () => {
+                    stakeTokens(), setStake(0);
+                  }
+                : () => {
+                    unstakingToken(), setStake(0);
+                  }
+            }
             title={tab === "Stake" ? "Stake" : "UnStake"}
             className="hover:bg-primary2 bg-primary text-xl font-semibold uppercase text-black"
           />
