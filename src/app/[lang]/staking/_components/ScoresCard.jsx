@@ -2,9 +2,9 @@
 import { Store } from "@/context/Store";
 import React, { useContext } from "react";
 
-export default function ScoresCard({ lang }) {
-  const { contractData, masterContractData } = useContext(Store);
-  console.log(contractData, "contractDatacontractDatacontractData");
+export default function ScoresCard() {
+  const { stakingContractData, masterContractData}=useContext(Store);
+  console.log(stakingContractData,"contractDatacontractDatacontractData");
   return (
     <div className="col-span-3 flex h-fit flex-col gap-8 rounded-3xl bg-ash p-6 lg:col-span-1">
       <div className="flex flex-col gap-3">
@@ -28,10 +28,7 @@ export default function ScoresCard({ lang }) {
                   : "Ma pièce LNGB:"}
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">
-            {contractData?.LngbBalance}
-            {lockIcon}
-          </div>
+          <div className="flex items-center gap-1">{stakingContractData?.LngbBalance}{lockIcon}</div>
         </div>
         <div className="flex items-baseline gap-1">
           <span className="w-fit text-nowrap font-semibold text-gray2">
@@ -44,10 +41,7 @@ export default function ScoresCard({ lang }) {
                   : "Mon montant misé:"}
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">
-            {contractData?.stakedTokens}
-            {lockIcon}
-          </div>
+          <div className="flex items-center gap-1">{stakingContractData?.stakedTokens}{lockIcon}</div>
         </div>
         <div className="flex items-baseline gap-1">
           <span className="w-fit text-nowrap font-semibold text-gray2">
@@ -60,10 +54,7 @@ export default function ScoresCard({ lang }) {
                   : "Ma récompense gagnée:"}
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">
-            {contractData?.rewardEarned}
-            {lockIcon}
-          </div>
+          <div className="flex items-center gap-1">{stakingContractData?.rewardEarned}{lockIcon}</div>
         </div>
       </div>
       <div className="flex flex-col gap-3">

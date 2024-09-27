@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 export default function SelectDropdown({ button, children }) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
+  
   // on click outside close dropdown
   useEffect(() => {
     function handleClickOutside(event) {

@@ -2,11 +2,17 @@
 import StakingCard from "./_components/StakingCard";
 import ScoresCard from "./_components/ScoresCard";
 import StakingInfo from "./_components/StakingInfo";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Store } from "@/context/Store";
+import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 
 export default function StakingPage() {
-  const { contractData }=useContext(Store);
+  const { getStakingContractData }=useContext(Store);
+  const { address, isConnected } = useWeb3ModalAccount();
+
+  useEffect(()=>{
+    getStakingContractData();
+  },[address])
 
   return (
     <div className="flex w-full justify-center p-10">
