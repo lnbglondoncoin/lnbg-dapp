@@ -248,7 +248,7 @@ export default function Sidebar({ lang }) {
                         : "Поддержка"}
                 </Link>
                 <Link
-                  href="https://lnbglondon.com/static/whitepaper.pdf"
+                  href="https://lnbg-london.gitbook.io/lnbg-london"
                   className={cn("px-6 font-medium text-gray2", font.className)}
                 >
                   {lang === "en"
@@ -463,7 +463,10 @@ export default function Sidebar({ lang }) {
           </Link>
         </div>
         <div className="flex flex-col gap-3 py-8">
-          <span className="px-6 font-medium text-gray2">
+          <Link
+            href="https://lnbglondon.com/en/contact"
+            className="px-6 font-medium text-gray2"
+          >
             {lang === "en"
               ? "Support"
               : lang === "fr"
@@ -471,8 +474,11 @@ export default function Sidebar({ lang }) {
                 : lang === "es"
                   ? "Apoyo"
                   : "Поддержка"}
-          </span>
-          <span className="px-6 font-medium text-gray2">
+          </Link>
+          <Link
+            href="https://lnbg-london.gitbook.io/lnbg-london"
+            className="px-6 font-medium text-gray2"
+          >
             {lang === "en"
               ? "Docs"
               : lang === "fr"
@@ -480,11 +486,26 @@ export default function Sidebar({ lang }) {
                 : lang === "es"
                   ? "Docs"
                   : "Документы"}
-          </span>
+          </Link>
           <div className="flex gap-5 px-6 py-1 text-gray2">
-            <button className="hover:text-yellow-300">{twitterIcon}</button>
-            <button className="hover:text-yellow-300">{linkedInIcon}</button>
-            <button className="hover:text-yellow-300">{discordIcon}</button>
+            <Link
+              href="https://twitter.com/lnbglondon"
+              className="hover:text-yellow-300"
+            >
+              {twitterIcon}
+            </Link>
+            <Link
+              href="https://www.linkedin.com/company/lnbg-international-investments/"
+              className="hover:text-yellow-300"
+            >
+              {linkedInIcon}
+            </Link>
+            <Link
+              href="https://discord.gg/KJhf24Uz"
+              className="hover:text-yellow-300"
+            >
+              {discordIcon}
+            </Link>
           </div>
         </div>
       </div>

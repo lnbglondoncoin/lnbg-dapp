@@ -34,7 +34,7 @@ export default function LanguageDropdown({
   return (
     <div className="relative" ref={ref}>
       <button
-        className="flex items-center gap-2 rounded-md text-sm font-light p-2 font-sans uppercase"
+        className="flex items-center gap-2 text-white rounded-md text-sm font-light p-2 font-sans uppercase"
         onClick={() => setIsOpen(!isOpen)}
       >
         {showFlag && (
