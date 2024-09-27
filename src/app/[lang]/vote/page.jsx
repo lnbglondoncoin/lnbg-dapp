@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import AddProposalModal from "./_components/AddProposalModal";
 
-export default function VotingPage() {
+export default function VotingPage({ params }) {
+  const { lang } = params;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState("Proposal");
 
@@ -31,8 +32,16 @@ export default function VotingPage() {
     <div className="flex w-full justify-center p-10">
       <div className="flex w-full flex-col gap-5">
         <div className="flex flex-wrap md:gap-10 items-center justify-between">
-          <h1 className="mb-5 text-5xl font-semibold text-white">Proposals</h1>
-          <AddProposalModal />
+          <h1 className="mb-5 text-5xl font-semibold text-white">
+            {lang === "en"
+              ? "Proposals"
+              : lang === "es"
+                ? "Propuestas"
+                : lang === "ru"
+                  ? "Предложения"
+                  : "Propositions"}
+          </h1>
+          <AddProposalModal lang={lang} />
         </div>
         {masterContractProposalData.map((proposal, index) => (
           <Link

@@ -56,6 +56,7 @@ const ProposalDetailsPage = ({ params }) => {
   const { addingVote, masterContractProposalData } = useContext(Store);
 
   const id = params.id;
+  const { lang } = params;
 
   const [showVoteModal, setShowVoteModal] = useState(false);
   const [selectedVote, setSelectedVote] = useState(null);
@@ -98,7 +99,15 @@ const ProposalDetailsPage = ({ params }) => {
       {showVoteModal && (
         <div className="fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center">
           <div className="bg-coal p-5 rounded-xl max-w-[512px] w-full flex flex-col gap-3">
-            <h1 className="text-3xl">Cast your vote</h1>
+            <h1 className="text-3xl">
+              {lang === "en"
+                ? "Cast your vote"
+                : lang === "es"
+                  ? "Vota"
+                  : lang === "ru"
+                    ? "Проголосовать"
+                    : "Vote"}
+            </h1>
             <div className="flex gap-3 justify-center pt-10">
               <button
                 onClick={() => {
@@ -205,10 +214,12 @@ const ProposalDetailsPage = ({ params }) => {
                 </span>
               </div>
               <div className="w-full bg-gray12/75 h-3 rounded-full mt-5">
-                <div className={`w-[${calculatePercentage(
+                <div
+                  className={`w-[${calculatePercentage(
                     +masterContractProposalData?.[id]?.yesVotes,
                     totalVotes
-                  )}%] bg-primary rounded-full h-full`}></div>
+                  )}%] bg-primary rounded-full h-full`}
+                ></div>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray10">Disagree:</span>
@@ -217,10 +228,12 @@ const ProposalDetailsPage = ({ params }) => {
                 </span>
               </div>
               <div className="w-full bg-gray12/75 h-3 rounded-full mt-5">
-                <div className={`w-[${calculatePercentage(
+                <div
+                  className={`w-[${calculatePercentage(
                     +masterContractProposalData?.[id]?.noVotes,
                     totalVotes
-                  )}%] bg-primary rounded-full h-full`}></div>
+                  )}%] bg-primary rounded-full h-full`}
+                ></div>
               </div>
             </div>
           </div>

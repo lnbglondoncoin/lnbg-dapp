@@ -11,13 +11,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Store } from "@/context/Store"; // Make sure to import the context from the correct path
 import CryptoJS from "crypto-js"; // Ensure CryptoJS is installed and imported
-import { useState , useContext} from "react";
+import { useState, useContext } from "react";
 
-export default function AddProposalModal() {
+export default function AddProposalModal({ lang }) {
   const [proposal, setProposal] = useState({ title: "", summary: "" });
   const [isOpen, setIsOpen] = useState(false); // State to handle dialog open/close
   const { submitProposal, GetAllProposalByArray } = useContext(Store);
-
 
   let keys = process.env.NEXT_PUBLIC_ENCRYPT_SECRET_KEYS;
   // Encrypt function
@@ -47,15 +46,37 @@ export default function AddProposalModal() {
     <Dialog>
       <DialogTrigger>
         <div className="bg-primary text-sm font-semibold px-5 py-2 text-black rounded-full">
-          Add Proposal
+          {lang === "en"
+            ? "Add Proposal"
+            : lang === "es"
+              ? "Agregar propuesta"
+              : lang === "ru"
+                ? "Добавить предложение"
+                : "Ajouter une proposition"}
         </div>
       </DialogTrigger>
       <DialogContent className="bg-coal border-none">
         <DialogHeader>
-          <DialogTitle className="text-4xl">New Proposal</DialogTitle>
+          <DialogTitle className="text-4xl">
+            {lang === "en"
+              ? "New Proposal"
+              : lang === "es"
+                ? "Nueva propuesta"
+                : lang === "ru"
+                  ? "Новое предложение"
+                  : "Nouvelle proposition"}
+          </DialogTitle>
           <div className="flex flex-col gap-5 py-5">
             <div className="flex flex-col gap-2">
-              <span className="text-sm font-semibold">Title</span>
+              <span className="text-sm font-semibold">
+                {lang === "en"
+                  ? "Title"
+                  : lang === "es"
+                    ? "Título"
+                    : lang === "ru"
+                      ? "Заголовок"
+                      : "Titre"}
+              </span>
               <input
                 type="text"
                 name="title"
@@ -68,7 +89,15 @@ export default function AddProposalModal() {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <span className="text-sm font-semibold">Description</span>
+              <span className="text-sm font-semibold">
+                {lang === "en"
+                  ? "Description"
+                  : lang === "es"
+                    ? "Descripción"
+                    : lang === "ru"
+                      ? "Описание"
+                      : "La description"}
+              </span>
               <textarea
                 type="text"
                 name="desc"
@@ -82,8 +111,16 @@ export default function AddProposalModal() {
             </div>
             <Button
               className=" mt-5"
-              title="Submit"
-              onClick={()=>submitProposalData()}
+              title={
+                lang === "en"
+                  ? "Submit"
+                  : lang === "es"
+                    ? "Enviar"
+                    : lang === "ru"
+                      ? "Отправить"
+                      : "Soumettre"
+              }
+              onClick={() => submitProposalData()}
             />
           </div>
         </DialogHeader>
