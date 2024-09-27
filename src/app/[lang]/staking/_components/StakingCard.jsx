@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import SelectDropdown from "../../bridge/_components/SelectDropdown";
 import { usdcSvg, usdtSvg } from "@/components/icons";
 
-export default function StakingCard() {
+export default function StakingCard({ lang }) {
   // --------------For hydration error-------------------
   const [isClient, setIsClient] = useState(false);
 
@@ -64,7 +64,13 @@ export default function StakingCard() {
             "polygon(1% 0%, 99% 0%, 100% 50%, 99% 100%, 1% 100%, 0% 50%)",
         }}
       >
-        Hurry to Catch the Increased APR!
+        {lang === "en"
+          ? "Hurry to Catch the Increased APR!"
+          : lang === "es"
+            ? "¡Date prisa para atrapar el APR aumentado!"
+            : lang === "ru"
+              ? "Поторопитесь, чтобы поймать увеличенный APR!"
+              : "Dépêchez-vous de rattraper l'APR augmenté!"}
       </div>
       <div className="flex w-full items-center gap-5 text-lg font-medium">
         <button
@@ -74,7 +80,13 @@ export default function StakingCard() {
             "uppercase"
           )}
         >
-          Stake
+          {lang === "en"
+            ? "Stake"
+            : lang === "es"
+              ? "Estaca"
+              : lang === "ru"
+                ? "Доля"
+                : "Enjeu"}
         </button>
         <button
           onClick={() => setTab("Unstake")}
@@ -83,7 +95,13 @@ export default function StakingCard() {
             "uppercase"
           )}
         >
-          Unstake
+          {lang === "en"
+            ? "Unstake"
+            : lang === "es"
+              ? "Desapostar"
+              : lang === "ru"
+                ? "Отменить ставку"
+                : "Désenjeu"}
         </button>
       </div>
       <div className="grid w-full grid-cols-1 sm:grid-cols-3 rounded-[2rem] sm:rounded-full bg-gray2/10 p-1">
@@ -94,7 +112,13 @@ export default function StakingCard() {
             selectedOffer == "12 months" && "border border-white/50"
           )}
         >
-          12 months
+          {lang === "en"
+            ? "12 months"
+            : lang === "es"
+              ? "12 meses"
+              : lang === "ru"
+                ? "12 месяцев"
+                : "12 mois"}
           <div className="flex items-center gap-1 font-semibold">
             <span className="">APR </span>
             <span className="text-primary2">24%</span>
@@ -108,7 +132,13 @@ export default function StakingCard() {
             selectedOffer == "6 months" && "border border-white/50"
           )}
         >
-          6 months
+          {lang === "en"
+            ? "6 months"
+            : lang === "es"
+              ? "6 meses"
+              : lang === "ru"
+                ? "6 месяцев"
+                : "6 mois"}
           <div className="flex items-center gap-1 font-semibold">
             <span className="">APR </span>
             <span className="text-primary2">18%</span>
@@ -122,7 +152,13 @@ export default function StakingCard() {
             selectedOffer == "3 months" && "border border-white/50"
           )}
         >
-          3 months
+          {lang === "en"
+            ? "3 months"
+            : lang === "es"
+              ? "3 meses"
+              : lang === "ru"
+                ? "3 месяца"
+                : "3 mois"}
           <div className="flex items-center gap-1 font-semibold">
             <span className="">APR </span>
             <span className="text-primary2">12%</span>
@@ -131,7 +167,13 @@ export default function StakingCard() {
         </button>
       </div>
       <span className="w-full text-lg font-semibold">
-        LOCK-UP FOR{" "}
+        {lang === "en"
+          ? "LOCK-UP FOR"
+          : lang === "es"
+            ? "BLOQUEO POR"
+            : lang === "ru"
+              ? "БЛОКИРОВКА НА"
+              : "BLOCAGE POUR"}{" "}
         <span className="text-primary2 uppercase">
           {selectedOffer} | APR{" "}
           {selectedOffer == "12 months"
@@ -142,7 +184,15 @@ export default function StakingCard() {
         </span>
       </span>
       <div className="flex w-full flex-col gap-1">
-        <div className="w-full text-xl text-gray2/70">Your Stake:</div>
+        <div className="w-full text-xl text-gray2/70">
+          {lang === "en"
+            ? "Your Stake:"
+            : lang === "es"
+              ? "Tu apuesta:"
+              : lang === "ru"
+                ? "Ваша ставка:"
+                : "Votre enjeu:"}
+        </div>
         <div className="flex w-full items-center gap-2 border-b border-gray2/50 pb-2">
           {lockIcon}
           <input
@@ -201,7 +251,13 @@ export default function StakingCard() {
       </div>
       <div className="flex w-full items-center justify-between text-xl">
         <div className="flex items-center gap-1">
-          Your Reward:{" "}
+          {lang === "en"
+            ? "Your Reward:"
+            : lang === "es"
+              ? "Tu recompensa:"
+              : lang === "ru"
+                ? "Ваша награда:"
+                : "Votre récompense:"}{" "}
           {stake && (
             <span className="text-primary2 font-semibold">
               {stake ? stake * 0.24 : 0} Locked LNBG

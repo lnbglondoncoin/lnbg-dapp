@@ -1,55 +1,112 @@
 "use client";
-import { Store } from '@/context/Store';
-import React, { useContext } from 'react';
+import { Store } from "@/context/Store";
+import React, { useContext } from "react";
 
-export default function ScoresCard() {
-  const { contractData , masterContractData }=useContext(Store);
-  console.log(contractData,"contractDatacontractDatacontractData");
+export default function ScoresCard({ lang }) {
+  const { contractData, masterContractData } = useContext(Store);
+  console.log(contractData, "contractDatacontractDatacontractData");
   return (
     <div className="col-span-3 flex h-fit flex-col gap-8 rounded-3xl bg-ash p-6 lg:col-span-1">
       <div className="flex flex-col gap-3">
         <span className="text-primary2 text-sm font-semibold uppercase">
-          My scores
+          {lang === "en"
+            ? "My scores"
+            : lang === "es"
+              ? "Mis puntos"
+              : lang === "ru"
+                ? "Мои баллы"
+                : "Mes scores"}
         </span>
         <div className="flex items-baseline gap-1">
           <span className="w-fit text-nowrap font-semibold text-gray2">
-            My LNGB Coin:
+            {lang === "en"
+              ? "My LNGB Coin:"
+              : lang === "es"
+                ? "Mi moneda LNGB:"
+                : lang === "ru"
+                  ? "Моя монета LNGB:"
+                  : "Ma pièce LNGB:"}
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">{contractData?.LngbBalance}{lockIcon}</div>
+          <div className="flex items-center gap-1">
+            {contractData?.LngbBalance}
+            {lockIcon}
+          </div>
         </div>
         <div className="flex items-baseline gap-1">
           <span className="w-fit text-nowrap font-semibold text-gray2">
-            My staked amount:
+            {lang === "en"
+              ? "My staked amount:"
+              : lang === "es"
+                ? "Mi cantidad apostada:"
+                : lang === "ru"
+                  ? "Моя сумма ставки:"
+                  : "Mon montant misé:"}
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">{contractData?.stakedTokens}{lockIcon}</div>
+          <div className="flex items-center gap-1">
+            {contractData?.stakedTokens}
+            {lockIcon}
+          </div>
         </div>
         <div className="flex items-baseline gap-1">
           <span className="w-fit text-nowrap font-semibold text-gray2">
-            My Earned Reward:
+            {lang === "en"
+              ? "My Earned Reward:"
+              : lang === "es"
+                ? "Mi recompensa ganada:"
+                : lang === "ru"
+                  ? "Моя заработанная награда:"
+                  : "Ma récompense gagnée:"}
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">{contractData?.rewardEarned}{lockIcon}</div>
+          <div className="flex items-center gap-1">
+            {contractData?.rewardEarned}
+            {lockIcon}
+          </div>
         </div>
       </div>
       <div className="flex flex-col gap-3">
         <span className="text-primary2 text-sm font-semibold uppercase">
-          Total scores
+          {lang === "en"
+            ? "Total scores"
+            : lang === "es"
+              ? "Puntos totales"
+              : lang === "ru"
+                ? "Общие баллы"
+                : "Scores totaux"}
         </span>
         <div className="flex items-baseline gap-1">
           <span className="w-fit text-nowrap font-semibold text-gray2">
-            All Participants:
+            {lang === "en"
+              ? "All Participants:"
+              : lang === "es"
+                ? "Todos los participantes:"
+                : lang === "ru"
+                  ? "Все участники:"
+                  : "Tous les participants:"}
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">{masterContractData?.totalStakers}{lockIcon}</div>
+          <div className="flex items-center gap-1">
+            {masterContractData?.totalStakers}
+            {lockIcon}
+          </div>
         </div>
         <div className="flex items-baseline gap-1">
           <span className="w-fit text-nowrap font-semibold text-gray2">
-            Total staked amount:
+            {lang === "en"
+              ? "Total staked amount:"
+              : lang === "es"
+                ? "Cantidad total apostada:"
+                : lang === "ru"
+                  ? "Общая сумма ставки:"
+                  : "Montant total misé:"}
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <div className="flex items-center gap-1">{masterContractData?.totalStakeAmount}{lockIcon}</div>
+          <div className="flex items-center gap-1">
+            {masterContractData?.totalStakeAmount}
+            {lockIcon}
+          </div>
         </div>
       </div>
     </div>
