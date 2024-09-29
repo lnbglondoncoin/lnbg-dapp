@@ -26,9 +26,9 @@ export default function StakingCard({ lang }) {
   const [stake, setStake] = useState(null);
   const [selectedToken, setSelectedToken] = useState("USDT");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const { StakeTokensSend, unstakeTokensRequest, getStakedInfoByUser } =
-    useContext(Store);
+  const { StakeTokensSend, unstakeTokensRequest, getStakedInfoByUser } = useContext(Store);
 
   const stakeTokens = async () => {
     try {
@@ -54,7 +54,7 @@ export default function StakingCard({ lang }) {
 
   useEffect(() => {
     getStakedInfoByUser();
-  }, [address, isConnected]);
+  }, [address]);
 
   return (
     <div className="relative col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
@@ -294,7 +294,7 @@ export default function StakingCard({ lang }) {
         )}
       </div>
       {isClient &&
-        (isConnected ? (
+        (isConnected && address ? (
           <Button
             onClick={
               tab === "Stake"
