@@ -91,7 +91,7 @@ export default function ScoresCard({ lang }) {
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
           <div className="flex items-center gap-1">
-            {stakingContractData?.LNBGStaked[0]?.stakedTokens || 0}
+            {stakingContractData?.LNBGStaked?.stakedTokens || 0}
             {lockIcon}
           </div>
         </div>
@@ -108,10 +108,10 @@ export default function ScoresCard({ lang }) {
           <div className="w-full border-b border-dashed border-gray2/50"></div>
           <div className="flex items-center gap-1">
             <Countdown
-              date={new Date(stakingContractData?.LNBGStaked[0]?.duration || 0)}
+              date={new Date(stakingContractData?.LNBGStaked?.duration || 0)}
               renderer={renderer}
             />
-            {/* {stakingContractData?.LNBGStaked[0]?.duration} */}
+            {/* {stakingContractData?.LNBGStaked?.duration} */}
             {lockIcon}
           </div>
         </div>
@@ -137,7 +137,7 @@ export default function ScoresCard({ lang }) {
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
           <div className="flex items-center gap-1">
-            {stakingContractData?.USDTStaked[0]?.stakedTokens || 0}
+            {stakingContractData?.USDTStaked?.stakedTokens || 0}
             {lockIcon}
           </div>
         </div>
@@ -154,10 +154,10 @@ export default function ScoresCard({ lang }) {
           <div className="w-full border-b border-dashed border-gray2/50"></div>
           <div className="flex items-center gap-1">
           <Countdown
-              date={new Date(stakingContractData?.USDTStaked[0]?.duration || 0)}
+              date={new Date(stakingContractData?.USDTStaked?.duration || 0)}
               renderer={renderer}
             />
-            {/* {stakingContractData?.USDTStaked[0]?.duration} */}
+            {/* {stakingContractData?.USDTStaked?.duration} */}
             {lockIcon}
           </div>
         </div>
@@ -183,7 +183,7 @@ export default function ScoresCard({ lang }) {
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
           <div className="flex items-center gap-1">
-            {stakingContractData?.USDCStaked[0]?.stakedTokens || 0}
+            {stakingContractData?.USDCStaked?.stakedTokens || 0}
             {lockIcon}
           </div>
         </div>
@@ -200,10 +200,10 @@ export default function ScoresCard({ lang }) {
           <div className="w-full border-b border-dashed border-gray2/50"></div>
           <div className="flex items-center gap-1">
           <Countdown
-              date={new Date(stakingContractData?.USDCStaked[0]?.duration || 0)}
+              date={new Date(stakingContractData?.USDCStaked?.duration || 0)}
               renderer={renderer}
             />
-            {/* {stakingContractData?.USDCStaked[0]?.duration} */}
+            {/* {stakingContractData?.USDCStaked?.duration} */}
             {lockIcon}
           </div>
         </div>

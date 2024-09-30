@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import SelectDropdown from "../../bridge/_components/SelectDropdown";
 import { usdcSvg, usdtSvg } from "@/components/icons";
 import Image from "next/image";
+import { BigNumber } from "ethers";
 
 export default function StakingCard({ lang }) {
   // --------------For hydration error-------------------
@@ -28,17 +29,24 @@ export default function StakingCard({ lang }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { StakeTokensSend, unstakeTokensRequest, getStakedInfoByUser } = useContext(Store);
+  const { StakeTokensSend, getClaimedRewardsByUser, stakingContractData ,  unstakeTokensRequest, getStakedInfoByUser } =
+    useContext(Store);
 
   const stakeTokens = async () => {
     try {
       const months = parseInt(selectedOffer);
       const days = months * 30;
       console.log(days, months, "months");
-      if (days < 90) {
-        return toast.error("Please Add More then 90 Days");
-      }
-      await StakeTokensSend(stake?.toString(), days, selectedToken);
+
+      // if (days < 90) {
+      //   return toast.error("Please Add More then 90 Days");
+      // }
+
+      await StakeTokensSend(
+        stake?.toString(),
+        months?.toString(),
+        selectedToken
+      ); //TODO:: days
     } catch (error) {
       console.log(error);
     }
@@ -54,9 +62,25 @@ export default function StakingCard({ lang }) {
 
   useEffect(() => {
     getStakedInfoByUser();
+    getClaimedRewardsByUser();
   }, [address]);
 
-  return (
+  console.log(stake,"stakestakestake");
+
+  // Update stake value whenever selectedToken changes
+  useEffect(() => {
+    console.log(tab,"tabtab");
+    if (tab === "Unstake") {
+      const stakedTokens = selectedToken === "USDT" ? stakingContractData?.USDTStaked?.stakedTokens :
+                          selectedToken === "USDC" ? stakingContractData?.USDCStaked?.stakedTokens :
+                          stakingContractData?.LNBGStaked?.stakedTokens;
+      setStake(stakedTokens === undefined ? 0 : stakedTokens); // Set stake to the corresponding stakedTokens
+    } else {
+      setStake(0); // Reset stake when tab is "Stake"
+    }
+  }, [selectedToken, tab, stakingContractData]);
+
+return (
     <div className="relative col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
       <div
         className="bg-primary2 absolute -top-2.5 px-5 lg:px-12 py-0.5 text-sm font-semibold text-black"
@@ -76,7 +100,7 @@ export default function StakingCard({ lang }) {
       <div className="flex w-full items-center gap-5 text-lg font-medium">
         <button
           onClick={() => {
-            setTab("Stake"), setStake(0);
+            setTab("Stake"), setStake(null);
           }}
           className={cn(
             tab == "Stake" ? "text-white" : "text-gray2",
@@ -93,7 +117,7 @@ export default function StakingCard({ lang }) {
         </button>
         <button
           onClick={() => {
-            setTab("Unstake"), setStake(0);
+            setTab("Unstake"), setStake(null);
           }}
           className={cn(
             tab == "Unstake" ? "text-white" : "text-gray2",
@@ -206,8 +230,9 @@ export default function StakingCard({ lang }) {
             name="stake"
             id="stake"
             value={stake}
+            defaultValue={stake}
             placeholder="0.0"
-            onChange={(e) => setStake(e.target.value)}
+            onChange={(e) => setStake(tab === "Unstake" ? null : e.target.value)}
             className={`w-full border-none bg-transparent text-3xl outline-none ${tab === "Unstake" ? "opacity-50 cursor-not-allowed" : ""}`}
             disabled={tab === "Unstake"} // Disable input if isUnstake is true
             // className="w-full border-none bg-transparent text-3xl outline-none"

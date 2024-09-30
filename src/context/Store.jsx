@@ -125,10 +125,8 @@ export const StoreProvider = ({ children }) => {
     const totalStakedTokens =
       await getProviderStakingContract().totalStakedTokens();
     const totalStakers = await getProviderStakingContract().totalInvestors();
-    const getAllUsersEarnedTokens =
-      await getProviderStakingContract().getAllUsersEarnedTokens();
-    const getAllUsersClaimedTokens =
-      await getProviderStakingContract().getAllUsersClaimedTokens();
+    const getAllUsersEarnedTokens = await getProviderStakingContract().getTotalEarnings();
+    const getAllUsersClaimedTokens = await getProviderStakingContract().totalClaimedTokens();
 
     console.log(getAllUsersEarnedTokens?.toString(), "getAllUsersEarnedTokens");
     console.log(
@@ -143,9 +141,7 @@ export const StoreProvider = ({ children }) => {
     setMasterContractData((prevState) => ({
       ...prevState,
       totalStakers: totalStakers?.toString(),
-      totalRewards: ethers.utils
-        .formatEther(getAllUsersEarnedTokens?.toString() || 0)
-        ?.toString(),
+      totalRewards: ethers.utils.formatEther(getAllUsersEarnedTokens?.toString() || 0)?.toString(),
       totalStakeAmount: ethers.utils
         .formatEther(totalStakedTokens?.toString() || 0)
         ?.toString(),
@@ -156,39 +152,105 @@ export const StoreProvider = ({ children }) => {
   };
 
   // const getStakedInfoByUser = async () => {
-  //   console.log(address, isConnected, "addressaddress");
+  //   console.log(isConnected, address, "isConnected");
   //   if (isConnected) {
   //     const provider = new ethers.providers.Web3Provider(walletProvider);
   //     const signer = provider.getSigner();
+
   //     const stakingContract = new ethers.Contract(
   //       LnbgLondonCoinStakingContractAddress.address,
   //       LnbgLondonCoinStakingContractAbi.abi,
   //       signer
   //     );
-  //     let info = await stakingContract.stakingInfo(address?.toString());
-  //     let earnedRewardTokens = await stakingContract.rewardedTokens(
-  //       address?.toString()
-  //     );
-  //     console.log(info, "addressaddrssssassadddess");
-  //     console.log(info?.stakedTokens?.toString(), "addressaddrssssassadddess");
-  //     console.log(info?.startTime?.toString(), "addressaddrssssassadddess");
-  //     console.log(info.duration?.toString(), "addressaddrssssassadddess");
-  //     console.log(info?.rewardEarned?.toString(), "addressaddrssssassadddess");
+
+  //     try {
+  //     // Get the number of stakes for the user
+  //     const numberOfStakes = await stakingContract.getUserStakesLength(address); // Assuming you have a way to get this //TODO::
+  //     const claimedRewards = await stakingContract.claimedRewards(address); // Assuming you have a way to get this
+
+  //     const LNBGStaked = [];
+  //     const USDTStaked = [];
+  //     const USDCStaked = [];
+
+  //     let TotalEarnedReward = 0;
+  //       console.log(numberOfStakes,"numberOfStakesnumberOfStakesnumberOfStakes");
+  //     for (let i = 0; i < numberOfStakes?.toString(); i++) {
+  //       //numberOfStakes?.length
+
+  //       // Fetch earned reward tokens using the rewardedTokens function
+  //       const earnedRewardTokens = await stakingContract.rewardedTokens(
+  //         address,
+  //         i
+  //       );
+  //       console.log(earnedRewardTokens?.toString(),"earnedRewardTokensearnedRewardTokens");
+
+  //       TotalEarnedReward += parseFloat(ethers.utils.formatEther(earnedRewardTokens?.toString()));
+
+  //       // Get each stake by index
+  //       const stakeInfo = await stakingContract.userStakes(address, i);
+  //       console.log(stakeInfo,"stakeInfostakeInfo");
+  //       if (
+  //         stakeInfo?.stakedTokenAddress?.toLowerCase() ===
+  //         LnbgCoinAddress?.address?.toLowerCase()
+  //       ) {
+  //         LNBGStaked.push({
+  //           stakedTokens: ethers.utils.formatEther(
+  //             stakeInfo?.stakedTokens?.toString()
+  //           ),
+  //           startTime: stakeInfo?.startTime?.toString(),
+  //           duration: stakeInfo?.duration?.toString() * 1000,
+  //           rewardEarned: ethers.utils.formatEther(
+  //             stakeInfo?.rewardEarned?.toString()
+  //           ),
+  //           stakedTokenAddress: stakeInfo?.stakedTokenAddress?.toString(),
+  //         });
+  //       } else if (
+  //         stakeInfo?.stakedTokenAddress?.toLowerCase() ===
+  //         USDTTokenAddress?.address?.toLowerCase()
+  //       ) {
+
+  //         USDTStaked.push({
+  //           stakedTokens: ethers.utils.formatEther(
+  //             stakeInfo?.stakedTokens?.toString()
+  //           ),
+  //           startTime: stakeInfo?.startTime?.toString(),
+  //           duration: stakeInfo?.duration?.toString() * 1000,
+  //           rewardEarned: ethers.utils.formatEther(
+  //             stakeInfo?.rewardEarned?.toString()
+  //           ),
+  //           stakedTokenAddress: stakeInfo?.stakedTokenAddress?.toString(),
+  //         });
+  //       } else if (
+  //         stakeInfo?.stakedTokenAddress?.toLowerCase() ===
+  //         USDCTokenAddress?.address?.toLowerCase()
+  //       ) {
+  //         USDCStaked.push({
+  //           stakedTokens: ethers.utils.formatEther(
+  //             stakeInfo?.stakedTokens?.toString()
+  //           ),
+  //           startTime: stakeInfo?.startTime?.toString(),
+  //           duration: stakeInfo?.duration?.toString() * 1000,
+  //           rewardEarned: ethers.utils.formatEther(
+  //             stakeInfo?.rewardEarned?.toString()
+  //           ),
+  //           stakedTokenAddress: stakeInfo?.stakedTokenAddress?.toString(),
+  //         });
+  //       }
+  //     }
 
   //     setStakingContractData((prevState) => ({
   //       ...prevState,
-  //       stakedTokens: ethers.utils
-  //         .formatEther(info?.stakedTokens?.toString())
-  //         ?.toString(),
-  //       startTime: info?.startTime?.toString(),
-  //       duration: info.duration?.toString() * 1000,
-  //       ClaimedReward: ethers.utils
-  //         .formatEther(info?.rewardEarned?.toString())
-  //         ?.toString(),
-  //       rewardEarned: ethers.utils
-  //         .formatEther(earnedRewardTokens?.toString())
-  //         ?.toString(),
+  //       LNBGStaked: LNBGStaked,
+  //       USDTStaked: USDTStaked,
+  //       USDCStaked: USDCStaked,
+  //       TotalEarnedReward: TotalEarnedReward,
+  //       claimedRewards: ethers.utils.formatEther(claimedRewards?.toString()),
   //     }));
+  //     } catch (error) {
+  //         console.error("Error fetching staked info:", error);
+  //     }
+  //   } else {
+  //     console.warn("User is not connected.");
   //   }
   // };
 
@@ -205,90 +267,89 @@ export const StoreProvider = ({ children }) => {
       );
 
       try {
-      // Get the number of stakes for the user
-      const numberOfStakes = await stakingContract.getUserStakesLength(address); // Assuming you have a way to get this //TODO::
-      const claimedRewards = await stakingContract.claimedRewards(address); // Assuming you have a way to get this
+        // Call the Solidity function and destructure the returned values
+        const [LNBGStaked, USDCStaked, USDTStaked, TotalEarnedReward] =
+          await stakingContract.getUserStakedInfo(address);
 
-      const LNBGStaked = [];
-      const USDTStaked = [];
-      const USDCStaked = [];
+        // Map the returned stakes (which are individual objects) to your state
+        setStakingContractData((prevState) => ({
+          ...prevState,
+          LNBGStaked:
+            LNBGStaked.stakedTokens > 0
+              ? {
+                  stakedTokens: ethers.utils.formatEther(
+                    LNBGStaked.stakedTokens.toString()
+                  ),
+                  startTime: LNBGStaked.startTime.toString(),
+                  duration: LNBGStaked.duration.toString() * 1000,
+                  stakedTokenAddress: LNBGStaked.stakedTokenAddress.toString(),
+                }
+              : null,
 
-      let TotalEarnedReward = 0;
-        console.log(numberOfStakes,"numberOfStakesnumberOfStakesnumberOfStakes");
-      for (let i = 0; i < numberOfStakes?.toString(); i++) {
-        //numberOfStakes?.length
+          USDTStaked:
+            USDTStaked.stakedTokens > 0
+              ? {
+                  stakedTokens: ethers.utils.formatEther(
+                    USDTStaked.stakedTokens.toString()
+                  ),
+                  startTime: USDTStaked.startTime.toString(),
+                  duration: USDTStaked.duration.toString() * 1000,
+                  stakedTokenAddress: USDTStaked.stakedTokenAddress.toString(),
+                }
+              : null,
 
-        // Fetch earned reward tokens using the rewardedTokens function
-        const earnedRewardTokens = await stakingContract.rewardedTokens(
-          address,
-          i
-        );
-        console.log(earnedRewardTokens?.toString(),"earnedRewardTokensearnedRewardTokens");
+          USDCStaked:
+            USDCStaked.stakedTokens > 0
+              ? {
+                  stakedTokens: ethers.utils.formatEther(
+                    USDCStaked.stakedTokens.toString()
+                  ),
+                  startTime: USDCStaked.startTime.toString(),
+                  duration: USDCStaked.duration.toString() * 1000,
+                  stakedTokenAddress: USDCStaked.stakedTokenAddress.toString(),
+                }
+              : null,
 
-        TotalEarnedReward += parseFloat(ethers.utils.formatEther(earnedRewardTokens?.toString()));
-
-        // Get each stake by index
-        const stakeInfo = await stakingContract.userStakes(address, i);
-        console.log(stakeInfo,"stakeInfostakeInfo");
-        if (
-          stakeInfo?.stakedTokenAddress?.toLowerCase() ===
-          LnbgCoinAddress?.address?.toLowerCase()
-        ) {
-          LNBGStaked.push({
-            stakedTokens: ethers.utils.formatEther(
-              stakeInfo?.stakedTokens?.toString()
-            ),
-            startTime: stakeInfo?.startTime?.toString(),
-            duration: stakeInfo?.duration?.toString() * 1000,
-            rewardEarned: ethers.utils.formatEther(
-              stakeInfo?.rewardEarned?.toString()
-            ),
-            stakedTokenAddress: stakeInfo?.stakedTokenAddress?.toString(),
-          });
-        } else if (
-          stakeInfo?.stakedTokenAddress?.toLowerCase() ===
-          USDTTokenAddress?.address?.toLowerCase()
-        ) {
-
-          USDTStaked.push({
-            stakedTokens: ethers.utils.formatEther(
-              stakeInfo?.stakedTokens?.toString()
-            ),
-            startTime: stakeInfo?.startTime?.toString(),
-            duration: stakeInfo?.duration?.toString() * 1000,
-            rewardEarned: ethers.utils.formatEther(
-              stakeInfo?.rewardEarned?.toString()
-            ),
-            stakedTokenAddress: stakeInfo?.stakedTokenAddress?.toString(),
-          });
-        } else if (
-          stakeInfo?.stakedTokenAddress?.toLowerCase() ===
-          USDCTokenAddress?.address?.toLowerCase()
-        ) {
-          USDCStaked.push({
-            stakedTokens: ethers.utils.formatEther(
-              stakeInfo?.stakedTokens?.toString()
-            ),
-            startTime: stakeInfo?.startTime?.toString(),
-            duration: stakeInfo?.duration?.toString() * 1000,
-            rewardEarned: ethers.utils.formatEther(
-              stakeInfo?.rewardEarned?.toString()
-            ),
-            stakedTokenAddress: stakeInfo?.stakedTokenAddress?.toString(),
-          });
-        }
-      }
-
-      setStakingContractData((prevState) => ({
-        ...prevState,
-        LNBGStaked: LNBGStaked,
-        USDTStaked: USDTStaked,
-        USDCStaked: USDCStaked,
-        TotalEarnedReward: TotalEarnedReward,
-        claimedRewards: ethers.utils.formatEther(claimedRewards?.toString()),
-      }));
+          TotalEarnedReward: ethers.utils.formatEther(
+            TotalEarnedReward.toString()
+          ),
+        }));
       } catch (error) {
-          console.error("Error fetching staked info:", error);
+        console.error("Error fetching staked info:", error);
+      }
+    } else {
+      console.warn("User is not connected.");
+    }
+  };
+
+  const getClaimedRewardsByUser = async () => {
+    if (isConnected) {
+      const provider = new ethers.providers.Web3Provider(walletProvider);
+      const signer = provider.getSigner();
+
+      const stakingContract = new ethers.Contract(
+        LnbgLondonCoinStakingContractAddress.address,
+        LnbgLondonCoinStakingContractAbi.abi,
+        signer
+      );
+
+      try {
+        // Call the function to get claimed rewards for the user
+        const claimedRewards = await stakingContract.claimedRewards(address);
+
+        // Convert to Ether format and display it
+        console.log(
+
+          `Claimed Rewards: ${ethers.utils.formatEther(claimedRewards.toString())}`,
+          claimedRewards.toString()
+        );
+
+        setStakingContractData((prevState) => ({
+          ...prevState,
+          claimedRewards: ethers.utils.formatEther(claimedRewards.toString()),
+        }));
+      } catch (error) {
+        console.error("Error fetching claimed rewards:", error);
       }
     } else {
       console.warn("User is not connected.");
@@ -352,12 +413,17 @@ export const StoreProvider = ({ children }) => {
 
         await approve.wait();
       }
+      
+      //TODO:: update this code
+      // const currentTimestamp = Math.floor(Date.now() / 1000);
+      // const ninetyDaysInSeconds = duration * 24 * 60 * 60; // 90 days in seconds
+      // let days = currentTimestamp + ninetyDaysInSeconds;
 
       const currentTimestamp = Math.floor(Date.now() / 1000);
-      const ninetyDaysInSeconds = duration * 24 * 60 * 60; // 90 days in seconds
+      const ninetyDaysInSeconds = duration * 60; // 90 days in seconds
       let days = currentTimestamp + ninetyDaysInSeconds;
+      // console.log(days, "daysdaysdays");
 
-      console.log(days, "daysdaysdays");
       let tokenAddress =
         token === "USDT"
           ? USDTTokenAddress.address
@@ -840,6 +906,7 @@ export const StoreProvider = ({ children }) => {
           coin,
           loader,
           setloader,
+          getClaimedRewardsByUser,
           GetAllProposalByArray,
           stakingContractData,
           tronCurrentAccount,

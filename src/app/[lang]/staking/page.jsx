@@ -8,11 +8,17 @@ import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 
 export default function StakingPage({ params }) {
   const { lang } = params;
-  const { getStakingContractData } = useContext(Store);
+  const {
+    getStakingContractData,
+    getStakedInfoByUser,
+    getClaimedRewardsByUser,
+  } = useContext(Store);
   const { address, isConnected } = useWeb3ModalAccount();
 
   useEffect(() => {
-    getStakingContractData();
+    if(address && isConnected){
+      getStakingContractData();
+    }
   }, [address]);
 
   return (
