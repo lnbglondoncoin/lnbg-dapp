@@ -32,6 +32,7 @@ import USDTTokenAddress from "./contractsData/USDTToken-address.json";
 
 import LnbgLondonCoinStakingContractAddress from "./contractsData/LnbgLondonCoinStakingContract-address.json";
 import LnbgLondonCoinStakingContractAbi from "./contractsData/LnbgLondonCoinStakingContract.json";
+import Loader from "@/components/Loader";
 
 const getProviderMasterContract = () => {
   const providers = process.env.NEXT_PUBLIC_RPC_URL_BNB;
@@ -125,8 +126,10 @@ export const StoreProvider = ({ children }) => {
     const totalStakedTokens =
       await getProviderStakingContract().totalStakedTokens();
     const totalStakers = await getProviderStakingContract().totalInvestors();
-    const getAllUsersEarnedTokens = await getProviderStakingContract().getTotalEarnings();
-    const getAllUsersClaimedTokens = await getProviderStakingContract().totalClaimedTokens();
+    const getAllUsersEarnedTokens =
+      await getProviderStakingContract().getTotalEarnings();
+    const getAllUsersClaimedTokens =
+      await getProviderStakingContract().totalClaimedTokens();
 
     console.log(getAllUsersEarnedTokens?.toString(), "getAllUsersEarnedTokens");
     console.log(
@@ -141,7 +144,9 @@ export const StoreProvider = ({ children }) => {
     setMasterContractData((prevState) => ({
       ...prevState,
       totalStakers: totalStakers?.toString(),
-      totalRewards: ethers.utils.formatEther(getAllUsersEarnedTokens?.toString() || 0)?.toString(),
+      totalRewards: ethers.utils
+        .formatEther(getAllUsersEarnedTokens?.toString() || 0)
+        ?.toString(),
       totalStakeAmount: ethers.utils
         .formatEther(totalStakedTokens?.toString() || 0)
         ?.toString(),
@@ -339,7 +344,6 @@ export const StoreProvider = ({ children }) => {
 
         // Convert to Ether format and display it
         console.log(
-
           `Claimed Rewards: ${ethers.utils.formatEther(claimedRewards.toString())}`,
           claimedRewards.toString()
         );
@@ -413,7 +417,7 @@ export const StoreProvider = ({ children }) => {
 
         await approve.wait();
       }
-      
+
       //TODO:: update this code
       // const currentTimestamp = Math.floor(Date.now() / 1000);
       // const ninetyDaysInSeconds = duration * 24 * 60 * 60; // 90 days in seconds
@@ -929,7 +933,7 @@ export const StoreProvider = ({ children }) => {
           unLockDeposit,
         }}
       >
-        {children}
+        {loader ? <Loader /> : children}
       </Store.Provider>
     </>
   );

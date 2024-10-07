@@ -39,14 +39,14 @@ export default function layout({ children, params }) {
           "flex flex-col text-white bg-[url('/static/bgs/body-bg.png')] lg:p-3 bg-coal lg:flex-row",
           font.className
         )}
-        >
+      >
         <Web3Modal>
-        <ToastContainer />
-        <StoreProvider>
+          <ToastContainer />
+          <StoreProvider>
             <Sidebar lang={lang} />
             {children}
-        </StoreProvider>
-          </Web3Modal>
+          </StoreProvider>
+        </Web3Modal>
       </body>
     </html>
   );
