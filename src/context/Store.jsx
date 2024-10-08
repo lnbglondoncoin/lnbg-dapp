@@ -534,7 +534,7 @@ export const StoreProvider = ({ children }) => {
   const GetAllProposalByArray = async () => {
     try {
       console.log("sdassssssss");
-      setloader(true);
+      // setloader(true);
       let RewardAmount = [];
 
       const proposalCount = await getProviderMasterContract().proposalCount();
@@ -575,7 +575,7 @@ export const StoreProvider = ({ children }) => {
         RewardAmount.push(Data);
       }
       setMasterContractProposalData(RewardAmount);
-      setloader(false);
+      // setloader(false);
     } catch (error) {
       setloader(false);
       console.log(error);

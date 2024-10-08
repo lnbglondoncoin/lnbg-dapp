@@ -118,6 +118,7 @@ export default function BridgeCard({ lang }) {
               </>
             }
             isOpen={dropdownOpen}
+            // setOpen={setDropdownOpen}
             toggleDropdown={() => setDropdownOpen(!dropdownOpen)}
           >
             <div
@@ -180,6 +181,7 @@ export default function BridgeCard({ lang }) {
               </>
             }
             isOpen={dropdownOpen}
+            // setOpen={setDropdownOpen}
             toggleDropdown={() => setDropdownOpen(!dropdownOpen)}
           >
             <div
