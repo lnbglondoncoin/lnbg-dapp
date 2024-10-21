@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Store } from "@/context/Store"; // Make sure to import the context from the correct path
 import CryptoJS from "crypto-js"; // Ensure CryptoJS is installed and imported
+import { Plus } from "lucide-react";
 import { useState, useContext } from "react";
 
 export default function AddProposalModal({ lang }) {
@@ -44,16 +45,8 @@ export default function AddProposalModal({ lang }) {
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <div className="bg-primary text-sm font-semibold px-5 py-2 text-black rounded-full">
-          {lang === "en"
-            ? "Add Proposal"
-            : lang === "es"
-              ? "Agregar propuesta"
-              : lang === "ru"
-                ? "Добавить предложение"
-                : "Ajouter une proposition"}
-        </div>
+      <DialogTrigger className="bg-primary border-primary transition-all ease-in duration-300 border-4 hover:bg-white text-sm font-semibold p-1 h-fit mt-1 text-black rounded-full">
+        <Plus size={24} />
       </DialogTrigger>
       <DialogContent className="bg-coal border-none">
         <DialogHeader>

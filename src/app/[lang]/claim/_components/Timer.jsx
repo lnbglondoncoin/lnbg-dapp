@@ -132,7 +132,7 @@ const cornerIcon = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#clip0_552_4621)">
+    <g clipPath="url(#clip0_552_4621)">
       <path
         d="M15.1226 0H11.6079C5.47318 0 0.5 4.97318 0.5 11.1079V14.6226"
         stroke="white"
