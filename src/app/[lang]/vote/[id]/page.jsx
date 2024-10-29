@@ -6,51 +6,51 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import Countdown from "react-countdown";
 
-function detail(summary) {
-  if (!summary) {
-    return <p>No summary available</p>;
-  }
+// function detail(summary) {
+//   if (!summary) {
+//     return <p>No summary available</p>;
+//   }
 
-  // Function to parse the summary text
-  const parseSummary = (summary) => {
-    const parsedContent = [];
-    const regex = /([A-Z][a-z\s]+:|[A-Z][a-z\s]+$)/g;
+//   // Function to parse the summary text
+//   const parseSummary = (summary) => {
+//     const parsedContent = [];
+//     const regex = /([A-Z][a-z\s]+:|[A-Z][a-z\s]+$)/g;
 
-    let lastIndex = 0;
-    let match;
+//     let lastIndex = 0;
+//     let match;
 
-    while ((match = regex.exec(summary)) !== null) {
-      const currentIndex = match.index;
-      const title = match[0].trim();
-      const paragraph = summary.slice(lastIndex, currentIndex).trim();
-      if (paragraph) {
-        parsedContent.push({ type: "paragraph", text: paragraph });
-      }
-      parsedContent.push({ type: "title", text: title });
-      lastIndex = currentIndex + title.length;
-    }
+//     while ((match = regex.exec(summary)) !== null) {
+//       const currentIndex = match.index;
+//       const title = match[0].trim();
+//       const paragraph = summary.slice(lastIndex, currentIndex).trim();
+//       if (paragraph) {
+//         parsedContent.push({ type: "paragraph", text: paragraph });
+//       }
+//       parsedContent.push({ type: "title", text: title });
+//       lastIndex = currentIndex + title.length;
+//     }
 
-    const lastParagraph = summary.slice(lastIndex).trim();
-    if (lastParagraph) {
-      parsedContent.push({ type: "paragraph", text: lastParagraph });
-    }
+//     const lastParagraph = summary.slice(lastIndex).trim();
+//     if (lastParagraph) {
+//       parsedContent.push({ type: "paragraph", text: lastParagraph });
+//     }
 
-    return parsedContent;
-  };
+//     return parsedContent;
+//   };
 
-  // Parse the summary text
-  const parsedContent = parseSummary(summary);
+//   // Parse the summary text
+//   const parsedContent = parseSummary(summary);
 
-  return (
-    <div className="ps">
-      {parsedContent.map((item, index) => (
-        <p key={index} style={{ margin: "8px 0" }}>
-          {item?.type === "title" ? <strong>{item?.text}</strong> : item?.text}
-        </p>
-      ))}
-    </div>
-  );
-}
+//   return (
+//     <div className="ps">
+//       {parsedContent.map((item, index) => (
+//         <p key={index} style={{ margin: "8px 0" }}>
+//           {item?.type === "title" ? <strong>{item?.text}</strong> : item?.text}
+//         </p>
+//       ))}
+//     </div>
+//   );
+// }
 
 const ProposalDetailsPage = ({ params }) => {
   const { addingVote, masterContractProposalData } = useContext(Store);
@@ -137,7 +137,7 @@ const ProposalDetailsPage = ({ params }) => {
             <button
               onClick={() => {
                 addingVote(
-                  masterContractProposalData?.[id]?.proposerId,
+                  masterContractProposalData?.[id]?.proposer,
                   castVote
                 ),
                   setShowVoteModal(false);
@@ -150,93 +150,125 @@ const ProposalDetailsPage = ({ params }) => {
         </div>
       )}
 
-      <div className="flex justify-between w-full gap-10">
-        <Link href="/vote">
-          <div className="flex items-center gap-2 cursor-pointer">
-            {backIcon}
-            <p className="font-light">Back</p>
-          </div>
-        </Link>
-        <button
-          onClick={() => setShowVoteModal(true)}
-          className="bg-primary/90 text-black text-sm hover:bg-primary px-10 py-2 rounded-full"
-        >
-          Vote
-        </button>
-      </div>
+      <Link href="/vote">
+        <div className="flex items-center gap-2 cursor-pointer">
+          {backIcon}
+          <p className="font-light">Back</p>
+        </div>
+      </Link>
 
       <div className="flex flex-col">
         <div className="flex flex-col gap-3">
-          <h1 className="text-4xl font-semibold">
+          <span className="text-gray2">
+            Proposed by:{" "}
+            <span className="text-white">
+              {masterContractProposalData?.[id]?.proposer}
+            </span>
+          </span>
+          <h1 className="text-4xl font-semibold pb-10">
             {masterContractProposalData?.[id]?.description?.title}
           </h1>
-          <div className="bg-gray2 text-black px-3 pt-1.5 pb-2 w-fit rounded-full">
-            {masterContractProposalData?.[id]?.executed === "true"
-              ? "Executed"
-              : "Pending"}
+          <div className="grid max-w-screen lg:grid-cols-[7fr_3fr] gap-5">
+            <div className="bg-ash rounded-xl flex flex-col gap-2 py-5 px-3">
+              <div className="">
+                <span className="text-lg font-bold">Proposed Transactions</span>
+                <div className="mt-3 bg-black p-3 rounded-md">
+                  <u className="cursor-pointer text-lg">
+                    0x1f...f984
+                  </u>
+                  <div className="pl-5">
+                    .transfer(
+                    <br />
+                    <div className="pl-3">
+                      <u className="cursor-pointer text-lg">
+                        0x3B...2f9C,
+                      </u>
+                      <div className="pl-3">122830000000000000000000,</div>
+                    </div>
+                    )
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-ash rounded-xl flex flex-col gap-2 p-5">
+              <h1 className="text-xl">Proposal Votes:</h1>
+              <div className="relative p-1 w-full">
+                <span className="absolute top-0 right-0 rotate-90">
+                  {cornerSvg}
+                </span>
+                <span className="absolute top-0 left-0">{cornerSvg}</span>
+                <div className="bg-[repeating-linear-gradient(135deg,#131418,#131418_10px,#1F2129_0,#1F2129_20px)] rounded-md flex flex-col gap-3 p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-primary uppercase text-sm font-bold">
+                      For {masterContractProposalData?.[id]?.yesVotes}
+                    </span>
+                    <span className="text-primary uppercase text-sm font-bold">
+                      Against {masterContractProposalData?.[id]?.noVotes}
+                    </span>
+                  </div>
+                  <ProgressBar indicator="85" />
+                </div>
+                <span className="absolute bottom-0 left-0 -rotate-90">
+                  {cornerSvg}
+                </span>
+                <span className="absolute right-0 bottom-0 rotate-180">
+                  {cornerSvg}
+                </span>
+              </div>
+              <div className="flex py-2 items-center justify-between w-full">
+                <span
+                  className={`${
+                    masterContractProposalData?.[id]?.executed === "true"
+                      ? "text-blue-200 bg-blue-200/10"
+                      : "text-red-400 bg-red-400/10"
+                  }  w-fit px-2 font-semibold`}
+                >
+                  {masterContractProposalData?.[id]?.executed === "true"
+                    ? "Executed"
+                    : "Pending"}
+                </span>
+                <div className="flex gap-2 text-sm">
+                  <span className="text-gray10">Ends in:</span>
+                  <span className="font-bold">
+                    <Countdown
+                      date={
+                        Date.now() + +masterContractProposalData?.[id]?.endTime
+                      }
+                      renderer={renderer}
+                    />
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowVoteModal(true)}
+                className="bg-primary/90 font-bold text-black hover:bg-primary px-10 py-2 rounded-full"
+              >
+                Vote
+              </button>
+            </div>
           </div>
-          <p className="font-light">
-            {" "}
-            {detail(masterContractProposalData[id]?.description?.summry)}
+          <h1 className="text-xl font-bold">Information</h1>
+          <div className="flex gap-5">
+            <span className="text-gray2">Voting System:</span>
+            <span className="font-medium">Single Choice</span>
+          </div>
+          <div className="flex gap-5">
+            <span className="text-gray2">Start date:</span>
+            <span className="font-medium">
+              {" "}
+              {formatTimestamp(masterContractProposalData?.[id]?.startTime)}
+            </span>
+          </div>
+          <div className="flex gap-5">
+            <span className="text-gray2">End date:</span>
+            <span className="font-medium">
+              {" "}
+              {formatTimestamp(masterContractProposalData?.[id]?.endTime)}
+            </span>
+          </div>
+          <p className="font-light w-full lg:max-w-[70%]">
+            {masterContractProposalData[id]?.description?.summary}
           </p>
-          <div className="grid lg:grid-cols-2 gap-5">
-            <div className="bg-gray2/10 rounded-xl flex flex-col gap-2 p-5">
-              <h1 className="text-xl">Information</h1>
-              <div className="flex justify-between">
-                <span className="text-gray10">Voting System:</span>
-                <span className="font-bold">Single Choice</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray10">Start date:</span>
-                <span className="font-bold">
-                  {" "}
-                  {formatTimestamp(masterContractProposalData?.[id]?.startTime)}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray10">End date:</span>
-                <span className="font-bold">
-                  <Countdown
-                    date={
-                      Date.now() + +masterContractProposalData?.[id]?.endTime
-                    }
-                    renderer={renderer}
-                  />
-                </span>
-              </div>
-            </div>
-            <div className="bg-gray2/10 rounded-xl flex flex-col gap-2 p-5">
-              <h1 className="text-xl">Current results</h1>
-              <div className="flex justify-between">
-                <span className="text-gray10">Agree:</span>
-                <span className="font-bold">
-                  {masterContractProposalData?.[id]?.yesVotes}
-                </span>
-              </div>
-              <div className="w-full bg-gray12/75 h-3 rounded-full mt-5">
-                <div
-                  className={`w-[${calculatePercentage(
-                    +masterContractProposalData?.[id]?.yesVotes,
-                    totalVotes
-                  )}%] bg-primary rounded-full h-full`}
-                ></div>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray10">Disagree:</span>
-                <span className="font-bold">
-                  {masterContractProposalData?.[id]?.noVotes}
-                </span>
-              </div>
-              <div className="w-full bg-gray12/75 h-3 rounded-full mt-5">
-                <div
-                  className={`w-[${calculatePercentage(
-                    +masterContractProposalData?.[id]?.noVotes,
-                    totalVotes
-                  )}%] bg-primary rounded-full h-full`}
-                ></div>
-              </div>
-            </div>
-          </div>
           {/* <h2 className="text-xl font-semibold">Liquidity</h2>
           <p className="font-light">{proposal?.liquidity}</p>
           <h2 className="text-xl font-semibold">Exposure</h2>
@@ -258,6 +290,36 @@ const ProposalDetailsPage = ({ params }) => {
     </div>
   );
 };
+
+const ProgressBar = ({ indicator = "" }) => {
+  return (
+    <div className="relative pt-0.5">
+      <div
+        className={`absolute -top-1`}
+        style={{
+          left: indicator + "%",
+        }}
+      >
+        {indicatorSvg}
+      </div>
+      <div className="grid grid-cols-[3fr_5fr_2fr] gap-0.5 h-full w-full">
+        <div className="w-full h-3.5 rounded-full bg-[repeating-linear-gradient(135deg,rgba(255,61,108,.15),rgba(255,61,108,.15)_3px,#ff3d6c_0,#ff3d6c_5px)]"></div>
+        <div className="w-full h-3.5 rounded-full bg-[repeating-linear-gradient(135deg,rgba(249,231,39,.15),rgba(249,231,39,.15)_3px,#f9e727_0,#f9e727_5px)]"></div>
+        <div className="w-full h-3.5 rounded-full bg-primary"></div>
+      </div>
+    </div>
+  );
+};
+
+const indicatorSvg = (
+  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" fill="#ffba00">
+    <path
+      stroke="#11121A"
+      strokeWidth="3"
+      d="m2.646 5.768 3.086 3.086a2.5 2.5 0 0 0 3.536 0l3.086-3.086c1.575-1.575.46-4.268-1.768-4.268H4.414c-2.227 0-3.342 2.693-1.768 4.268Z"
+    ></path>
+  </svg>
+);
 
 const backIcon = (
   <svg
@@ -282,6 +344,22 @@ const backIcon = (
       strokeMiterlimit="10"
       strokeLinecap="round"
       strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const cornerSvg = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="6"
+    height="6"
+    viewBox="0 0 6 6"
+    fill="none"
+  >
+    <path
+      id="Vector 804"
+      d="M0.570312 5.98531V5.70031C0.570312 2.86709 2.86709 0.570312 5.70031 0.570312H5.98531"
+      stroke="white"
     />
   </svg>
 );
