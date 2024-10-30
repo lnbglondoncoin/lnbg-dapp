@@ -8,13 +8,15 @@ import { useRouter } from "next/navigation";
 import SelectDropdown from "./SelectDropdown";
 import { Store } from "@/context/Store";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 export default function BridgeCard({ lang }) {
   // --------------For hydration error-------------------
   const [isClient, setIsClient] = useState(false);
   const { LockDeposit, unLockDeposit } = useContext(Store);
 
-  const [dropdownOpen, setDropdownOpen] = useState(false); // Manage dropdown state
+  const [transferFromDropdown, setTransferFromDropdown] = useState(false); // Manage dropdown state
+  const [transferToDropdown, setTransferToDropdown] = useState(false); // Manage dropdown state
   const [transferFrom, setTransferFrom] = useState("Ethereum"); // Manage selected option
   const [transferTo, setTransferTo] = useState("Binance"); // Manage selected option
 
@@ -108,49 +110,48 @@ export default function BridgeCard({ lang }) {
           />
           <SelectDropdown
             button={
-              <>
-                {transferFrom === "Ethereum"
-                  ? ethSvg
-                  : transferFrom === "Binance"
-                    ? bnbSvg
-                    : polySvg}{" "}
-                {transferFrom} {bridgeIcon}
-              </>
+              <div className="flex items-center w-fit gap-3">
+                <>
+                  {transferFrom === "Ethereum"
+                    ? ethSvg
+                    : transferFrom === "Binance"
+                      ? bnbSvg
+                      : polySvg}{" "}
+                  {transferFrom} {bridgeIcon}
+                </>
+              </div>
             }
-            isOpen={dropdownOpen}
-            // setOpen={setDropdownOpen}
-            toggleDropdown={() => setDropdownOpen(!dropdownOpen)}
+            open={transferFromDropdown}
+            setOpen={setTransferFromDropdown}
           >
-            <div
-              onClick={() => setTransferFrom("Ethereum")}
+            <button
+              onClick={() => {
+                setTransferFrom("Ethereum");
+                setTransferFromDropdown(false);
+              }}
               className="flex items-center gap-2"
             >
               {ethSvg} Ethereum
-            </div>
-            <div
-              onClick={() => setTransferFrom("Binance")}
+            </button>
+            <button
+              onClick={() => {
+                setTransferFrom("Binance");
+                setTransferFromDropdown(false);
+              }}
               className="flex items-center gap-2"
             >
               {bnbSvg} Binance
-            </div>
-            <div
-              onClick={() => setTransferFrom("Polygon")}
+            </button>
+            <button
+              onClick={() => {
+                setTransferFrom("Polygon");
+                setTransferFromDropdown(false);
+              }}
               className="flex items-center gap-2"
             >
               {polySvg} Polygon
-            </div>
+            </button>
           </SelectDropdown>
-          {/* <SelectDropdown
-            button={
-              <>
-                {ethSvg} Eth {bridgeIcon}
-              </>
-            }
-          >
-            <div className="flex items-center gap-2">{ethSvg} Ethereum</div>
-            <div className="flex items-center gap-2">{bnbSvg} Binance</div>
-            <div className="flex items-center gap-2">{polySvg} Polygon</div>
-          </SelectDropdown> */}
         </div>
       </div>
       <div className="flex w-full flex-col gap-5">
@@ -171,37 +172,47 @@ export default function BridgeCard({ lang }) {
           />
           <SelectDropdown
             button={
-              <>
-                {transferTo === "Ethereum"
-                  ? ethSvg
-                  : transferTo === "Binance"
-                    ? bnbSvg
-                    : polySvg}{" "}
-                {transferTo} {bridgeIcon}
-              </>
+              <div className="flex items-center w-fit gap-3">
+                <>
+                  {transferTo === "Ethereum"
+                    ? ethSvg
+                    : transferTo === "Binance"
+                      ? bnbSvg
+                      : polySvg}{" "}
+                  {transferTo} {bridgeIcon}
+                </>
+              </div>
             }
-            isOpen={dropdownOpen}
-            // setOpen={setDropdownOpen}
-            toggleDropdown={() => setDropdownOpen(!dropdownOpen)}
+            open={transferToDropdown}
+            setOpen={setTransferToDropdown}
           >
-            <div
-              onClick={() => setTransferTo("Ethereum")}
+            <button
+              onClick={() => {
+                setTransferTo("Ethereum");
+                setTransferToDropdown(false);
+              }}
               className="flex items-center gap-2"
             >
               {ethSvg} Ethereum
-            </div>
-            <div
-              onClick={() => setTransferTo("Binance")}
+            </button>
+            <button
+              onClick={() => {
+                setTransferTo("Binance");
+                setTransferToDropdown(false);
+              }}
               className="flex items-center gap-2"
             >
               {bnbSvg} Binance
-            </div>
-            <div
-              onClick={() => setTransferTo("Polygon")}
+            </button>
+            <button
+              onClick={() => {
+                setTransferTo("Polygon");
+                setTransferToDropdown(false);
+              }}
               className="flex items-center gap-2"
             >
               {polySvg} Polygon
-            </div>
+            </button>
           </SelectDropdown>
         </div>
       </div>
