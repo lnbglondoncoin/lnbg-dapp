@@ -2,7 +2,7 @@ import CoinCard from "./CoinCard";
 
 export default function VaultSection({ lang }) {
   return (
-    <div className="flex flex-col items-center w-full col-span-3 gap-2 relative pt-5">
+    <div className="flex flex-col items-center w-full col-span-3 gap-2 relative">
       <h1 className="text-white uppercase text-3xl sm:text-4xl font-bold leading-6">
         Find your ideal
       </h1>
@@ -15,6 +15,7 @@ export default function VaultSection({ lang }) {
       </span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5 w-full">
         <CoinCard
+          lang={lang}
           imgUrl="/static/coins/usdt.svg"
           symbol="usdt"
           name="USDT"
@@ -25,6 +26,7 @@ export default function VaultSection({ lang }) {
           indicator="81"
         />
         <CoinCard
+          lang={lang}
           imgUrl="/static/logo.png"
           symbol="lnbg"
           name="$LNBG"
@@ -35,6 +37,7 @@ export default function VaultSection({ lang }) {
           indicator="83"
         />
         <CoinCard
+          lang={lang}
           imgUrl="/static/coins/usdc.svg"
           symbol="usdc"
           name="USDC"

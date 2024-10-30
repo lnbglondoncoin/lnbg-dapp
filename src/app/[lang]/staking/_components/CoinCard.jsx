@@ -1,5 +1,6 @@
 import { Info } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function CoinCard({
@@ -11,9 +12,13 @@ export default function CoinCard({
   provider = "",
   trustScore,
   indicator = "",
+  lang = "en",
 }) {
   return (
-    <div className="w-full rounded-2xl gap-1 bg-ash p-3 flex flex-col items-center justify-center hover:border-primary border border-ash transition-all ease-in duration-300 cursor-pointer">
+    <Link
+      href={`/${lang}/staking/${symbol}`}
+      className="w-full rounded-2xl gap-1 bg-ash p-3 flex flex-col items-center justify-center hover:border-primary border border-ash transition-all ease-in duration-300 cursor-pointer"
+    >
       <Image src={imgUrl} width={40} height={40} quality={100} alt="coin" />
       <span className="uppercase text-white/50">{symbol}</span>
       <div className="py-1 text-2xl font-bold">{name}</div>
@@ -55,9 +60,12 @@ export default function CoinCard({
               </span>
             </div>
             <div className="relative pt-0.5">
-              <div className={`absolute -top-1`} style={{
-                left: indicator+"%"
-              }}>
+              <div
+                className={`absolute -top-1`}
+                style={{
+                  left: indicator + "%",
+                }}
+              >
                 {indicatorSvg}
               </div>
               <div className="grid grid-cols-[3fr_5fr_2fr] gap-0.5 h-full w-full">
@@ -73,7 +81,7 @@ export default function CoinCard({
           {cornerSvg}
         </span>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -94,12 +102,7 @@ const cornerSvg = (
 );
 
 const indicatorSvg = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="15"
-    height="12"
-    fill="#ffba00"
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" fill="#ffba00">
     <path
       stroke="#11121A"
       strokeWidth="3"

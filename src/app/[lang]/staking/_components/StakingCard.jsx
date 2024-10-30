@@ -11,8 +11,9 @@ import SelectDropdown from "../../bridge/_components/SelectDropdown";
 import { usdcSvg, usdtSvg } from "@/components/icons";
 import Image from "next/image";
 import { BigNumber } from "ethers";
+import { useRouter } from "next/navigation";
 
-export default function StakingCard({ lang }) {
+export default function StakingCard({ lang, slug }) {
   // --------------For hydration error-------------------
   const [isClient, setIsClient] = useState(false);
 
@@ -21,16 +22,21 @@ export default function StakingCard({ lang }) {
   }, []);
   // ----------------------------------------------------
 
+  const selectedToken =
+    slug === "usdt" ? "USDT" : slug === "usdc" ? "USDC" : "$LNBG";
   const { address, isConnected } = useWeb3ModalAccount();
   const [tab, setTab] = useState("Stake");
   const [selectedOffer, setSelectedOffer] = useState("12 months");
   const [stake, setStake] = useState(null);
-  const [selectedToken, setSelectedToken] = useState("USDT");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const { StakeTokensSend, getClaimedRewardsByUser, stakingContractData ,  unstakeTokensRequest, getStakedInfoByUser } =
-    useContext(Store);
+  const router = useRouter();
+  const {
+    StakeTokensSend,
+    getClaimedRewardsByUser,
+    stakingContractData,
+    unstakeTokensRequest,
+    getStakedInfoByUser,
+  } = useContext(Store);
 
   const stakeTokens = async () => {
     try {
@@ -65,22 +71,25 @@ export default function StakingCard({ lang }) {
     getClaimedRewardsByUser();
   }, [address]);
 
-  console.log(stake,"stakestakestake");
+  console.log(stake, "stakestakestake");
 
   // Update stake value whenever selectedToken changes
   useEffect(() => {
-    console.log(tab,"tabtab");
+    console.log(tab, "tabtab");
     if (tab === "Unstake") {
-      const stakedTokens = selectedToken === "USDT" ? stakingContractData?.USDTStaked?.stakedTokens :
-                          selectedToken === "USDC" ? stakingContractData?.USDCStaked?.stakedTokens :
-                          stakingContractData?.LNBGStaked?.stakedTokens;
+      const stakedTokens =
+        selectedToken === "USDT"
+          ? stakingContractData?.USDTStaked?.stakedTokens
+          : selectedToken === "USDC"
+            ? stakingContractData?.USDCStaked?.stakedTokens
+            : stakingContractData?.LNBGStaked?.stakedTokens;
       setStake(stakedTokens === undefined ? 0 : stakedTokens); // Set stake to the corresponding stakedTokens
     } else {
       setStake(0); // Reset stake when tab is "Stake"
     }
   }, [selectedToken, tab, stakingContractData]);
 
-return (
+  return (
     <div className="relative col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
       <div
         className="bg-primary2 absolute -top-2.5 px-5 lg:px-12 py-0.5 text-sm font-semibold text-black"
@@ -232,28 +241,30 @@ return (
             value={stake}
             defaultValue={stake}
             placeholder="0.0"
-            onChange={(e) => setStake(tab === "Unstake" ? null : e.target.value)}
+            onChange={(e) =>
+              setStake(tab === "Unstake" ? null : e.target.value)
+            }
             className={`w-full border-none bg-transparent text-3xl outline-none ${tab === "Unstake" ? "opacity-50 cursor-not-allowed" : ""}`}
             disabled={tab === "Unstake"} // Disable input if isUnstake is true
             // className="w-full border-none bg-transparent text-3xl outline-none"
           />
           <SelectDropdown
             button={
-              <div className="flex items-center gap-3">
+              <div className="flex items-center w-fit gap-3">
                 {selectedToken === "USDT" ? (
                   usdtSvg
                 ) : selectedToken === "USDC" ? (
                   usdcSvg
                 ) : (
                   <Image
-                    width={20}
-                    height={20}
-                    className="mx-1"
+                    width={18}
+                    height={18}
+                    className="ml-1"
                     alt="LNBG"
                     src="/static/logo.png"
                   />
                 )}
-                {selectedToken}
+                <span className="w-[60px]">{selectedToken}</span>
               </div>
             }
             open={dropdownOpen}
@@ -261,7 +272,7 @@ return (
           >
             <div
               onClick={() => {
-                setSelectedToken("USDT");
+                router.push(`/${lang}/staking/usdt`);
                 setDropdownOpen(false);
               }}
               className="flex items-center gap-2 cursor-pointer"
@@ -270,7 +281,7 @@ return (
             </div>
             <div
               onClick={() => {
-                setSelectedToken("USDC");
+                router.push(`/${lang}/staking/usdc`);
                 setDropdownOpen(false);
               }}
               className="flex items-center gap-2 cursor-pointer"
@@ -279,7 +290,7 @@ return (
             </div>
             <div
               onClick={() => {
-                setSelectedToken("LNBG");
+                router.push(`/${lang}/staking/lnbg`);
                 setDropdownOpen(false);
               }}
               className="flex items-center gap-2 cursor-pointer"
