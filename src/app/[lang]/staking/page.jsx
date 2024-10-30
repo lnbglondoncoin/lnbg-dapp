@@ -4,6 +4,7 @@ import { useContext, useEffect } from "react";
 import { Store } from "@/context/Store";
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import VaultSection from "./_components/VaultSection";
+import VsCard from "./_components/VsCard";
 
 export default function StakingPage({ params }) {
   const { lang } = params;
@@ -19,6 +20,7 @@ export default function StakingPage({ params }) {
   return (
     <div className="flex w-full flex-col justify-center py-10 px-5">
       <VaultSection lang={lang} />
+      <VsCard />
     </div>
   );
 }
