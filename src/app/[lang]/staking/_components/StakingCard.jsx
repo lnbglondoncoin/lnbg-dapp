@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import { Activity } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import SelectDropdown from "../../bridge/_components/SelectDropdown";
 import { usdcSvg, usdtSvg } from "@/components/icons";
 import Image from "next/image";
@@ -22,8 +21,7 @@ export default function StakingCard({ lang, slug }) {
   }, []);
   // ----------------------------------------------------
 
-  const selectedToken =
-    slug === "usdt" ? "USDT" : slug === "usdc" ? "USDC" : "$LNBG";
+  const selectedToken = slug === "lnbg" ? "$LNBG" : slug.toUpperCase();
   const { address, isConnected } = useWeb3ModalAccount();
   const [tab, setTab] = useState("Stake");
   const [selectedOffer, setSelectedOffer] = useState("12 months");
@@ -251,20 +249,18 @@ export default function StakingCard({ lang, slug }) {
           <SelectDropdown
             button={
               <div className="flex items-center w-fit gap-3">
-                {selectedToken === "USDT" ? (
-                  usdtSvg
-                ) : selectedToken === "USDC" ? (
-                  usdcSvg
-                ) : (
-                  <Image
-                    width={18}
-                    height={18}
-                    className="ml-1"
-                    alt="LNBG"
-                    src="/static/logo.png"
-                  />
-                )}
-                <span className="w-[60px]">{selectedToken}</span>
+                <Image
+                  width={18}
+                  height={18}
+                  className="ml-1"
+                  alt="LNBG"
+                  src={
+                    slug === "lnbg"
+                      ? "/static/logo.png"
+                      : `/static/coins/${slug}.svg`
+                  }
+                />
+                <span className="w-[70px]">{selectedToken}</span>
               </div>
             }
             open={dropdownOpen}
@@ -272,12 +268,51 @@ export default function StakingCard({ lang, slug }) {
           >
             <div
               onClick={() => {
+                router.push(`/${lang}/staking/btc`);
+                setDropdownOpen(false);
+              }}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <Image
+                width={20}
+                height={20}
+                className="mx-1"
+                alt="btc"
+                src="/static/coins/btc.svg"
+              />{" "}
+              BTC
+            </div>
+            <div
+              onClick={() => {
+                router.push(`/${lang}/staking/eth`);
+                setDropdownOpen(false);
+              }}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <Image
+                width={20}
+                height={20}
+                className="mx-1"
+                alt="eth"
+                src="/static/coins/eth.svg"
+              />{" "}
+              ETH
+            </div>
+            <div
+              onClick={() => {
                 router.push(`/${lang}/staking/usdt`);
                 setDropdownOpen(false);
               }}
               className="flex items-center gap-2 cursor-pointer"
             >
-              {usdtSvg} USDT
+              <Image
+                width={20}
+                height={20}
+                className="mx-1"
+                alt="usdt"
+                src="/static/coins/usdt.svg"
+              />{" "}
+              USDT
             </div>
             <div
               onClick={() => {
@@ -286,7 +321,30 @@ export default function StakingCard({ lang, slug }) {
               }}
               className="flex items-center gap-2 cursor-pointer"
             >
-              {usdcSvg} USDC
+              <Image
+                width={20}
+                height={20}
+                className="mx-1"
+                alt="LNBG"
+                src="/static/coins/usdc.svg"
+              />{" "}
+              USDC
+            </div>
+            <div
+              onClick={() => {
+                router.push(`/${lang}/staking/bnb`);
+                setDropdownOpen(false);
+              }}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <Image
+                width={20}
+                height={20}
+                className="mx-1"
+                alt="bnb"
+                src="/static/coins/bnb.svg"
+              />{" "}
+              BNB
             </div>
             <div
               onClick={() => {

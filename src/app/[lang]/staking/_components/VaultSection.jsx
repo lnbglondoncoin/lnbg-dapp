@@ -1,6 +1,9 @@
+import Button from "@/components/buttons/Button";
 import CoinCard from "./CoinCard";
+import { useRouter } from "next/navigation";
 
 export default function VaultSection({ lang }) {
+  const router = useRouter();
   return (
     <div className="flex flex-col items-center w-full col-span-3 gap-2 relative">
       <h1 className="text-white uppercase text-3xl sm:text-4xl font-bold leading-6">
@@ -46,6 +49,13 @@ export default function VaultSection({ lang }) {
           provider="$LNBG"
           trustScore={9.1}
           indicator="91"
+        />
+      </div>
+      <div className="pb-10 flex items-center justify-center">
+        <Button
+          title="Explore All Vaults"
+          className="font-bold uppercase"
+          onClick={() => router.push(`/${lang}/staking/vaults`)}
         />
       </div>
     </div>
