@@ -15,7 +15,7 @@ export default function StakingSubPage({ params }) {
               ? "Ставка"
               : "Paris"}
       </h1>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-6 gap-6">
         <StakingCard lang={lang} slug={slug} />
         <ScoresCard lang={lang} />
         <StakingInfo lang={lang} />

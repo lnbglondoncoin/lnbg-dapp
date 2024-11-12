@@ -88,7 +88,7 @@ export default function StakingCard({ lang, slug }) {
   }, [selectedToken, tab, stakingContractData]);
 
   return (
-    <div className="relative col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
+    <div className="relative col-span-6 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-3">
       <div
         className="bg-primary2 absolute -top-2.5 px-5 lg:px-12 py-0.5 text-sm font-semibold text-black"
         style={{
@@ -278,9 +278,9 @@ export default function StakingCard({ lang, slug }) {
                 height={20}
                 className="mx-1"
                 alt="btc"
-                src="/static/coins/btc.svg"
+                src="/static/coins/wbtc.png"
               />{" "}
-              BTC
+              WBTC
             </div>
             <div
               onClick={() => {
@@ -296,7 +296,7 @@ export default function StakingCard({ lang, slug }) {
                 alt="eth"
                 src="/static/coins/eth.svg"
               />{" "}
-              ETH
+              WETH
             </div>
             <div
               onClick={() => {
@@ -344,7 +344,7 @@ export default function StakingCard({ lang, slug }) {
                 alt="bnb"
                 src="/static/coins/bnb.svg"
               />{" "}
-              BNB
+              WBNB
             </div>
             <div
               onClick={() => {
