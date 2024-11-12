@@ -1,9 +1,25 @@
 import Button from "@/components/buttons/Button";
 import CoinCard from "./CoinCard";
 import { useRouter } from "next/navigation";
+import { Store } from "@/context/Store";
+import { useContext, useEffect } from "react";
+import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 
 export default function VaultSection({ lang }) {
   const router = useRouter();
+  const { address, isConnected } = useWeb3ModalAccount();
+  const { totalStakeAmount,getStakingContractData }=useContext(Store);
+  
+  console.log(totalStakeAmount,"totalStakeAmounttotalStakeAmounttotalStakeAmount");
+
+
+  useEffect(() => {
+    if (address && isConnected) {
+      getStakingContractData();
+      console.log("getStakingContractDataCalled");
+    }
+  }, [address]);
+
   return (
     <div className="flex flex-col items-center w-full col-span-3 gap-2 relative">
       <h1 className="text-white uppercase text-3xl sm:text-4xl font-bold leading-6">
@@ -23,7 +39,7 @@ export default function VaultSection({ lang }) {
           symbol="usdt"
           name="USDT"
           apy={6.01}
-          tvl="49.7K"
+          tvl={totalStakeAmount}
           provider="$LNBG"
           trustScore={8.1}
           indicator="81"
@@ -34,7 +50,7 @@ export default function VaultSection({ lang }) {
           symbol="lnbg"
           name="$LNBG"
           apy={5.4}
-          tvl="59.7K"
+          tvl={totalStakeAmount}
           provider="$LNBG"
           trustScore={8.3}
           indicator="83"
@@ -45,7 +61,7 @@ export default function VaultSection({ lang }) {
           symbol="usdc"
           name="USDC"
           apy={6.14}
-          tvl="119.7K"
+          tvl={totalStakeAmount}
           provider="$LNBG"
           trustScore={9.1}
           indicator="91"

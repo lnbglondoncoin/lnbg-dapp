@@ -29,6 +29,9 @@ import WrappedTokenETHLnbgAbi from "./contractsData/WrappedLnbgLondon.json";
 //////   BINANCE Staking Contract WITH USDT AND USDC   //////////////
 import USDCTokenAddress from "./contractsData/USDCToken-address.json";
 import USDTTokenAddress from "./contractsData/USDTToken-address.json";
+import WBTCTokenAddress from "./contractsData/WBTCToken-address.json";
+import WETHTokenAddress from "./contractsData/WETHToken-address.json";
+import WBNBTokenAddress from "./contractsData/WBNBToken-address.json";
 
 import LnbgLondonCoinStakingContractAddress from "./contractsData/LnbgLondonCoinStakingContract-address.json";
 import LnbgLondonCoinStakingContractAbi from "./contractsData/LnbgLondonCoinStakingContract.json";
@@ -365,6 +368,7 @@ export const StoreProvider = ({ children }) => {
     if (!isConnected) {
       return toast.error("Please Connect Your Wallet."), setloader(false);
     }
+    console.log(token,"tokentokentoken");
     try {
       if (amount <= 0)
         return setloader(false), toast.error("Please enter amount");
@@ -382,6 +386,9 @@ export const StoreProvider = ({ children }) => {
           ? USDTTokenAddress.address
           : token === "USDC"
             ? USDCTokenAddress.address
+            : token === "BTC" ? WBTCTokenAddress.address 
+            : token === "ETH" ? WETHTokenAddress.address 
+            : token === "BNB" ? WBNBTokenAddress.address
             : LnbgCoinAddress.address,
         LnbgCoin.abi,
         signer
@@ -429,11 +436,14 @@ export const StoreProvider = ({ children }) => {
       // console.log(days, "daysdaysdays");
 
       let tokenAddress =
-        token === "USDT"
-          ? USDTTokenAddress.address
-          : token === "USDC"
-            ? USDCTokenAddress.address
-            : LnbgCoinAddress.address;
+      token === "USDT"
+      ? USDTTokenAddress.address
+      : token === "USDC"
+        ? USDCTokenAddress.address
+        : token === "BTC" ? WBTCTokenAddress.address 
+        : token === "ETH" ? WETHTokenAddress.address 
+        : token === "BNB" ? WBNBTokenAddress.address
+        : LnbgCoinAddress.address;
 
       let respon = await stakingContract.stakeTokens(
         tokens?.toString(),
@@ -471,11 +481,14 @@ export const StoreProvider = ({ children }) => {
       );
 
       let tokenAddress =
-        token === "USDT"
-          ? USDTTokenAddress.address
-          : token === "USDC"
-            ? USDCTokenAddress.address
-            : LnbgCoinAddress.address;
+      token === "USDT"
+      ? USDTTokenAddress.address
+      : token === "USDC"
+        ? USDCTokenAddress.address
+        : token === "BTC" ? WBTCTokenAddress.address 
+        : token === "ETH" ? WETHTokenAddress.address 
+        : token === "BNB" ? WBNBTokenAddress.address
+        : LnbgCoinAddress.address;
 
       const response = await stakingContract.unstakeTokensRequest(tokenAddress);
       await response.wait();

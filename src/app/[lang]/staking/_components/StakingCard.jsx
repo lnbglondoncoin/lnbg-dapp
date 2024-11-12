@@ -83,7 +83,7 @@ export default function StakingCard({ lang, slug }) {
             : stakingContractData?.LNBGStaked?.stakedTokens;
       setStake(stakedTokens === undefined ? 0 : stakedTokens); // Set stake to the corresponding stakedTokens
     } else {
-      setStake(0); // Reset stake when tab is "Stake"
+      setStake(null); // Reset stake when tab is "Stake"
     }
   }, [selectedToken, tab, stakingContractData]);
 
