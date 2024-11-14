@@ -140,7 +140,7 @@ export default function StakingCard({ lang, slug }) {
                 : "Désenjeu"}
         </button>
       </div>
-      <div className="grid w-full grid-cols-1 sm:grid-cols-3 rounded-[2rem] sm:rounded-full bg-gray2/10 p-1">
+ {tab === "Stake" && <> <div className="grid w-full grid-cols-1 sm:grid-cols-3 rounded-[2rem] sm:rounded-full bg-gray2/10 p-1">
         <button
           onClick={() => setSelectedOffer("12 months")}
           className={cn(
@@ -219,6 +219,7 @@ export default function StakingCard({ lang, slug }) {
               : "12%"}
         </span>
       </span>
+      </>}
       <div className="flex w-full flex-col gap-1">
         <div className="w-full text-xl text-gray2/70">
           {lang === "en"
