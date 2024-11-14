@@ -1,11 +1,13 @@
 "use client";
 import { Store } from "@/context/Store";
+import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import React, { useContext, useEffect } from "react";
 import Countdown from "react-countdown";
 
 export default function ScoresCard({ lang }) {
-  const { stakingContractData, masterContractData } = useContext(Store);
+  const { stakingContractData, masterContractData, getStakedInfoByUser } = useContext(Store);
   console.log(stakingContractData, "contractDatacontractDatacontractData");
+  const { address, isConnected } = useWeb3ModalAccount();
 
   // Renderer callback with condition
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
@@ -15,15 +17,16 @@ export default function ScoresCard({ lang }) {
     } else {
       // Render a countdown
       return (
-        //   <span>
-        //   {hours}:{minutes}:{seconds}
-        //  </span>
         <span>
           {days}:{hours}:{minutes}:{seconds}
         </span>
       );
     }
   };
+
+  // useEffect(()=>{
+  //   getStakedInfoByUser()
+  // },[address])
 
   return (
     <div className="col-span-6 relative flex h-fit flex-col gap-8 rounded-3xl bg-ash p-6 lg:col-span-3">

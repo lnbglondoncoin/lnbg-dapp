@@ -1,3 +1,4 @@
+'use client'
 import ScoresCard from "../_components/ScoresCard";
 import StakingCard from "../_components/StakingCard";
 import StakingInfo from "../_components/StakingInfo";
