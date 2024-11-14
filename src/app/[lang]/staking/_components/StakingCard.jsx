@@ -1,4 +1,5 @@
 "use client";
+
 import Button from "@/components/buttons/Button";
 import ConnectWalletButton from "@/components/buttons/ConnectWalletButton";
 import { Store } from "@/context/Store";
@@ -7,9 +8,7 @@ import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import { Activity } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import SelectDropdown from "../../bridge/_components/SelectDropdown";
-import { usdcSvg, usdtSvg } from "@/components/icons";
 import Image from "next/image";
-import { BigNumber } from "ethers";
 import { useRouter } from "next/navigation";
 
 export default function StakingCard({ lang, slug }) {
