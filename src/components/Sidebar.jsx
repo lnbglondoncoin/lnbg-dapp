@@ -273,7 +273,7 @@ export default function Sidebar({ lang }) {
                     {linkedInIcon}
                   </Link>
                   <Link
-                    href="https://discord.gg/w2mQvwem"
+                    href="https://discord.gg/nmZ5vRyyAg"
                     className="hover:text-yellow-300"
                   >
                     {discordIcon}
@@ -501,7 +501,7 @@ export default function Sidebar({ lang }) {
               {linkedInIcon}
             </Link>
             <Link
-              href="https://discord.gg/w2mQvwem"
+              href="https://discord.gg/nmZ5vRyyAg"
               className="hover:text-yellow-300"
             >
               {discordIcon}
