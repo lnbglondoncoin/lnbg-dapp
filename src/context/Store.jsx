@@ -338,21 +338,24 @@ export const StoreProvider = ({ children }) => {
           "newwwwwwwwwwwwwww"
         );
 
-        console.log("1");
-        console.log(LNBGEarned?.toString(),
-USDCEarned?.toString(),
-USDTEarned?.toString(),
-WETHEarned?.toString(),
-WBNBEarned?.toString(),
-WBTCEarned?.toString(),"hhhhhhhhhhhhhhhhhhhhhhhh");
-        let lnbgLNBG = ethers.utils.formatEther(LNBGEarned?.toString());
-        let lnbgUSDC = ethers.utils.formatEther(USDCEarned?.toString());
-        let lnbgUSDT = ethers.utils.formatEther(USDTEarned?.toString());
-        let lnbgWETH = ethers.utils.formatEther(WETHEarned?.toString());
-        let lnbgWBNB = ethers.utils.formatEther(WBNBEarned?.toString());
-        let lnbgWBTC = ethers.utils.formatEther(WBTCEarned?.toString());
+        let lnbgLNBG = ethers.utils.formatEther(LNBGEarned?.toString() || "0");
+        let lnbgUSDC = ethers.utils.formatEther(USDCEarned?.toString() || "0");
+        let lnbgUSDT = ethers.utils.formatEther(USDTEarned?.toString() || "0");
+        let lnbgWETH = ethers.utils.formatEther(WETHEarned?.toString() || "0");
+        let lnbgWBNB = ethers.utils.formatEther(WBNBEarned?.toString() || "0");
+        let lnbgWBTC = ethers.utils.formatEther(WBTCEarned?.toString() || "0");
+        
+        console.log(
+          lnbgLNBG,
+          lnbgUSDC,
+          lnbgUSDT,
+          lnbgWETH,
+          lnbgWBNB,
+          lnbgWBTC,
+          "gggggggggggggggggggggggg"
+        );
 
-        console.log("2");
+
         // Map the returned stakes (which are individual objects) to your state
         setStakingContractData((prevState) => ({
           ...prevState,
@@ -408,8 +411,8 @@ WBTCEarned?.toString(),"hhhhhhhhhhhhhhhhhhhhhhhh");
                   stakedTokenAddress: USDCStaked?.stakedTokenAddress?.toString(),
                 }
               : null,
-
-          TotalEarnedReward: (lnbgLNBG + lnbgUSDC + lnbgUSDT + lnbgWETH + lnbgWBNB + lnbgWBTC),
+          // Convert the ether-formatted strings to numbers
+          TotalEarnedReward : parseFloat(lnbgLNBG || "0") + parseFloat(lnbgUSDC || "0") + parseFloat(lnbgUSDT || "0") + parseFloat(lnbgWETH || "0") + parseFloat(lnbgWBNB || "0") + parseFloat(lnbgWBTC || "0"),
         }));
         console.log("3");
       } catch (error) {
@@ -519,13 +522,13 @@ WBTCEarned?.toString(),"hhhhhhhhhhhhhhhhhhhhhhhh");
       }
 
       //TODO:: update this code
-      // const currentTimestamp = Math.floor(Date.now() / 1000);
-      // const ninetyDaysInSeconds = duration * 24 * 60 * 60; // 90 days in seconds
-      // let days = currentTimestamp + ninetyDaysInSeconds;
-
       const currentTimestamp = Math.floor(Date.now() / 1000);
-      const ninetyDaysInSeconds = duration * 60; // 90 days in seconds
+      const ninetyDaysInSeconds = duration * 24 * 60 * 60; // 90 days in seconds
       let days = currentTimestamp + ninetyDaysInSeconds;
+
+      // const currentTimestamp = Math.floor(Date.now() / 1000);
+      // const ninetyDaysInSeconds = duration * 60;
+      // let days = currentTimestamp + ninetyDaysInSeconds;
       // console.log(days, "daysdaysdays");
 
       let tokenAddress =
@@ -549,7 +552,7 @@ WBTCEarned?.toString(),"hhhhhhhhhhhhhhhhhhhhhhhh");
       await respon.wait();
 
       toast.success("successfuly Staked");
-      getStakedInfoByUser();
+      await getStakedInfoByUser();
       setloader(false);
     } catch (error) {
       setloader(false);
@@ -576,6 +579,8 @@ WBTCEarned?.toString(),"hhhhhhhhhhhhhhhhhhhhhhhh");
         signer
       );
 
+      console.log(token,"tokentokentoken");
+
       let tokenAddress =
         token === "USDT"
           ? USDTTokenAddress.address
@@ -588,14 +593,14 @@ WBTCEarned?.toString(),"hhhhhhhhhhhhhhhhhhhhhhhh");
                 : token === "BNB"
                   ? WBNBTokenAddress.address
                   : LnbgCoinAddress.address;
-
+      console.log(tokenAddress,"tokenAddresstokenAddresstokenAddress");
       const response = await stakingContract.unstakeTokensRequest(tokenAddress);
       await response.wait();
 
       // await GetValues();
       // setWithdrawRequests([]);
       // setWithdrawInvestedTokensRequests([]);
-      // await GetWithdrawRequests();
+      await getStakedInfoByUser();
       toast.success("successfuly Requested");
       setloader(false);
     } catch (error) {
