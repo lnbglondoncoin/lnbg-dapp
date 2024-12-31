@@ -2,7 +2,7 @@ import { Dot } from "lucide-react";
 
 export default function StakingInfo({ lang }) {
   return (
-    <div className="col-span-6 flex w-full flex-col items-center gap-3 rounded-3xl bg-ash p-5">
+    <div className="col-span-3 flex w-full flex-col items-center gap-3 rounded-3xl bg-ash p-5">
       <h1 className="w-full text-center text-2xl font-medium">
         {lang === "en"
           ? "Staking info"

@@ -14,7 +14,6 @@ export default function StakingPage({ params }) {
   useEffect(() => {
     if (address && isConnected) {
       getStakingContractData();
-      console.log("getStakingContractDataCalled");
     }
   }, [address]);
 

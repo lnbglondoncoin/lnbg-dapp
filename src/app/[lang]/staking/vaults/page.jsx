@@ -1,4 +1,3 @@
-"use client"
 import React from "react";
 import CoinCard from "../_components/CoinCard";
 
@@ -20,8 +19,8 @@ export default function AllVaultsPage({ params }) {
         <CoinCard
           lang={lang}
           imgUrl="/static/coins/eth.svg"
-          symbol="weth"
-          name="WETH"
+          symbol="eth"
+          name="ETH"
           apy={8.4}
           tvl="139.7K"
           provider="$LNBG"
@@ -41,9 +40,9 @@ export default function AllVaultsPage({ params }) {
         />
         <CoinCard
           lang={lang}
-          imgUrl="/static/coins/wbtc.png"
-          symbol="wbtc"
-          name="WBTC"
+          imgUrl="/static/coins/btc.svg"
+          symbol="btc"
+          name="BTC"
           apy={16.01}
           tvl="949.7K"
           provider="$LNBG"
@@ -64,8 +63,8 @@ export default function AllVaultsPage({ params }) {
         <CoinCard
           lang={lang}
           imgUrl="/static/coins/bnb.svg"
-          symbol="wbnb"
-          name="WBNB"
+          symbol="bnb"
+          name="BNB"
           apy={5.6}
           tvl="39.3K"
           provider="$LNBG"
