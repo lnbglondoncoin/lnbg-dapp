@@ -15,7 +15,7 @@ export const proposals = [
     dilligence: "Review and approval process. Listing",
     fees: "Listing costs for each exchange.",
     marketing:
-      "Coordinated promotional campaigns. Technical Integration Wallet support and API integration. Timeline Detailed timeline from application to listing. Budget Estimated costs for application, listing, and marketing. Risk Assessment Identify risks and mitigation strategies. Conclusion Listing on centralized exchanges will boost Creed Coin’s liquidity, exposure, and credibility. Support from stakeholders is essential. Call to Action We seek approval and resources from stakeholders to proceed with the listing initiative.",
+      "Coordinated promotional campaigns. Technical Integration Wallet support and API integration. Timeline Detailed timeline from application to listing. Budget Estimated costs for application, listing, and marketing. Risk Assessment Identify risks and mitigation strategies. Conclusion Listing on centralized exchanges will boost $LNBG Coin’s liquidity, exposure, and credibility. Support from stakeholders is essential. Call to Action We seek approval and resources from stakeholders to proceed with the listing initiative.",
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ export const proposals = [
     dilligence: "Review and approval process. Listing",
     fees: "Listing costs for each exchange.",
     marketing:
-      "Coordinated promotional campaigns. Technical Integration Wallet support and API integration. Timeline Detailed timeline from application to listing. Budget Estimated costs for application, listing, and marketing. Risk Assessment Identify risks and mitigation strategies. Conclusion Listing on centralized exchanges will boost Creed Coin’s liquidity, exposure, and credibility. Support from stakeholders is essential. Call to Action We seek approval and resources from stakeholders to proceed with the listing initiative.",
+      "Coordinated promotional campaigns. Technical Integration Wallet support and API integration. Timeline Detailed timeline from application to listing. Budget Estimated costs for application, listing, and marketing. Risk Assessment Identify risks and mitigation strategies. Conclusion Listing on centralized exchanges will boost $LNBG Coin’s liquidity, exposure, and credibility. Support from stakeholders is essential. Call to Action We seek approval and resources from stakeholders to proceed with the listing initiative.",
   },
   {
     id: 3,
@@ -51,7 +51,7 @@ export const proposals = [
     dilligence: "Review and approval process. Listing",
     fees: "Listing costs for each exchange.",
     marketing:
-      "Coordinated promotional campaigns. Technical Integration Wallet support and API integration. Timeline Detailed timeline from application to listing. Budget Estimated costs for application, listing, and marketing. Risk Assessment Identify risks and mitigation strategies. Conclusion Listing on centralized exchanges will boost Creed Coin’s liquidity, exposure, and credibility. Support from stakeholders is essential. Call to Action We seek approval and resources from stakeholders to proceed with the listing initiative.",
+      "Coordinated promotional campaigns. Technical Integration Wallet support and API integration. Timeline Detailed timeline from application to listing. Budget Estimated costs for application, listing, and marketing. Risk Assessment Identify risks and mitigation strategies. Conclusion Listing on centralized exchanges will boost $LNBG Coin’s liquidity, exposure, and credibility. Support from stakeholders is essential. Call to Action We seek approval and resources from stakeholders to proceed with the listing initiative.",
   },
   {
     id: 4,
@@ -69,7 +69,7 @@ export const proposals = [
     dilligence: "Review and approval process. Listing",
     fees: "Listing costs for each exchange.",
     marketing:
-      "Coordinated promotional campaigns. Technical Integration Wallet support and API integration. Timeline Detailed timeline from application to listing. Budget Estimated costs for application, listing, and marketing. Risk Assessment Identify risks and mitigation strategies. Conclusion Listing on centralized exchanges will boost Creed Coin’s liquidity, exposure, and credibility. Support from stakeholders is essential. Call to Action We seek approval and resources from stakeholders to proceed with the listing initiative.",
+      "Coordinated promotional campaigns. Technical Integration Wallet support and API integration. Timeline Detailed timeline from application to listing. Budget Estimated costs for application, listing, and marketing. Risk Assessment Identify risks and mitigation strategies. Conclusion Listing on centralized exchanges will boost $LNBG Coin’s liquidity, exposure, and credibility. Support from stakeholders is essential. Call to Action We seek approval and resources from stakeholders to proceed with the listing initiative.",
   },
   {
     id: 5,
@@ -87,6 +87,6 @@ export const proposals = [
     dilligence: "Review and approval process. Listing",
     fees: "Listing costs for each exchange.",
     marketing:
-      "Coordinated promotional campaigns. Technical Integration Wallet support and API integration. Timeline Detailed timeline from application to listing. Budget Estimated costs for application, listing, and marketing. Risk Assessment Identify risks and mitigation strategies. Conclusion Listing on centralized exchanges will boost Creed Coin’s liquidity, exposure, and credibility. Support from stakeholders is essential. Call to Action We seek approval and resources from stakeholders to proceed with the listing initiative.",
+      "Coordinated promotional campaigns. Technical Integration Wallet support and API integration. Timeline Detailed timeline from application to listing. Budget Estimated costs for application, listing, and marketing. Risk Assessment Identify risks and mitigation strategies. Conclusion Listing on centralized exchanges will boost $LNBG Coin’s liquidity, exposure, and credibility. Support from stakeholders is essential. Call to Action We seek approval and resources from stakeholders to proceed with the listing initiative.",
   },
 ];
