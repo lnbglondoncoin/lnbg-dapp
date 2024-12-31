@@ -1,34 +1,37 @@
 "use client";
 import { Store } from "@/context/Store";
+import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import React, { useContext, useEffect } from "react";
 import Countdown from "react-countdown";
 
 export default function ScoresCard({ lang }) {
-  const { stakingContractData, masterContractData } = useContext(Store);
+  const { stakingContractData, masterContractData, getStakedInfoByUser } = useContext(Store);
   console.log(stakingContractData, "contractDatacontractDatacontractData");
+  const { address, isConnected } = useWeb3ModalAccount();
 
   // Renderer callback with condition
-  const renderer = ({days, hours, minutes, seconds, completed }) => {
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
       // Render a completed state
       return <span>Completed!</span>;
     } else {
       // Render a countdown
       return (
-      //   <span>
-      //   {hours}:{minutes}:{seconds}
-      //  </span>
         <span>
-         {days}:{hours}:{minutes}:{seconds}
+          {days}:{hours}:{minutes}:{seconds}
         </span>
       );
     }
   };
 
+  // useEffect(()=>{
+  //   getStakedInfoByUser()
+  // },[address])
+
   return (
-    <div className="col-span-3 flex h-fit flex-col gap-8 rounded-3xl bg-ash p-6 lg:col-span-1">
-      <div className="flex flex-col gap-3">
-        <span className="text-primary2 text-sm font-semibold uppercase">
+    <div className="col-span-6 relative flex h-fit flex-col gap-8 rounded-3xl bg-ash p-6 lg:col-span-3">
+      <div className="flex flex-col gap-3 max-h-[25rem] overflow-auto">
+        <span className="text-primary2 font-semibold uppercase">
           {lang === "en"
             ? "My Staked"
             : lang === "es"
@@ -69,8 +72,146 @@ export default function ScoresCard({ lang }) {
             {lockIcon}
           </div>
         </div>
+        {/* WBTC STAKED START */}
+        <span className="text-primary2 font-semibold uppercase">
+          {lang === "en"
+            ? "WBTC Staked"
+            : lang === "es"
+              ? "WBTC apostados"
+              : lang === "ru"
+                ? "Ставка WBTC"
+                : "Jetons WBTC misés"}
+        </span>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staked WBTC Tokens"
+              : lang === "es"
+                ? "Tokens WBTC apostados"
+                : lang === "ru"
+                  ? "Ставка токенов WBTC"
+                  : "Jetons WBTC misés"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            {stakingContractData?.LNBGStaked?.stakedTokens || 0}
+            {lockIcon}
+          </div>
+        </div>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staking End Time"
+              : lang === "es"
+                ? "Hora de finalización de la apuesta"
+                : lang === "ru"
+                  ? "Время окончания ставки"
+                  : "Heure de fin de la mise"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            <Countdown
+              date={new Date(stakingContractData?.LNBGStaked?.duration || 0)}
+              renderer={renderer}
+            />
+            {/* {stakingContractData?.LNBGStaked?.duration} */}
+            {lockIcon}
+          </div>
+        </div>
+        {/* WETH STAKED START */}
+        <span className="text-primary2 font-semibold uppercase">
+          {lang === "en"
+            ? "WETH Staked"
+            : lang === "es"
+              ? "WETH apostados"
+              : lang === "ru"
+                ? "Ставка WETH"
+                : "Jetons WETH misés"}
+        </span>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staked WETH Tokens"
+              : lang === "es"
+                ? "Tokens WETH apostados"
+                : lang === "ru"
+                  ? "Ставка токенов WETH"
+                  : "Jetons WETH misés"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            {stakingContractData?.USDTStaked?.stakedTokens || 0}
+            {lockIcon}
+          </div>
+        </div>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staking End Time"
+              : lang === "es"
+                ? "Hora de finalización de la apuesta"
+                : lang === "ru"
+                  ? "Время окончания ставки"
+                  : "Heure de fin de la mise"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            <Countdown
+              date={new Date(stakingContractData?.USDTStaked?.duration || 0)}
+              renderer={renderer}
+            />
+            {/* {stakingContractData?.USDTStaked?.duration} */}
+            {lockIcon}
+          </div>
+        </div>
+        {/* WBNB STAKED START */}
+        <span className="text-primary2 font-semibold uppercase">
+          {lang === "en"
+            ? "WBNB Staked"
+            : lang === "es"
+              ? "WBNB apostados"
+              : lang === "ru"
+                ? "Ставка WBNB"
+                : "Jetons WBNB misés"}
+        </span>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staked WBNB Tokens"
+              : lang === "es"
+                ? "Tokens WBNB apostados"
+                : lang === "ru"
+                  ? "Ставка токенов WBNB"
+                  : "Jetons WBNB misés"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            {stakingContractData?.USDCStaked?.stakedTokens || 0}
+            {lockIcon}
+          </div>
+        </div>
+        <div className="flex items-baseline gap-1">
+          <span className="w-fit text-nowrap font-semibold text-gray2">
+            {lang === "en"
+              ? "Staking End Time"
+              : lang === "es"
+                ? "Hora de finalización de la apuesta"
+                : lang === "ru"
+                  ? "Время окончания ставки"
+                  : "Heure de fin de la mise"}
+          </span>
+          <div className="w-full border-b border-dashed border-gray2/50"></div>
+          <div className="flex items-center gap-1">
+            <Countdown
+              date={new Date(stakingContractData?.USDCStaked?.duration || 0)}
+              renderer={renderer}
+            />
+            {/* {stakingContractData?.USDCStaked?.duration} */}
+            {lockIcon}
+          </div>
+        </div>
         {/* LNBG STAKED START */}
-        <span className="text-primary2 text-sm font-semibold uppercase">
+        <span className="text-primary2 font-semibold uppercase">
           {lang === "en"
             ? "LNBG Staked"
             : lang === "es"
@@ -116,7 +257,7 @@ export default function ScoresCard({ lang }) {
           </div>
         </div>
         {/* USDT STAKED START */}
-        <span className="text-primary2 text-sm font-semibold uppercase">
+        <span className="text-primary2 font-semibold uppercase">
           {lang === "en"
             ? "USDT Staked"
             : lang === "es"
@@ -153,7 +294,7 @@ export default function ScoresCard({ lang }) {
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
           <div className="flex items-center gap-1">
-          <Countdown
+            <Countdown
               date={new Date(stakingContractData?.USDTStaked?.duration || 0)}
               renderer={renderer}
             />
@@ -162,7 +303,7 @@ export default function ScoresCard({ lang }) {
           </div>
         </div>
         {/* USDC STAKED START */}
-        <span className="text-primary2 text-sm font-semibold uppercase">
+        <span className="text-primary2 font-semibold uppercase">
           {lang === "en"
             ? "USDC Staked"
             : lang === "es"
@@ -199,7 +340,7 @@ export default function ScoresCard({ lang }) {
           </span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
           <div className="flex items-center gap-1">
-          <Countdown
+            <Countdown
               date={new Date(stakingContractData?.USDCStaked?.duration || 0)}
               renderer={renderer}
             />

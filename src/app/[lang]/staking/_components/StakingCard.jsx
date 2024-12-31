@@ -1,4 +1,5 @@
 "use client";
+
 import Button from "@/components/buttons/Button";
 import ConnectWalletButton from "@/components/buttons/ConnectWalletButton";
 import { Store } from "@/context/Store";
@@ -7,9 +8,7 @@ import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import { Activity } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import SelectDropdown from "../../bridge/_components/SelectDropdown";
-import { usdcSvg, usdtSvg } from "@/components/icons";
 import Image from "next/image";
-import { BigNumber } from "ethers";
 import { useRouter } from "next/navigation";
 
 export default function StakingCard({ lang, slug }) {
@@ -80,15 +79,21 @@ export default function StakingCard({ lang, slug }) {
           ? stakingContractData?.USDTStaked?.stakedTokens
           : selectedToken === "USDC"
             ? stakingContractData?.USDCStaked?.stakedTokens
-            : stakingContractData?.LNBGStaked?.stakedTokens;
+            : selectedToken === "BTC"
+              ? stakingContractData?.WBTCStaked?.stakedTokens
+              : selectedToken === "ETH"
+                ? stakingContractData?.WETHStaked?.stakedTokens
+                : selectedToken === "BNB"
+                  ? stakingContractData?.WBNBStaked?.stakedTokens
+                  : stakingContractData?.LNBGStaked?.stakedTokens;
       setStake(stakedTokens === undefined ? 0 : stakedTokens); // Set stake to the corresponding stakedTokens
     } else {
-      setStake(0); // Reset stake when tab is "Stake"
+      setStake(null); // Reset stake when tab is "Stake"
     }
   }, [selectedToken, tab, stakingContractData]);
 
   return (
-    <div className="relative col-span-3 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-2">
+    <div className="relative col-span-6 flex w-full flex-col items-center gap-5 rounded-3xl bg-ash p-5 lg:col-span-3">
       <div
         className="bg-primary2 absolute -top-2.5 px-5 lg:px-12 py-0.5 text-sm font-semibold text-black"
         style={{
@@ -140,85 +145,90 @@ export default function StakingCard({ lang, slug }) {
                 : "Désenjeu"}
         </button>
       </div>
-      <div className="grid w-full grid-cols-1 sm:grid-cols-3 rounded-[2rem] sm:rounded-full bg-gray2/10 p-1">
-        <button
-          onClick={() => setSelectedOffer("12 months")}
-          className={cn(
-            "flex w-full flex-col items-center justify-center gap-1 rounded-full py-1",
-            selectedOffer == "12 months" && "border border-white/50"
-          )}
-        >
-          {lang === "en"
-            ? "12 months"
-            : lang === "es"
-              ? "12 meses"
-              : lang === "ru"
-                ? "12 месяцев"
-                : "12 mois"}
-          <div className="flex items-center gap-1 font-semibold">
-            <span className="">APR </span>
-            <span className="text-primary2">24%</span>
-            <span className="text-gray2/50 line-through">12%</span>
+      {tab === "Stake" && (
+        <>
+          {" "}
+          <div className="grid w-full grid-cols-1 sm:grid-cols-3 rounded-[2rem] sm:rounded-full bg-gray2/10 p-1">
+            <button
+              onClick={() => setSelectedOffer("12 months")}
+              className={cn(
+                "flex w-full flex-col items-center justify-center gap-1 rounded-full py-1",
+                selectedOffer == "12 months" && "border border-white/50"
+              )}
+            >
+              {lang === "en"
+                ? "12 months"
+                : lang === "es"
+                  ? "12 meses"
+                  : lang === "ru"
+                    ? "12 месяцев"
+                    : "12 mois"}
+              <div className="flex items-center gap-1 font-semibold">
+                <span className="">APR </span>
+                <span className="text-primary2">24%</span>
+                <span className="text-gray2/50 line-through">12%</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setSelectedOffer("6 months")}
+              className={cn(
+                "flex w-full flex-col items-center justify-center gap-1 rounded-full py-1",
+                selectedOffer == "6 months" && "border border-white/50"
+              )}
+            >
+              {lang === "en"
+                ? "6 months"
+                : lang === "es"
+                  ? "6 meses"
+                  : lang === "ru"
+                    ? "6 месяцев"
+                    : "6 mois"}
+              <div className="flex items-center gap-1 font-semibold">
+                <span className="">APR </span>
+                <span className="text-primary2">18%</span>
+                <span className="text-gray2/50 line-through">9%</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setSelectedOffer("3 months")}
+              className={cn(
+                "flex w-full flex-col items-center justify-center gap-1 rounded-full py-1",
+                selectedOffer == "3 months" && "border border-white/50"
+              )}
+            >
+              {lang === "en"
+                ? "3 months"
+                : lang === "es"
+                  ? "3 meses"
+                  : lang === "ru"
+                    ? "3 месяца"
+                    : "3 mois"}
+              <div className="flex items-center gap-1 font-semibold">
+                <span className="">APR </span>
+                <span className="text-primary2">12%</span>
+                <span className="text-gray2/50 line-through">6%</span>
+              </div>
+            </button>
           </div>
-        </button>
-        <button
-          onClick={() => setSelectedOffer("6 months")}
-          className={cn(
-            "flex w-full flex-col items-center justify-center gap-1 rounded-full py-1",
-            selectedOffer == "6 months" && "border border-white/50"
-          )}
-        >
-          {lang === "en"
-            ? "6 months"
-            : lang === "es"
-              ? "6 meses"
-              : lang === "ru"
-                ? "6 месяцев"
-                : "6 mois"}
-          <div className="flex items-center gap-1 font-semibold">
-            <span className="">APR </span>
-            <span className="text-primary2">18%</span>
-            <span className="text-gray2/50 line-through">9%</span>
-          </div>
-        </button>
-        <button
-          onClick={() => setSelectedOffer("3 months")}
-          className={cn(
-            "flex w-full flex-col items-center justify-center gap-1 rounded-full py-1",
-            selectedOffer == "3 months" && "border border-white/50"
-          )}
-        >
-          {lang === "en"
-            ? "3 months"
-            : lang === "es"
-              ? "3 meses"
-              : lang === "ru"
-                ? "3 месяца"
-                : "3 mois"}
-          <div className="flex items-center gap-1 font-semibold">
-            <span className="">APR </span>
-            <span className="text-primary2">12%</span>
-            <span className="text-gray2/50 line-through">6%</span>
-          </div>
-        </button>
-      </div>
-      <span className="w-full text-lg font-semibold">
-        {lang === "en"
-          ? "LOCK-UP FOR"
-          : lang === "es"
-            ? "BLOQUEO POR"
-            : lang === "ru"
-              ? "БЛОКИРОВКА НА"
-              : "BLOCAGE POUR"}{" "}
-        <span className="text-primary2 uppercase">
-          {selectedOffer} | APR{" "}
-          {selectedOffer == "12 months"
-            ? "24%"
-            : selectedOffer == "6 months"
-              ? "18%"
-              : "12%"}
-        </span>
-      </span>
+          <span className="w-full text-lg font-semibold">
+            {lang === "en"
+              ? "LOCK-UP FOR"
+              : lang === "es"
+                ? "BLOQUEO POR"
+                : lang === "ru"
+                  ? "БЛОКИРОВКА НА"
+                  : "BLOCAGE POUR"}{" "}
+            <span className="text-primary2 uppercase">
+              {selectedOffer} | APR{" "}
+              {selectedOffer == "12 months"
+                ? "24%"
+                : selectedOffer == "6 months"
+                  ? "18%"
+                  : "12%"}
+            </span>
+          </span>
+        </>
+      )}
       <div className="flex w-full flex-col gap-1">
         <div className="w-full text-xl text-gray2/70">
           {lang === "en"
@@ -278,9 +288,9 @@ export default function StakingCard({ lang, slug }) {
                 height={20}
                 className="mx-1"
                 alt="btc"
-                src="/static/coins/btc.svg"
+                src="/static/coins/wbtc.png"
               />{" "}
-              BTC
+              WBTC
             </div>
             <div
               onClick={() => {
@@ -296,7 +306,7 @@ export default function StakingCard({ lang, slug }) {
                 alt="eth"
                 src="/static/coins/eth.svg"
               />{" "}
-              ETH
+              WETH
             </div>
             <div
               onClick={() => {
@@ -344,7 +354,7 @@ export default function StakingCard({ lang, slug }) {
                 alt="bnb"
                 src="/static/coins/bnb.svg"
               />{" "}
-              BNB
+              WBNB
             </div>
             <div
               onClick={() => {
