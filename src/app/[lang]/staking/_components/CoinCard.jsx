@@ -32,7 +32,7 @@ export default function CoinCard({
         <div className="flex w-full items-baseline gap-1">
           <span className="text-gray2">TVL</span>
           <div className="w-full border-b border-dashed border-gray2/50"></div>
-          <span className="text-2xl">{tvl}</span>
+          <span className="text-2xl">${tvl}</span>
         </div>
         <div className="flex w-full items-baseline gap-1">
           <span className="text-gray2">Provider</span>
