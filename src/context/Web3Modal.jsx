@@ -4,23 +4,23 @@ import { createWeb3Modal, defaultConfig } from '@web3modal/ethers5/react'
 // 1. Get projectId
 const projectId = '48d44678afcba02c797f5d30369c89a7'
 
-// // 2. Set chains
-// const mainnet = {
-//   chainId: 1,
-//   name: 'Ethereum',
-//   currency: 'ETH',
-//   explorerUrl: 'https://etherscan.io',
-//   rpcUrl: `${process.env.NEXT_PUBLIC_RPC_URL_ETH}`
-// }
+// 2. Set chains
+const mainnet = {
+  chainId: 1,
+  name: 'Ethereum',
+  currency: 'ETH',
+  explorerUrl: 'https://etherscan.io',
+  rpcUrl: `${process.env.NEXT_PUBLIC_RPC_URL_ETH}`
+}
 
 const Binance = {
-  chainId: 97,
+  chainId: 56,
   name: 'Binance',
   currency: 'BNB',
   explorerUrl: 'https://testnet.bscscan.com',
   rpcUrl: `${process.env.NEXT_PUBLIC_RPC_URL_BNB}`
 }
-console.log(process.env.NEXT_PUBLIC_RPC_URL_BNB,"process.env.NEXT_PUBLIC_RPC_URL_BNBprocess.env.NEXT_PUBLIC_RPC_URL_BNB");
+
 // const BNBSmartChainTestnet = {
 //   chainId: 97,
 //   name: 'Binance',
@@ -30,13 +30,13 @@ console.log(process.env.NEXT_PUBLIC_RPC_URL_BNB,"process.env.NEXT_PUBLIC_RPC_URL
 // }
 
 
-const seoiliaTestnet = {
-  chainId: 11155111,
-  name: 'Sepolia',
-  currency: 'ETH',
-  explorerUrl: 'https://sepolia.etherscan.io',
-  rpcUrl: `${process.env.NEXT_PUBLIC_RPC_URL_SEPO}`
-}
+// const seoiliaTestnet = {
+//   chainId: 11155111,
+//   name: 'Sepolia',
+//   currency: 'ETH',
+//   explorerUrl: 'https://sepolia.etherscan.io',
+//   rpcUrl: `${process.env.NEXT_PUBLIC_RPC_URL_SEPO}`
+// }
 
 // // 
 
@@ -63,7 +63,7 @@ const ethersConfig = defaultConfig({
 
 createWeb3Modal({
   ethersConfig,
-  chains: [Binance,seoiliaTestnet],
+  chains: [Binance,mainnet],
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration,
   enableOnramp: true // Optional - false as default
