@@ -22,11 +22,6 @@ const createBackendServer = (baseURL) => {
         }
     );
 
-
-   
-
-
-
     const viewAllTransactions = async () => await api.get(`transactions`);
     const viewPendingTransactions = async () => await api.get(`transactions/pending`);
     const viewCompleteTransactions = async () => await api.get(`transactions/complete`);
@@ -43,5 +38,6 @@ const createBackendServer = (baseURL) => {
     };
 };
 
-const apis = createBackendServer("http://127.0.0.1:5000");
+// const apis = createBackendServer("http://127.0.0.1:5000");
+const apis = createBackendServer("https://lnbglondonllc.com");
 export default apis;

@@ -137,7 +137,7 @@ const ProposalDetailsPage = ({ params }) => {
             <button
               onClick={() => {
                 addingVote(
-                  masterContractProposalData?.[id]?.proposer,
+                  masterContractProposalData?.[id]?.proposerId,
                   castVote
                 ),
                   setShowVoteModal(false);

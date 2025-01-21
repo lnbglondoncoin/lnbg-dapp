@@ -82,8 +82,8 @@ export default function VotingPage({ params }) {
                   <p className="text-gray12 text-nowrap">
                     Proposed by:{" "}
                     <span className="text-white">
-                      {proposal.proposer.slice(0, 3)}...
-                      {proposal.proposer.slice(-4)}
+                      {proposal?.proposer.slice(0, 3)}...
+                      {proposal?.proposer.slice(-4)}
                     </span>
                   </p>
                 </div>
@@ -98,7 +98,7 @@ export default function VotingPage({ params }) {
                 </span>
               </div>
               <div className="flex flex-col h-full pb-2 justify-between items-end">
-                <p className="text-lg text-nowrap">4.8M For - 1.2M Against</p>
+                <p className="text-lg text-nowrap">Yes: {proposal?.yesVotes} - No: {proposal?.noVotes}</p>
                 <div className="flex w-full">
                   <div className="h-[2px] w-[80%] bg-primary"></div>
                   <div className="h-[2px] w-[20%] bg-red-500"></div>

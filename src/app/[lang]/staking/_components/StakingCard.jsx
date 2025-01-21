@@ -42,13 +42,13 @@ export default function StakingCard({ lang, slug }) {
       const days = months * 30;
       console.log(days, months, "months");
 
-      // if (days < 90) {
-      //   return toast.error("Please Add More then 90 Days");
-      // }
+      if (days < 90) {
+        return toast.error("Please Add More then 90 Days");
+      }
 
       await StakeTokensSend(
         stake?.toString(),
-        months?.toString(),
+        days?.toString(),
         selectedToken
       ); //TODO:: days
     } catch (error) {
