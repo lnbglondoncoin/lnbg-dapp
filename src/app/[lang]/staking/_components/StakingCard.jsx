@@ -79,7 +79,13 @@ export default function StakingCard({ lang, slug }) {
         selectedToken === "USDT"
           ? stakingContractData?.USDTStaked?.stakedTokens
           : selectedToken === "USDC"
-            ? stakingContractData?.USDCStaked?.stakedTokens
+             ? stakingContractData?.USDCStaked?.stakedTokens
+            : selectedToken === "BTC"
+              ? stakingContractData?.WBTCStaked?.stakedTokens
+              : selectedToken === "ETH"
+                ? stakingContractData?.WETHStaked?.stakedTokens
+                : selectedToken === "BNB"
+                  ? stakingContractData?.WBNBStaked?.stakedTokens
             : stakingContractData?.LNBGStaked?.stakedTokens;
       setStake(stakedTokens === undefined ? 0 : stakedTokens); // Set stake to the corresponding stakedTokens
     } else {
@@ -280,7 +286,7 @@ export default function StakingCard({ lang, slug }) {
                 alt="btc"
                 src="/static/coins/btc.svg"
               />{" "}
-              BTC
+              WBTC
             </div>
             <div
               onClick={() => {
@@ -296,7 +302,7 @@ export default function StakingCard({ lang, slug }) {
                 alt="eth"
                 src="/static/coins/eth.svg"
               />{" "}
-              ETH
+              WETH
             </div>
             <div
               onClick={() => {
@@ -344,7 +350,7 @@ export default function StakingCard({ lang, slug }) {
                 alt="bnb"
                 src="/static/coins/bnb.svg"
               />{" "}
-              BNB
+              WBNB
             </div>
             <div
               onClick={() => {
