@@ -56,7 +56,7 @@ export default function Timer() {
   };
 
   const getDeadTime = () => {
-    let deadline = new Date("2024-12-17T00:00:00Z");
+    let deadline = new Date("2025-02-27T00:00:00Z");
 
     // This is where you need to adjust if
     // you entend to add more time
