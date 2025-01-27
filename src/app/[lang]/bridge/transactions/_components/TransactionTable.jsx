@@ -328,7 +328,7 @@ export default function TransactionTable() {
                         {item?.transactionHash?.slice(0, 6)}...
                       </td>
                       <td className="py-3 pr-4">
-                        {item?.bridgeNetwork === "eth" ? "Ethereum" : "Polygon"}
+                        {item?.bridgeNetwork === "eth" ? "Ethereum" : "Binance"}
                       </td>
                       <td className="py-3 pr-4">
                         {ethers.utils.formatEther(item?.amount)}
