@@ -17,8 +17,8 @@ export default function BridgeCard({ lang }) {
 
   const [transferFromDropdown, setTransferFromDropdown] = useState(false); // Manage dropdown state
   const [transferToDropdown, setTransferToDropdown] = useState(false); // Manage dropdown state
-  const [transferFrom, setTransferFrom] = useState("Ethereum"); // Manage selected option
-  const [transferTo, setTransferTo] = useState("Binance"); // Manage selected option
+  const [transferFrom, setTransferFrom] = useState("$LNBG Eth"); // Manage selected option
+  const [transferTo, setTransferTo] = useState("$LNBG Binance"); // Manage selected option
 
   useEffect(() => {
     setIsClient(true);
@@ -30,9 +30,9 @@ export default function BridgeCard({ lang }) {
   const router = useRouter();
 
   const handleBridge = () => {
-    if (transferFrom == "Binance" && transferTo == "Ethereum") {
+    if (transferFrom == "$LNBG Binance" && transferTo == "$LNBG Eth") {
       LockDeposit(fromValue, transferFrom, transferTo);
-    } else if (transferFrom == "Ethereum" && transferTo == "Binance") {
+    } else if (transferFrom == "$LNBG Eth" && transferTo == "$LNBG Binance") {
       unLockDeposit(fromValue, transferFrom, transferTo);
     } else {
       toast.info("Coming Soon");
@@ -112,9 +112,9 @@ export default function BridgeCard({ lang }) {
             button={
               <div className="flex items-center w-fit gap-3">
                 <>
-                  {transferFrom === "Ethereum"
+                  {transferFrom === "$LNBG Eth"
                     ? ethSvg
-                    : transferFrom === "Binance"
+                    : transferFrom === "$LNBG Binance"
                       ? bnbSvg
                       : polySvg}{" "}
                   {transferFrom} {bridgeIcon}
@@ -126,30 +126,30 @@ export default function BridgeCard({ lang }) {
           >
             <button
               onClick={() => {
-                setTransferFrom("Ethereum");
+                setTransferFrom("$LNBG Eth");
                 setTransferFromDropdown(false);
               }}
               className="flex items-center gap-2"
             >
-              {ethSvg} Ethereum
+              {ethSvg} $LNBG Eth
             </button>
             <button
               onClick={() => {
-                setTransferFrom("Binance");
+                setTransferFrom("$LNBG Binance");
                 setTransferFromDropdown(false);
               }}
               className="flex items-center gap-2"
             >
-              {bnbSvg} Binance
+              {bnbSvg} $LNBG Binance
             </button>
             <button
               onClick={() => {
-                setTransferFrom("Polygon");
+                setTransferFrom("$LNBG Polygon");
                 setTransferFromDropdown(false);
               }}
               className="flex items-center gap-2"
             >
-              {polySvg} Polygon
+              {polySvg} $LNBG Polygon
             </button>
           </SelectDropdown>
         </div>
@@ -174,9 +174,9 @@ export default function BridgeCard({ lang }) {
             button={
               <div className="flex items-center w-fit gap-3">
                 <>
-                  {transferTo === "Ethereum"
+                  {transferTo === "$LNBG Eth"
                     ? ethSvg
-                    : transferTo === "Binance"
+                    : transferTo === "$LNBG Binance"
                       ? bnbSvg
                       : polySvg}{" "}
                   {transferTo} {bridgeIcon}
@@ -188,30 +188,30 @@ export default function BridgeCard({ lang }) {
           >
             <button
               onClick={() => {
-                setTransferTo("Ethereum");
+                setTransferTo("$LNBG Eth");
                 setTransferToDropdown(false);
               }}
               className="flex items-center gap-2"
             >
-              {ethSvg} Ethereum
+              {ethSvg} $LNBG Eth
             </button>
             <button
               onClick={() => {
-                setTransferTo("Binance");
+                setTransferTo("$LNBG Binance");
                 setTransferToDropdown(false);
               }}
               className="flex items-center gap-2"
             >
-              {bnbSvg} Binance
+              {bnbSvg} $LNBG Binance
             </button>
             <button
               onClick={() => {
-                setTransferTo("Polygon");
+                setTransferTo("$LNBG Polygon");
                 setTransferToDropdown(false);
               }}
               className="flex items-center gap-2"
             >
-              {polySvg} Polygon
+              {polySvg} $LNBG Polygon
             </button>
           </SelectDropdown>
         </div>
