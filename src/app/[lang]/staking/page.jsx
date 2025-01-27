@@ -8,14 +8,14 @@ import VsCard from "./_components/VsCard";
 
 export default function StakingPage({ params }) {
   const { lang } = params;
-  const { getStakingContractData } = useContext(Store);
-  const { address, isConnected } = useWeb3ModalAccount();
+  // const { getStakingContractData } = useContext(Store);
+  // const { address, isConnected } = useWeb3ModalAccount();
 
-  useEffect(() => {
-    if (address && isConnected) {
-      getStakingContractData();
-    }
-  }, [address]);
+  // useEffect(() => {
+  //   if (address && isConnected) {
+  //     getStakingContractData();
+  //   }
+  // }, [address]);
 
   return (
     <div className="flex w-full flex-col justify-center py-10 px-5">

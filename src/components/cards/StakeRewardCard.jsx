@@ -6,7 +6,7 @@ import { useContext } from "react";
 export default function StakeRewardCard({ lang }) {
   const { masterContractData } = useContext(Store);
 
-  console.log(masterContractData);
+  console.log(masterContractData,"masterContractDatamasterContractData");
   return (
     <div className="flex flex-col gap-5 rounded-2xl bg-ash p-5">
       <div className="flex flex-col">
@@ -75,7 +75,7 @@ export default function StakeRewardCard({ lang }) {
             className="py-1.5"
           />{" "}
         </Link>
-        <Link href="https://lngb-frontend.vercel.app/">
+        <Link href="https://www.lnbglondon.com/en">
           {" "}
           <Button
             title={

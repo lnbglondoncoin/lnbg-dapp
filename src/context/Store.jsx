@@ -129,24 +129,21 @@ export const StoreProvider = ({ children }) => {
   };
 
   const getStakingContractData = async () => {
-    const totalStakedTokens =
-      await getProviderStakingContract().totalStakedTokens();
-    const totalStakers = await getProviderStakingContract().totalInvestors();
-    const getAllUsersEarnedTokens =
-      await getProviderStakingContract().getTotalEarnings();
-    const getAllUsersClaimedTokens =
-      await getProviderStakingContract().totalClaimedTokens();
+  console.log("function calls");
+  const providers = process.env.NEXT_PUBLIC_RPC_GET_URL_BNB;
+  const provider = new ethers.providers.JsonRpcProvider(providers); //"http://localhost:8545/"
 
-    console.log(getAllUsersEarnedTokens?.toString(), "getAllUsersEarnedTokens");
-    console.log(
-      getAllUsersClaimedTokens?.toString(),
-      "getAllUsersClaimedTokens"
-    );
-    console.log(
-      totalStakedTokens?.toString(),
-      totalStakers?.toString(),
-      "dadasdasdddddddddddddddddddddd"
-    );
+  const stakingContract = new ethers.Contract(
+    LnbgLondonCoinStakingContractAddress.address,
+    LnbgLondonCoinStakingContractAbi.abi,
+    provider)
+
+    const totalStakedTokens = await stakingContract.totalStakedTokens();
+    const totalStakers = await stakingContract.totalInvestors();
+    const getAllUsersEarnedTokens = await stakingContract.getTotalEarnings();
+    const getAllUsersClaimedTokens = await stakingContract.totalClaimedTokens();
+
+
     setMasterContractData((prevState) => ({
       ...prevState,
       totalStakers: totalStakers?.toString(),
